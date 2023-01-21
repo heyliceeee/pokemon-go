@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.mainTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2023-01-21T12:31:55" hostname="DESKTOP-ROPRJUI" time="0.047">
+<testsuite name="org.example.mainTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2023-01-21T17:16:23" hostname="DESKTOP-ROPRJUI" time="0.146">
   <properties/>
-  <testcase name="Greeting test" classname="org.example.mainTest" time="0.038"/>
+  <testcase name="Greeting test" classname="org.example.mainTest" time="0.138"/>
   <testcase name="Greeting test from empty" classname="org.example.mainTest" time="0.007">
     <failure message="org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown." type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
 	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:71)
