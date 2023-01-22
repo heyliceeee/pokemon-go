@@ -1,24 +1,44 @@
 package api.implementation;
 
-public class Ownership
+import api.interfaces.IOwnership;
+
+/**
+ * Representacao da classe de um dono de um portal
+ */
+public class Ownership implements IOwnership
 {
-    public String state;
-    public String player;
+    /**
+     * equipa que conquistou o portal (nenhuma equipa, sparks, giants)
+     */
+    private String state;
+
+    /**
+     * nome do jogador que conquistou o portal
+     */
+    private String player;
 
 
-    public String getState() {
+    @Override
+    public String getState()
+    {
         return state;
     }
 
-    public void setState(String state) {
+    @Override
+    public void setState(String state)
+    {
         this.state = state;
     }
 
-    public String getPlayer() {
+    @Override
+    public String getPlayer()
+    {
         return player;
     }
 
-    public void setPlayer(String player) {
+    @Override
+    public void setPlayer(String player)
+    {
         this.player = player;
     }
 }
