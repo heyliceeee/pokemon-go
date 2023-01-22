@@ -2,6 +2,9 @@ package api.implementation;
 
 import api.interfaces.ICoordenate;
 
+/**
+ * Representacao da classe de uma coordenada
+ */
 public class Coordenate implements ICoordenate
 {
     /**

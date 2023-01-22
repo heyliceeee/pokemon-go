@@ -1,44 +1,82 @@
 package api.implementation;
 
+import api.interfaces.IGameSetting;
+
 import java.util.ArrayList;
 
-public class GameSetting
+/**
+ * Representacao da classe de uma definicao de jogo
+ */
+public class GameSetting implements IGameSetting
 {
-    public int energy;
-    public int energyMax;
-    public int cooldown;
-    public ArrayList<Interaction> interaction;
+    /**
+     * energia do portal/connector
+     */
+    private int energy;
+
+    /**
+     * energia maxima do portal
+     */
+    private int energyMax;
+
+    /**
+     * intervalo de fornecimento de energia a um jogador apos uma interacao no connector
+     */
+    private int cooldown;
+
+    /**
+     * registo de interacoes do portal/connector
+     */
+    private ArrayList<Interaction> interaction;
 
 
-    public int getEnergy() {
+    @Override
+    public int getEnergy()
+    {
         return energy;
     }
 
-    public void setEnergy(int energy) {
+    @Override
+    public void setEnergy(int energy)
+    {
+
         this.energy = energy;
     }
 
-    public int getEnergyMax() {
+    @Override
+    public int getEnergyMax()
+    {
         return energyMax;
     }
 
-    public void setEnergyMax(int energyMax) {
+    @Override
+    public void setEnergyMax(int energyMax)
+    {
         this.energyMax = energyMax;
     }
 
-    public int getCooldown() {
+    @Override
+    public int getCooldown()
+    {
         return cooldown;
     }
 
-    public void setCooldown(int cooldown) {
+    @Override
+    public void setCooldown(int cooldown)
+    {
+
         this.cooldown = cooldown;
     }
 
-    public ArrayList<Interaction> getInteraction() {
+    @Override
+    public ArrayList<Interaction> getInteraction()
+    {
         return interaction;
     }
 
-    public void setInteraction(ArrayList<Interaction> interaction) {
+    @Override
+    public void setInteraction(ArrayList<Interaction> interaction)
+    {
         this.interaction = interaction;
     }
 }
