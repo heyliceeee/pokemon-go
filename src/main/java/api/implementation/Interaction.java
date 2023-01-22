@@ -1,62 +1,114 @@
 package api.implementation;
 
+import api.interfaces.IIteraction;
+
 import java.util.Date;
 
-public class Interaction
+/**
+ * Representacao da classe de uma interacao com um portal/connector
+ */
+public class Interaction implements IIteraction
 {
-    public String type;
-    public int xp;
-    public String player;
-    public Date date;
-    public int points;
+    /**
+     * tipo de interacao com o portal/connector
+     */
+    private String type;
+
+    /**
+     * pontos de experiencia que o jogador ganha apos uma interacao com o portal/connector
+     */
+    private int xp;
+
+    /**
+     * nome do jogador que teve interacao com o portal/connector
+     */
+    private String player;
+
+    /**
+     * data da interacao com o portal/connector
+     */
+    private Date date;
+
+    /**
+     * pontos de uma interacao com o portal/connector
+     */
+    private int points;
+
+    /**
+     * velocidade que vai ganhar pontos de experiencia apos uma interacao com o portal/connector
+     */
     public int speedXP;
 
 
-    public String getType() {
+    @Override
+    public String getType()
+    {
         return type;
     }
 
-    public void setType(String type) {
+    @Override
+    public void setType(String type)
+    {
         this.type = type;
     }
 
-    public int getXp() {
+    @Override
+    public int getXp()
+    {
         return xp;
     }
 
-    public void setXp(int xp) {
+    @Override
+    public void setXp(int xp)
+    {
         this.xp = xp;
     }
 
-    public String getPlayer() {
+    @Override
+    public String getPlayer()
+    {
         return player;
     }
 
-    public void setPlayer(String player) {
+    @Override
+    public void setPlayer(String player)
+    {
         this.player = player;
     }
 
-    public Date getDate() {
+    @Override
+    public Date getDate()
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    @Override
+    public void setDate(Date date)
+    {
         this.date = date;
     }
 
-    public int getPoints() {
+    @Override
+    public int getPoints()
+    {
         return points;
     }
 
-    public void setPoints(int points) {
+    @Override
+    public void setPoints(int points)
+    {
         this.points = points;
     }
 
-    public int getSpeedXP() {
+    @Override
+    public int getSpeedXP()
+    {
         return speedXP;
     }
 
-    public void setSpeedXP(int speedXP) {
+    @Override
+    public void setSpeedXP(int speedXP)
+    {
         this.speedXP = speedXP;
     }
 }
