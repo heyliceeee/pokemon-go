@@ -1,62 +1,114 @@
 package api.implementation;
 
+import api.interfaces.ILocal;
+
 import java.util.ArrayList;
 
-public class Local
+/**
+ * Representacao da classe de um portal/connector
+ */
+public class Local implements ILocal
 {
-    public int id;
-    public String type;
-    public String name;
-    public ArrayList<Ownership> ownership;
-    public ArrayList<GameSetting> gameSettings;
-    public ArrayList<Coordenate> coordenates;
+    /**
+     * identificador unico do portal/connector
+     */
+    private int id;
+
+    /**
+     * tipo de local (portal/connector)
+     */
+    private String type;
+
+    /**
+     * nome do portal
+     */
+    private String name;
+
+    /**
+     * dono do portal
+     */
+    private ArrayList<Ownership> ownership;
+
+    /**
+     * definicoes de jogo do portal/connector
+     */
+    private ArrayList<GameSetting> gameSettings;
+
+    /**
+     * coordenadas do portal/connector
+     */
+    private ArrayList<Coordenate> coordenates;
 
 
-    public int getId() {
+    @Override
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    @Override
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public String getType() {
+    @Override
+    public String getType()
+    {
         return type;
     }
 
-    public void setType(String type) {
+    @Override
+    public void setType(String type)
+    {
         this.type = type;
     }
 
-    public String getName() {
+    @Override
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    @Override
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public ArrayList<Ownership> getOwnership() {
+    @Override
+    public ArrayList<Ownership> getOwnership()
+    {
         return ownership;
     }
 
-    public void setOwnership(ArrayList<Ownership> ownership) {
+    @Override
+    public void setOwnership(ArrayList<Ownership> ownership)
+    {
         this.ownership = ownership;
     }
 
-    public ArrayList<GameSetting> getGameSettings() {
+    @Override
+    public ArrayList<GameSetting> getGameSettings()
+    {
         return gameSettings;
     }
 
-    public void setGameSettings(ArrayList<GameSetting> gameSettings) {
+    @Override
+    public void setGameSettings(ArrayList<GameSetting> gameSettings)
+    {
         this.gameSettings = gameSettings;
     }
 
-    public ArrayList<Coordenate> getCoordenates() {
+    @Override
+    public ArrayList<Coordenate> getCoordenates()
+    {
         return coordenates;
     }
 
-    public void setCoordenates(ArrayList<Coordenate> coordenates) {
+    @Override
+    public void setCoordenates(ArrayList<Coordenate> coordenates)
+    {
         this.coordenates = coordenates;
     }
 }
