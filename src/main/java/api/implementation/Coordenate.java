@@ -1,24 +1,41 @@
 package api.implementation;
 
-public class Coordenate
+import api.interfaces.ICoordenate;
+
+public class Coordenate implements ICoordenate
 {
-    public double longitude;
-    public double latitude;
+    /**
+     * longitude da coordenada
+     */
+    private double longitude;
+
+    /**
+     * latitude da coordenada
+     */
+    private double latitude;
 
 
-    public double getLongitude() {
+    @Override
+    public double getLongitude()
+    {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    @Override
+    public void setLongitude(double longitude)
+    {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    @Override
+    public double getLatitude()
+    {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    @Override
+    public void setLatitude(double latitude)
+    {
         this.latitude = latitude;
     }
 }
