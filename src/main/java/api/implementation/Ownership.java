@@ -1,4 +1,4 @@
-package org.example.classes;
+package api.implementation;
 
 public class Ownership
 {
