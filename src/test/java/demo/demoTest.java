@@ -1,17 +1,18 @@
-package org.example;
+package demo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class mainTest
+public class demoTest
 {
-    private Main main;
+    private Demo demo;
 
-    public mainTest()
+    public demoTest()
     {
-        main = new Main();
+        demo = new Demo();
     }
 
     @DisplayName("Greeting test")
@@ -20,13 +21,13 @@ public class mainTest
     {
         String expected = "Hello World!";
 
-        assertEquals(expected, main.greeting());
+        assertEquals(expected, demo.greeting());
     }
 
     @DisplayName("Greeting test from empty")
     @Test
     public void testGreeting_ReturnIllegalArgumentException_Valid()
     {
-        assertThrows(java.lang.IllegalArgumentException.class, () -> main.greeting());
+        assertThrows(java.lang.IllegalArgumentException.class, () -> demo.greeting());
     }
 }
