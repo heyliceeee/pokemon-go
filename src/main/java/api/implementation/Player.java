@@ -4,6 +4,9 @@ import api.interfaces.IPlayer;
 
 import java.util.ArrayList;
 
+/**
+ * Representacao da classe de um jogador
+ */
 public class Player implements IPlayer
 {
     /**
