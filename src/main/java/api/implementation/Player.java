@@ -1,80 +1,145 @@
 package api.implementation;
 
+import api.interfaces.IPlayer;
+
 import java.util.ArrayList;
 
-public class Player
+public class Player implements IPlayer
 {
-    public String name;
-    public String team;
-    public int level;
-    public int xp;
-    public int energy;
-    public int energyMax;
-    public ArrayList<Coordenate> coordenates;
-    public int conqueredPortals;
+    /**
+     * nome do jogador
+     */
+    private String name;
+
+    /**
+     * equipa do jogador
+     */
+    private String team;
+
+    /**
+     * nivel do jogador
+     */
+    private int level;
+
+    /**
+     * pontos de experiencia do jogador
+     */
+    private int xp;
+
+    /**
+     * quantidade de energia atual do jogador
+     */
+    private int energy;
+
+    /**
+     * quantidade de energia maxima do jogador
+     */
+    private int energyMax;
+
+    /**
+     * coordenadas do jogador
+     */
+    private ArrayList<Coordenate> coordenates;
+
+    /**
+     * total de portais conquistados pelo jogador
+     */
+    private int conqueredPortals;
 
 
-    public String getName() {
+    @Override
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    @Override
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getTeam() {
+    @Override
+    public String getTeam()
+    {
         return team;
     }
 
-    public void setTeam(String team) {
+    @Override
+    public void setTeam(String team)
+    {
         this.team = team;
     }
 
-    public int getLevel() {
+    @Override
+    public int getLevel()
+    {
         return level;
     }
 
-    public void setLevel(int level) {
+    @Override
+    public void setLevel(int level)
+    {
         this.level = level;
     }
 
-    public int getXp() {
+    @Override
+    public int getXp()
+    {
         return xp;
     }
 
-    public void setXp(int xp) {
+    @Override
+    public void setXp(int xp)
+    {
         this.xp = xp;
     }
 
-    public int getEnergy() {
+    @Override
+    public int getEnergy()
+    {
         return energy;
     }
 
-    public void setEnergy(int energy) {
+    @Override
+    public void setEnergy(int energy)
+    {
         this.energy = energy;
     }
 
-    public int getEnergyMax() {
+    @Override
+    public int getEnergyMax()
+    {
         return energyMax;
     }
 
-    public void setEnergyMax(int energyMax) {
+    @Override
+    public void setEnergyMax(int energyMax)
+    {
         this.energyMax = energyMax;
     }
 
-    public ArrayList<Coordenate> getCoordenates() {
+    @Override
+    public ArrayList<Coordenate> getCoordenates()
+    {
         return coordenates;
     }
 
-    public void setCoordenates(ArrayList<Coordenate> coordenates) {
+    @Override
+    public void setCoordenates(ArrayList<Coordenate> coordenates)
+    {
         this.coordenates = coordenates;
     }
 
-    public int getConqueredPortals() {
+    @Override
+    public int getConqueredPortals()
+    {
         return conqueredPortals;
     }
 
-    public void setConqueredPortals(int conqueredPortals) {
+    @Override
+    public void setConqueredPortals(int conqueredPortals)
+    {
         this.conqueredPortals = conqueredPortals;
     }
 }
