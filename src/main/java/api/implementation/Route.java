@@ -1,24 +1,41 @@
 package api.implementation;
 
-public class Route
+import api.interfaces.IRoute;
+
+public class Route implements IRoute
 {
-    public int from;
-    public int to;
+    /**
+     * identificador unico do portal/connector de partida da rota
+     */
+    private int from;
+
+    /**
+     * identificador unico do portal/connector de chegada da rota
+     */
+    private int to;
 
 
-    public int getFrom() {
+    @Override
+    public int getFrom()
+    {
         return from;
     }
 
-    public void setFrom(int from) {
+    @Override
+    public void setFrom(int from)
+    {
         this.from = from;
     }
 
-    public int getTo() {
+    @Override
+    public int getTo()
+    {
         return to;
     }
 
-    public void setTo(int to) {
+    @Override
+    public void setTo(int to)
+    {
         this.to = to;
     }
 }
