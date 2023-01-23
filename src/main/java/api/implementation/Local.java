@@ -37,7 +37,7 @@ public class Local implements ILocal
     /**
      * coordenadas do portal/connector
      */
-    private ArrayList<Coordenate> coordenates;
+    private ArrayList<Coordinate> coordinates;
 
 
     @Override
@@ -101,14 +101,14 @@ public class Local implements ILocal
     }
 
     @Override
-    public ArrayList<Coordenate> getCoordenates()
+    public ArrayList<Coordinate> getcoordinates()
     {
-        return coordenates;
+        return coordinates;
     }
 
     @Override
-    public void setCoordenates(ArrayList<Coordenate> coordenates)
+    public void setcoordinates(ArrayList<Coordinate> coordinates)
     {
-        this.coordenates = coordenates;
+        this.coordinates = coordinates;
     }
 }
