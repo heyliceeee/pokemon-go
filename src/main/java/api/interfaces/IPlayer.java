@@ -1,6 +1,6 @@
 package api.interfaces;
 
-import api.implementation.Coordenate;
+import api.implementation.Coordinate;
 
 import java.util.ArrayList;
 
@@ -85,13 +85,13 @@ public interface IPlayer
      * Retorna as coordenadas do jogador
      * @return as coordenadas do jogador
      */
-    ArrayList<Coordenate> getCoordenates();
+    ArrayList<Coordinate> getCoordinates();
 
     /**
      * Define as coordenadas do jogador
-     * @param coordenates
+     * @param coordinates
      */
-    void setCoordenates(ArrayList<Coordenate> coordenates);
+    void setCoordinates(ArrayList<Coordinate> coordinates);
 
     /**
      * Retorna o numero de portais conquistados pelo jogador

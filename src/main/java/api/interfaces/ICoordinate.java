@@ -3,7 +3,7 @@ package api.interfaces;
 /**
  * Interface da coordenada
  */
-public interface ICoordenate
+public interface ICoordinate
 {
     /**
      * Retorna a longitude da coordenada

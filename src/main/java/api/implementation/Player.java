@@ -42,7 +42,7 @@ public class Player implements IPlayer
     /**
      * coordenadas do jogador
      */
-    private ArrayList<Coordenate> coordenates;
+    private ArrayList<Coordinate> coordinates;
 
     /**
      * total de portais conquistados pelo jogador
@@ -123,15 +123,15 @@ public class Player implements IPlayer
     }
 
     @Override
-    public ArrayList<Coordenate> getCoordenates()
+    public ArrayList<Coordinate> getCoordinates()
     {
-        return coordenates;
+        return coordinates;
     }
 
     @Override
-    public void setCoordenates(ArrayList<Coordenate> coordenates)
+    public void setCoordinates(ArrayList<Coordinate> coordinates)
     {
-        this.coordenates = coordenates;
+        this.coordinates = coordinates;
     }
 
     @Override

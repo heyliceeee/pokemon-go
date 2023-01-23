@@ -1,11 +1,11 @@
 package api.implementation;
 
-import api.interfaces.ICoordenate;
+import api.interfaces.ICoordinate;
 
 /**
  * Representacao da classe de uma coordenada
  */
-public class Coordenate implements ICoordenate
+public class Coordinate implements ICoordinate
 {
     /**
      * longitude da coordenada
