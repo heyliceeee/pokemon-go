@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Representacao da classe de um portal/connector
  */
-public class Local implements ILocal
+public abstract class Local implements ILocal
 {
     /**
      * identificador unico do portal/connector
