@@ -22,15 +22,20 @@ public class ExporterJson {
      * @throws IOException if some error occurs when writing the file
      * @implNote Files are saved by default in "docs/outputs/json"
      */
-    public static void exportJSON(String stringJSON, String name) throws IOException {
-        if (stringJSON == null || stringJSON.equals("") || name == null || name.equals("")) {
+    public static void exportJSON(String stringJSON, String name) throws IOException
+    {
+        if (stringJSON == null || stringJSON.equals("") || name == null || name.equals(""))
+        {
             throw new IllegalArgumentException("Cannot send parameters null or empty!");
         }
-        try (FileWriter file = new FileWriter(directory + "/" + name + ".json")) {
+
+        try (FileWriter file = new FileWriter(directory + "/" + name + ".json"))
+        {
             file.write(stringJSON);
-        } catch (IOException exception) {
+
+        } catch (IOException exception)
+        {
             throw new IOException("Error trying to write the file!");
         }
     }
-
 }

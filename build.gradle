@@ -4,7 +4,7 @@ plugins {
     id 'jacoco'
 }
 
-group 'org.example'
+group 'estg.ed'
 version '1.0-SNAPSHOT'
 
 test {
@@ -44,5 +44,5 @@ dependencies {
 }
 
 application {
-    mainClassName = 'org.example.Main'
+    mainClassName = 'demo.Demo'
 }

@@ -1,12 +1,9 @@
 package collections.implementation;
 
-import api.implementation.PathNetwork;
 import collections.exceptions.EmptyCollectionException;
 import collections.interfaces.GraphADT;
 import collections.interfaces.IExporter;
 import collections.interfaces.QueueADT;
-import api.implementation.Place;
-import api.interfaces.IPlace;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

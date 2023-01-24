@@ -1,0 +1,140 @@
+{
+  "locals": [
+    {
+      "id": 1414,
+      "type": "Portal",
+      "name": "San Bento Monastery",
+      "ownership": [
+        {
+          "state": "Sparks",
+          "player": "LoboMau"
+        }
+      ],
+      "gameSettings": [
+        {
+          "energy": 180,
+          "energyMax": 200,
+          "interaction": [
+            {
+              "type": "Conquista portal",
+              "xp": 5213,
+              "player": "LoboMau",
+              "date": "2023-01-22T15:46:29.346Z"
+            }
+          ]
+        }
+      ],
+      "coordinates": [
+        {
+          "longitude": 41.144142067059875,
+          "latitude": -8.615698087960482
+        }
+      ]
+    },
+    {
+      "id": 5212,
+      "type": "Connector",
+      "gameSettings": [
+        {
+          "energy": 200,
+          "cooldown": 5,
+          "interaction": [
+            {
+              "type": "Reforço de energia de connector",
+              "xp": 2021,
+              "player": "LoboMau",
+              "date": "2023-01-24T16:46:29.347Z"
+            }
+          ]
+        }
+      ],
+      "coordinates": [
+        {
+          "longitude": 40.7697989,
+          "latitude": -73.9723702
+        }
+      ]
+    },
+    {
+      "id": 2601,
+      "type": "Portal",
+      "name": "Statue of San Rosendo",
+      "ownership": [
+        {
+          "state": "Giants",
+          "player": "CapuzinhoVermelho"
+        }
+      ],
+      "gameSettings": [
+        {
+          "energy": 120,
+          "energyMax": 200,
+          "interaction": [
+            {
+              "type": "Conquista portal",
+              "xp": 2213,
+              "player": "CapuzinhoVermelho",
+              "date": "2023-01-28T15:41:29.346Z"
+            }
+          ]
+        }
+      ],
+      "coordinates": [
+        {
+          "longitude": 41.341550,
+          "latitude": -8.472964
+        }
+      ]
+    },
+    {
+      "id": 1303,
+      "type": "Connector",
+      "gameSettings": [
+        {
+          "energy": 1500,
+          "cooldown": 15,
+          "interaction": [
+            {
+              "type": "Reforço de energia de connector",
+              "xp": 2051,
+              "player": "CapuzinhoVermelho",
+              "date": "2023-05-24T16:46:29.347Z"
+            }
+          ]
+        }
+      ],
+      "coordinates": [
+        {
+          "longitude": 41.341155,
+          "latitude": -8.473272
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "from": 1414,
+      "to": 2601
+    },
+    {
+      "from": 1414,
+      "to": 1303
+    },
+    {
+      "from": 1414,
+      "to": 5212
+    },
+    {
+      "from": 2601,
+      "to": 1303
+    },
+    {
+      "from": 2601,
+      "to": 5212
+    },
+    {
+      "from": 1303,
+      "to": 5212
+    }
+  ]
+}
