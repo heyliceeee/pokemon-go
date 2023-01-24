@@ -47,24 +47,27 @@ public class Player implements IPlayer
     /**
      * total de portais conquistados pelo jogador
      */
-    private int conqueredPortals;
-
 
     @Override
     public String getName()
     {
+
         return name;
     }
 
     @Override
-    public void setName(String name)
-    {
+    public void setName(String name) {
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Name cannot be null or empty!");
+        }
         this.name = name;
     }
+
 
     @Override
     public String getTeam()
     {
+
         return team;
     }
 
@@ -83,6 +86,9 @@ public class Player implements IPlayer
     @Override
     public void setLevel(int level)
     {
+        if (level < 1) {
+            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
+        }
         this.level = level;
     }
 
@@ -93,20 +99,25 @@ public class Player implements IPlayer
     }
 
     @Override
-    public void setXp(int xp)
-    {
+    public void setXp(int xp) {
+        if (xp < 0) {
+            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
+        }
         this.xp = xp;
     }
 
     @Override
     public int getEnergy()
     {
+
         return energy;
     }
 
     @Override
-    public void setEnergy(int energy)
-    {
+    public void setEnergy(int energy) {
+        if (energy < 0) {
+            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
+        }
         this.energy = energy;
     }
 
@@ -123,26 +134,94 @@ public class Player implements IPlayer
     }
 
     @Override
-    public ArrayList<Coordinate> getCoordinates()
-    {
+    public ArrayList<Coordinate> getcoordinates() {
         return coordinates;
     }
 
     @Override
-    public void setCoordinates(ArrayList<Coordinate> coordinates)
-    {
+    public void setcoordinates(ArrayList<Coordinate> coordinates) {
         this.coordinates = coordinates;
     }
 
     @Override
-    public int getConqueredPortals()
-    {
-        return conqueredPortals;
+    public Iterator<String> getConqueredPortals() {
+        return conqueredPortals.iterator();
     }
 
     @Override
-    public void setConqueredPortals(int conqueredPortals)
-    {
-        this.conqueredPortals = conqueredPortals;
+    public void addConqueredPortals(String[] portals) {
+        if (portals == null || portals.length == 0) {
+            throw new IllegalArgumentException("List of markets cannot be null or empty!");
+        }
+        for (int i = 0; i < portals.length; i++) {
+            try {
+                this.addPortal(portals[i]);
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
+            }
+        }
+    }
+
+    @Override
+    public void addPortal(String portalName) {
+        if (portalName == null || portalName.equals("")) {
+            throw new IllegalArgumentException("Name of market cannot be null or empty!");
+        }
+        this.conqueredPortals.addToRear(portalName);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public JSONObject playerToJsonObject() {
+        JSONObject root = new JSONObject();
+        root.put("Name", this.name);
+        root.put("Team", this.team);
+        root.put("Level", this.level);
+        root.put("Xp", this.xp);
+        root.put("Energy", this.energy);
+        root.put("EnergyMax", this.energyMax);
+        root.put("Coordinates", this.coordinates);
+        if (this.conqueredPortals.isEmpty()) {
+            root.put("ConqueredPortals", "0");
+        } else {
+            JSONArray team = new JSONArray();
+            Iterator<String> iterator = this.geConqueredPortals();
+            while (iterator.hasNext()) {
+                team.add(iterator.next());
+            }
+            root.put("ConqueredPortals", conqueredPortals);
+        }
+        return root;
+    }
+    @Override
+    public void exportSellerToJson() throws IOException {
+        ExporterJson.exportJSON(playerToJsonObject().toJSONString(), "Player_" + this.name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof IPlayer)) {
+            return false;
+        }
+        IPlayer tmp = (IPlayer) o;
+        return this.name == tmp.getName();
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name=" + name +
+                ", team=" + team +
+                ", level=" + level +
+                ", xp=" + xp +
+                ", energy=" + energy +
+                ", energyMax=" + energyMax +
+                ", coordinates=" + coordinates +
+                ", conqueredPortals=" + conqueredPortals +
+                '}';
     }
 }

@@ -101,13 +101,13 @@ public class Local implements ILocal
     }
 
     @Override
-    public ArrayList<Coordinate> getCoordinates()
+    public ArrayList<Coordinate> getcoordinates()
     {
         return coordinates;
     }
 
     @Override
-    public void setCoordinates(ArrayList<Coordinate> coordinates)
+    public void setcoordinates(ArrayList<Coordinate> coordinates)
     {
         this.coordinates = coordinates;
     }

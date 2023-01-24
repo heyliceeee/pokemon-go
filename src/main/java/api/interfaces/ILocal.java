@@ -1,7 +1,6 @@
 package api.interfaces;
 
 import api.implementation.Coordinate;
-import api.implementation.Coordinate;
 import api.implementation.GameSetting;
 import api.implementation.Ownership;
 
@@ -76,11 +75,11 @@ public interface ILocal
      * Retorna as coordenadas do portal/connector
      * @return as coordenadas do portal/connector
      */
-    public ArrayList<Coordinate> getCoordinates();
+    public ArrayList<Coordinate> getcoordinates();
 
     /**
      * Define as coordenadas do portal/connector
      * @param coordinates
      */
-    public void setCoordinates(ArrayList<Coordinate> coordinates);
+    public void setcoordinates(ArrayList<Coordinate> coordinates);
 }
