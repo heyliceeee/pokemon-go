@@ -77,19 +77,19 @@ public class Exporter implements IExporter {
         this.makeDotAndPng(content, filename);
     }
 
-    @Override
+    /*@Override
     public <T> void exportGraph(GraphADT<T> graph, String filename) throws EmptyCollectionException, InterruptedException {
         this.makeDotAndPng(this.exportGraph(graph), filename);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public <T> void exportPathGraph(GraphADT<T> graph, Iterator<T> pathIterator, String filename) throws EmptyCollectionException, InterruptedException {
         this.makeDotAndPng(this.exportPathGraph(graph, pathIterator), filename);
-    }
+    }*/
 
-    public <T> void exportPath(Iterator<T> pathIterator, String filename) throws EmptyCollectionException, InterruptedException {
+    /*public <T> void exportPath(Iterator<T> pathIterator, String filename) throws EmptyCollectionException, InterruptedException {
         this.makeDotAndPng(this.exportPath(pathIterator), filename);
-    }
+    }*/
 
     /**
      * Make the string .dot file.
@@ -100,7 +100,7 @@ public class Exporter implements IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    private <T> String exportGraph(GraphADT<T> graph) throws EmptyCollectionException, InterruptedException {
+    /*private <T> String exportGraph(GraphADT<T> graph) throws EmptyCollectionException, InterruptedException {
         if (graph.isEmpty()) {
             throw new EmptyCollectionException("Graph is empty");
         }
@@ -144,7 +144,7 @@ public class Exporter implements IExporter {
         }
         content += "\n}";
         return content;
-    }
+    }*/
 
     /**
      * Make the string .dot file.
@@ -156,7 +156,7 @@ public class Exporter implements IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    private <T> String exportPathGraph(GraphADT<T> graph, Iterator<T> pathIterator) throws EmptyCollectionException, InterruptedException {
+   /* private <T> String exportPathGraph(GraphADT<T> graph, Iterator<T> pathIterator) throws EmptyCollectionException, InterruptedException {
         String content = this.exportGraph(graph);
         content = content.substring(0, content.length() - 2); //Remove last two characters, the "\n}" final of file
 
@@ -182,11 +182,11 @@ public class Exporter implements IExporter {
                 Place placeTwo;
                 if (graph instanceof PathNetwork) {
                     tmpGraph = (PathNetwork<IPlace>) graph;
-                    /*
+                    *//*
                     Because of .dot specifications, it's different the edge A->B and B->A, so it's necessary to check
                     what is the correct order of edge written before, and the order it's the small index in the left and the
                     bigger on the right.
-                     */
+                     *//*
                     if (tmpGraph.getIndex((IPlace) first) <= tmpGraph.getIndex((IPlace) second)) {
                         placeOne = (Place) first;
                         placeTwo = (Place) second;
@@ -204,7 +204,7 @@ public class Exporter implements IExporter {
         }
         content += "\n}";
         return content;
-    }
+    }*/
 
     /**
      * Makes a string of a .dot file to a path.
@@ -214,7 +214,7 @@ public class Exporter implements IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    private <T> String exportPath(Iterator<T> pathIterator) throws EmptyCollectionException, InterruptedException {
+    /*private <T> String exportPath(Iterator<T> pathIterator) throws EmptyCollectionException, InterruptedException {
         String content = "digraph{\n\tgraph [ordering=\"in\"]";
 
         int count = 0;
@@ -240,7 +240,7 @@ public class Exporter implements IExporter {
         }
         content += "\n}";
         return content;
-    }
+    }*/
 
     /**
      * Creates a .dot file and a png image based on dot file, by executing the command "dot -Tpng 'filename' -O.

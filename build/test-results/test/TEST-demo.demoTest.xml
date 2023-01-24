@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.mainTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2023-01-21T17:16:23" hostname="DESKTOP-ROPRJUI" time="0.146">
+<testsuite name="demo.demoTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2023-01-24T12:02:50" hostname="DESKTOP-ROPRJUI" time="0.06">
   <properties/>
-  <testcase name="Greeting test" classname="org.example.mainTest" time="0.138"/>
-  <testcase name="Greeting test from empty" classname="org.example.mainTest" time="0.007">
+  <testcase name="Greeting test" classname="demo.demoTest" time="0.052"/>
+  <testcase name="Greeting test from empty" classname="demo.demoTest" time="0.006">
     <failure message="org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown." type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
 	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:71)
 	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:37)
 	at app//org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3082)
-	at app//org.example.mainTest.testGreeting_ReturnIllegalArgumentException_Valid(mainTest.java:30)
+	at app//demo.demoTest.testGreeting_ReturnIllegalArgumentException_Valid(demoTest.java:31)
 	at java.base@17.0.6/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base@17.0.6/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base@17.0.6/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

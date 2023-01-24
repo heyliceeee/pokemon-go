@@ -45,7 +45,8 @@ public interface IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    <T> void exportGraph(GraphADT<T> graph, String filename) throws EmptyCollectionException, InterruptedException;
+    /*<T> void exportGraph(GraphADT<T> graph, String filename) throws EmptyCollectionException, InterruptedException;*/
+
 
     /**
      * Method that exports a {@link Graph intance of graph} and a path to a .dot file and png representation.
@@ -57,7 +58,7 @@ public interface IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    <T> void exportPathGraph(GraphADT<T> graph, Iterator<T> pathIterator, String filename) throws InterruptedException, EmptyCollectionException;
+//    <T> void exportPathGraph(GraphADT<T> graph, Iterator<T> pathIterator, String filename) throws InterruptedException, EmptyCollectionException;
 
     /**
      * Method that exports a path described in a iterator to a .dot file and png representation.
@@ -67,5 +68,5 @@ public interface IExporter {
      * @throws InterruptedException     will be thrown if user machine doesn't have dot installed on his machine.
      * @throws EmptyCollectionException if collection empty.
      */
-    <T> void exportPath(Iterator<T> pathIterator, String filename) throws EmptyCollectionException, InterruptedException;
+    /*<T> void exportPath(Iterator<T> pathIterator, String filename) throws EmptyCollectionException, InterruptedException;*/
 }

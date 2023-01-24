@@ -1,9 +1,9 @@
 package collections.exceptions;
 
-import api.interfaces.IPlace;
+import api.interfaces.ILocal;
 
 /**
- * Throws exception when element in question must be instanced of {@link IPlace place} but isn't.
+ * Throws exception when element in question must be instanced of {@link ILocal place} but isn't.
  */
 public class NotPlaceInstanceException extends Exception {
 
