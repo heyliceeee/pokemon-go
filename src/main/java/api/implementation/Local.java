@@ -20,25 +20,14 @@ public class Local implements ILocal
     private String type;
 
     /**
-     * nome do portal
-     */
-    private String name;
-
-    /**
-     * dono do portal
-     */
-    private ArrayList<Ownership> ownership;
-
-    /**
-     * definicoes de jogo do portal/connector
-     */
-    private ArrayList<GameSetting> gameSettings;
-
-    /**
      * coordenadas do portal/connector
      */
     private ArrayList<Coordinate> coordinates;
 
+    /**
+     * registo de interacoes do portal/connector
+     */
+    private ArrayList<Interaction> interaction;
 
     @Override
     public int getId()
@@ -65,42 +54,6 @@ public class Local implements ILocal
     }
 
     @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    @Override
-    public ArrayList<Ownership> getOwnership()
-    {
-        return ownership;
-    }
-
-    @Override
-    public void setOwnership(ArrayList<Ownership> ownership)
-    {
-        this.ownership = ownership;
-    }
-
-    @Override
-    public ArrayList<GameSetting> getGameSettings()
-    {
-        return gameSettings;
-    }
-
-    @Override
-    public void setGameSettings(ArrayList<GameSetting> gameSettings)
-    {
-        this.gameSettings = gameSettings;
-    }
-
-    @Override
     public ArrayList<Coordinate> getCoordinates()
     {
         return coordinates;
@@ -110,5 +63,17 @@ public class Local implements ILocal
     public void setCoordinates(ArrayList<Coordinate> coordinates)
     {
         this.coordinates = coordinates;
+    }
+
+    @Override
+    public ArrayList<Interaction> getInteraction()
+    {
+        return interaction;
+    }
+
+    @Override
+    public void setInteraction(ArrayList<Interaction> interaction)
+    {
+        this.interaction = interaction;
     }
 }

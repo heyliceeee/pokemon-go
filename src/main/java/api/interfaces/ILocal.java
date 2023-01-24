@@ -1,9 +1,7 @@
 package api.interfaces;
 
+import api.implementation.*;
 import api.implementation.Coordinate;
-import api.implementation.Coordinate;
-import api.implementation.GameSetting;
-import api.implementation.Ownership;
 
 import java.util.ArrayList;
 
@@ -35,7 +33,6 @@ public interface ILocal
      * @param type
      */
     void setType(String type);
-
 
     /**
      * Retorna as coordenadas do portal/connector

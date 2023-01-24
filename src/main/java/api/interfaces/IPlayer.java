@@ -1,6 +1,7 @@
 package api.interfaces;
 
 import api.implementation.Coordinate;
+import api.implementation.Interaction;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -100,20 +101,19 @@ public interface IPlayer
      * Retorna o numero de portais conquistados pelo jogador
      * @return o numero de portais conquistados pelo jogador
      */
-
-    Iterator<String> getConqueredPortals();
+    Iterator<Integer> getConqueredPortals();
 
     /**
      * Define o numero de portais conquistados pelo jogador
      */
-    public void addConqueredPortals(String[] markets);
+   /* public void addConqueredPortals(String[] markets);*/
 
     /**
      * Adds one portal to the list of portals conquered by the player
      *
      * @param portalName to be added.
      */
-    public void addPortal(String portalName);
+    //public void addPortal(String portalName);
 
     /**
      * Clears all portal associated.

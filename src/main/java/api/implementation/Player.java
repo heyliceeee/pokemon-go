@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 
 /**
@@ -52,6 +53,7 @@ public class Player implements IPlayer
     /**
      * total de portais conquistados pelo jogador
      */
+    private Set<Integer> conqueredPortals;
 
     @Override
     public String getName()
@@ -151,11 +153,11 @@ public class Player implements IPlayer
     }
 
     @Override
-    public Iterator<String> getConqueredPortals() {
+    public Iterator<Integer> getConqueredPortals() {
         return conqueredPortals.iterator();
     }
 
-    @Override
+   /* @Override
     public void addConqueredPortals(String[] portals) {
         if (portals == null || portals.length == 0) {
             throw new IllegalArgumentException("List of markets cannot be null or empty!");
@@ -167,15 +169,17 @@ public class Player implements IPlayer
                 throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
             }
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void addPortal(String portalName) {
-        if (portalName == null || portalName.equals("")) {
+        if (portalName == null || portalName.equals(""))
+        {
             throw new IllegalArgumentException("Name of market cannot be null or empty!");
         }
+
         this.conqueredPortals.addToRear(portalName);
-    }
+    }*/
 
     @Override
     public void clearPortalList() {
@@ -203,10 +207,10 @@ public class Player implements IPlayer
             root.put("ConqueredPortals", "0");
         } else {
             JSONArray team = new JSONArray();
-            Iterator<String> iterator = this.geConqueredPortals();
-            while (iterator.hasNext()) {
+            //Iterator<String> iterator = this.geConqueredPortals();
+            /*while (iterator.hasNext()) {
                 team.add(iterator.next());
-            }
+            }*/
             root.put("ConqueredPortals", conqueredPortals);
         }
         return root;
