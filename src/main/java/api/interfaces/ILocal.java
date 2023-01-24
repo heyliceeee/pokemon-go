@@ -1,8 +1,6 @@
 package api.interfaces;
 
 import api.implementation.Coordinate;
-import api.implementation.GameSetting;
-import api.implementation.Ownership;
 
 import java.util.ArrayList;
 
@@ -35,41 +33,6 @@ public interface ILocal
      */
     void setType(String type);
 
-    /**
-     * Retorna o nome do portal
-     * @return o nome do portal
-     */
-    String getName();
-
-    /**
-     * Define o nome do portal
-     * @param name
-     */
-    public void setName(String name);
-
-    /**
-     * Retorna o dono do portal
-     * @return o dono do portal
-     */
-    public ArrayList<Ownership> getOwnership();
-
-    /**
-     * Define o dono do portal
-     * @param ownership
-     */
-    public void setOwnership(ArrayList<Ownership> ownership);
-
-    /**
-     * Retorna as definicoes do jogo do portal/connector
-     * @return as definicoes do jogo do portal/connector
-     */
-    public ArrayList<GameSetting> getGameSettings();
-
-    /**
-     * Define as definicoes do jogo do portal/connector
-     * @param gameSettings
-     */
-    public void setGameSettings(ArrayList<GameSetting> gameSettings);
 
     /**
      * Retorna as coordenadas do portal/connector
@@ -82,4 +45,16 @@ public interface ILocal
      * @param coordinates
      */
     public void setcoordinates(ArrayList<Coordinate> coordinates);
+
+    /**
+     * Retorna o registo de interacoes do portal/connector
+     * @return o registo de interacoes do portal/connector
+     */
+    ArrayList<Interaction> getInteraction();
+
+    /**
+     * Define o registo de interacoes do portal/connector
+     * @param interaction
+     */
+    void setInteraction(ArrayList<Interaction> interaction);
 }

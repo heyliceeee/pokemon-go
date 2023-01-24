@@ -1,8 +1,11 @@
 package api.interfaces;
 
 import api.implementation.Coordinate;
+import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Interface do jogador
@@ -127,7 +130,7 @@ public interface IPlayer
     /**
      * Transforms the Player into a JSONObject representation
      *
-     * @return the JSONObject with all the details of the Seller
+     * @return the JSONObject with all the details of the Player
      */
     JSONObject playerToJsonObject();
 

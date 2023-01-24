@@ -1,8 +1,13 @@
 package api.implementation;
 
 import api.interfaces.IPlayer;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * Representacao da classe de um jogador
@@ -153,9 +158,9 @@ public class Player implements IPlayer
         if (portals == null || portals.length == 0) {
             throw new IllegalArgumentException("List of markets cannot be null or empty!");
         }
-        for (int i = 0; i < portals.length; i++) {
+        for (String portal : portals) {
             try {
-                this.addPortal(portals[i]);
+                this.addPortal(portal);
             } catch (IllegalArgumentException ex) {
                 throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
             }
@@ -168,6 +173,16 @@ public class Player implements IPlayer
             throw new IllegalArgumentException("Name of market cannot be null or empty!");
         }
         this.conqueredPortals.addToRear(portalName);
+    }
+
+    @Override
+    public void clearPortalList() {
+
+    }
+
+    @Override
+    public int numberOfPortals() {
+        return 0;
     }
 
 
@@ -194,8 +209,9 @@ public class Player implements IPlayer
         }
         return root;
     }
+
     @Override
-    public void exportSellerToJson() throws IOException {
+    public void exportPlayerToJson() throws IOException {
         ExporterJson.exportJSON(playerToJsonObject().toJSONString(), "Player_" + this.name);
     }
 
