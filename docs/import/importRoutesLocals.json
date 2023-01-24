@@ -108,5 +108,22 @@
       "from": 1303,
       "to": 5212
     }
+  ],
+  "players": [],
+  "globalGameSettings": [
+    {
+      "interaction": [
+        {
+          "points": 1000,
+          "type": "Conquista Portal",
+          "speedXP": 2
+        },
+        {
+          "points": 500,
+          "type": "Reforço de energia de connector",
+          "speedXP": 2
+        }
+      ]
+    }
   ]
 }

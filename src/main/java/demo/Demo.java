@@ -12,14 +12,18 @@ public class Demo
     public static void showMenu()
     {
         System.out.println("\n");
+        System.out.println("+--------------------------------------+");
+        System.out.println("|                 MENU                 |");
+        System.out.println("+--------------------------------------+");
         System.out.println(
-                "| 01. teste |\n" +
-                        "| 02. b |\n" +
-                        "| 03. c |\n" +
-                        "| 04. d |\n" +
-                        "| 05. e |\n" +
-                        "| 51. f |\n" +
-                        "| 99. Exit                            |"
+                        "| 01. Import JSON file                 |\n" +
+                        "| 02. Portals management               |\n" +
+                        "| 03. Connectors management            |\n" +
+                        "| 04. Routes management                |\n" +
+                        "| 05. Players management               |\n" +
+                        "| 06. Game management                  |\n" +
+                        "| 07. Export JSON file                 |\n" +
+                        "| 99. Exit                             |"
         );
         System.out.println("+--------------------------------------+\n\n");
     }
@@ -49,11 +53,9 @@ public class Demo
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("+--------------------------------------+");
-        System.out.println("|                 MENU                 |");
-        System.out.println("+--------------------------------------+");
+        showMenu();
 
-        do
+        /*do
         {
             showMenu();
 
@@ -67,7 +69,7 @@ public class Demo
 
             chooseOption(option);
 
-        } while (option != 99);
+        } while (option != 99);*/
     }
 
     public String greeting() {
