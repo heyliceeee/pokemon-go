@@ -4,11 +4,11 @@
       "id": 1414,
       "type": "Portal",
       "name": "San Bento Monastery",
-      "energy": 200,
+      "energy": 180,
       "energyMax": 200,
       "ownership": {
-        "state": "no team",
-        "player": ""
+        "state": "Sparks",
+        "player": "LoboMau"
       },
       "coordinates": {
         "longitude": 41.144142067059875,
@@ -17,8 +17,8 @@
       "interaction": [
         {
           "type": "Conquista portal",
-          "player": "",
-          "date": "2023-01-24T21:54:33.125Z",
+          "player": "LoboMau",
+          "date": "2023-01-24T22:30:32.043Z",
           "points": 1000,
           "speedXP": 2
         }
@@ -36,8 +36,8 @@
       "interaction": [
         {
           "type": "Reforço de energia de connector",
-          "player": "",
-          "date": "2023-01-24T21:54:33.126Z",
+          "player": "LoboMau",
+          "date": "2023-01-24T22:30:32.043Z",
           "points": 500,
           "speedXP": 2
         }
@@ -50,8 +50,8 @@
       "energy": 50,
       "energyMax": 50,
       "ownership": {
-        "state": "no team",
-        "player": ""
+        "state": "Giants",
+        "player": "CapuzinhoVermelho"
       },
       "coordinates": {
         "longitude": 41.34155,
@@ -60,8 +60,8 @@
       "interaction": [
         {
           "type": "Conquista portal",
-          "player": "",
-          "date": "2023-01-24T21:54:33.127Z",
+          "player": "CapuzinhoVermelho",
+          "date": "2023-01-24T22:30:32.043Z",
           "points": 500,
           "speedXP": 2
         }
@@ -79,8 +79,8 @@
       "interaction": [
         {
           "type": "Reforço de energia de connector",
-          "player": "",
-          "date": "2023-01-24T21:54:33.128Z",
+          "player": "CapuzinhoVermelho",
+          "date": "2023-01-24T22:30:32.043Z",
           "points": 1000,
           "speedXP": 2
         }
@@ -113,5 +113,32 @@
       "to": 5212
     }
   ],
-  "players": []
+  "players": [
+    {
+      "name": "LoboMau",
+      "team": "Sparks",
+      "level": 64,
+      "xp": 467892,
+      "energy": 126,
+      "energyMax": 500,
+      "conqueredPortals": 142,
+      "coordinates": {
+        "longitude": 40.7656918,
+        "latitude": -73.9737489
+      }
+    },
+    {
+      "name": "CapuzinhoVermelho",
+      "team": "Giants",
+      "level": 13,
+      "xp": 9892,
+      "energy": 26,
+      "energyMax": 50,
+      "conqueredPortals": 28,
+      "coordinates": {
+        "longitude": 41.34155,
+        "latitude": -8.472964
+      }
+    }
+  ]
 }
