@@ -203,7 +203,74 @@ public class Demo {
         }
     }
 
-    private static void showConnectorsManagementMenu() {
+    /**
+     * Mostra o menu acerca da gestao dos conectores
+     */
+    private static void showConnectorsManagementMenu()
+    {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        int option = 0;
+
+        while (!exit) {
+            System.out.println("\n");
+            System.out.println("+--------------------------------------+");
+            System.out.println("|      CONNECTORS MANAGEMENT MENU      |");
+            System.out.println("+--------------------------------------+");
+            System.out.println(
+                            "| 01. Add                              |\n" +
+                            "| 02. Edit                             |\n" +
+                            "| 03. Delete                           |\n" +
+                            "| 04. Add interactions                 |\n" +
+                            "| 05. Delete interactions              |\n" +
+                            "| 06. List                             |\n" +
+                            "| 07. Import                           |\n" +
+                            "| 08. Export                           |\n" +
+                            "| 99. Back to previous menu            |"
+            );
+            System.out.println("+--------------------------------------+\n\n");
+
+            System.out.println("select an option: ");
+            option = scanner.nextInt();
+
+            /**
+             * Depois de selecionar a opcao do menu, faz o que pretende
+             */
+            switch (option) {
+                case 1:
+                    break;
+
+                case 2:
+
+                    break;
+
+                case 3:
+                    break;
+
+                case 4:
+                    break;
+
+                case 5:
+                    break;
+
+                case 6:
+                    break;
+
+                case 7:
+                    break;
+
+                case 8:
+                    break;
+
+                case 99:
+                    exit = true;
+                    break;
+
+                default:
+                    System.out.println("invalid option, selected option between 1 and 7 or 99 to exit.");
+                    break;
+            }
+        }
     }
 
 
