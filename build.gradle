@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'application'
     id 'jacoco'
+    id 'application'
 }
 
 group 'estg.ed'
@@ -48,4 +48,8 @@ dependencies {
 
 application {
     mainClassName = 'demo.Demo'
+}
+
+run {
+    standardInput = System.in
 }
