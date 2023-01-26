@@ -13,6 +13,13 @@ import java.util.List;
 public interface IRoot
 {
     /**
+     * Retorna true/false, consoante se conseguir adicionar o portal/connector ao vértice
+     * @param local
+     * @return
+     */
+    boolean addLocal(ILocal local);
+
+    /**
      * Retorna os locais (portal/connector)
      * @return os locais (portal/connector)
      */

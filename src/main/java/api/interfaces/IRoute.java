@@ -11,7 +11,7 @@ public interface IRoute
     /**
      * Importar rotas e portals/connectors associados de um ficheiro JSON
      */
-    void importRoutesFromJSONFile() throws IOException;
+    String importRoutesFromJSONFile() throws IOException;
 
     /**
      * Retorna o identificador unico do portal/connector de partida da rota
