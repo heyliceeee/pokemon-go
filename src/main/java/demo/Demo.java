@@ -1,15 +1,19 @@
 package demo;
 
+import api.implementation.Route;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Demo {
     static String value = "Hello World!";
+    static Route route = new Route();
 
 
     /**
      * Mostra o menu inicial
      */
-    public static void showMainMenu() {
+    public static void showMainMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -59,7 +63,7 @@ public class Demo {
     /**
      * Mostra o menu acerca da API
      */
-    public static void showAPIMenu() {
+    public static void showAPIMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -253,7 +257,7 @@ public class Demo {
     /**
      * Mostra o menu acerca da gestao das rotas
      */
-    private static void showRoutesManagementMenu() {
+    private static void showRoutesManagementMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -286,6 +290,7 @@ public class Demo {
                     break;
 
                 case 3:
+                    route.importRoutesFromJSONFile();
                     break;
 
                 case 4:
@@ -435,7 +440,7 @@ public class Demo {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         showMainMenu();
     }
 

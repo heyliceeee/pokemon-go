@@ -19,6 +19,15 @@ public class Coordinate implements ICoordinate
 
 
     @Override
+    public String toString() {
+        return "Coordinate{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
+    }
+
+    //region getters and setters
+    @Override
     public double getLongitude()
     {
         return longitude;
@@ -41,4 +50,6 @@ public class Coordinate implements ICoordinate
     {
         this.latitude = latitude;
     }
+
+    //endregion
 }

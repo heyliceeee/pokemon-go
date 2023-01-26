@@ -89,19 +89,25 @@ public interface IPlayer
      * Retorna as coordenadas do jogador
      * @return as coordenadas do jogador
      */
-    ArrayList<Coordinate> getCoordinates();
+    Coordinate getCoordinates();
 
     /**
      * Define as coordenadas do jogador
      * @param coordinates
      */
-    void setCoordinates(ArrayList<Coordinate> coordinates);
+    void setCoordinates(Coordinate coordinates);
 
     /**
      * Retorna o numero de portais conquistados pelo jogador
      * @return o numero de portais conquistados pelo jogador
      */
-    Iterator<Integer> getConqueredPortals();
+    int getConqueredPortals();
+
+    /**
+     * Define o numero de portais conquistados pelo jogador
+     * @param conqueredPortals
+     */
+    void setConqueredPortals(int conqueredPortals);
 
     /**
      * Define o numero de portais conquistados pelo jogador
@@ -118,27 +124,26 @@ public interface IPlayer
     /**
      * Clears all portal associated.
      */
-    void clearPortalList();
+//    void clearPortalList();
 
     /**
      * Gets the number of portals associated.
      *
      * @return number of portals
      */
-    int numberOfPortals();
+//    int numberOfPortals();
 
     /**
      * Transforms the Player into a JSONObject representation
      *
      * @return the JSONObject with all the details of the Player
      */
-    JSONObject playerToJsonObject();
+//    JSONObject playerToJsonObject();
 
     /**
      * Exports the JSON containing all the details of the Player
      *
      * @throws IOException if it happens an error trying to write the file
      */
-    void exportPlayerToJson() throws IOException;
-
+//    void exportPlayerToJson() throws IOException;
 }

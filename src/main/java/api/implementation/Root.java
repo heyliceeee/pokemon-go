@@ -3,6 +3,7 @@ package api.implementation;
 import api.interfaces.IRoot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representacao da classe da raiz do JSON
@@ -12,69 +13,63 @@ public class Root implements IRoot
     /**
      * locais (portal e connector)
      */
-    private ArrayList<Local> locals;
+    private List<Local> locals;
 
     /**
      * rotas
      */
-    private ArrayList<Route> routes;
+    private List<Route> routes;
 
     /**
      * jogadores
      */
-    private ArrayList<Player> players;
-
-    /**
-     * definicoes globais do jogo
-     */
-    private ArrayList<GlobalGameSetting> globalGameSettings;
+    private List<Player> players;
 
 
+    //region getters and setters
     @Override
-    public ArrayList<Local> getLocals()
+    public List<Local> getLocals()
     {
         return locals;
     }
 
     @Override
-    public void setLocals(ArrayList<Local> locals)
+    public void setLocals(List<Local> locals)
     {
         this.locals = locals;
     }
 
     @Override
-    public ArrayList<Route> getRoutes()
+    public List<Route> getRoutes()
     {
         return routes;
     }
 
     @Override
-    public void setRoutes(ArrayList<Route> routes)
+    public void setRoutes(List<Route> routes)
     {
         this.routes = routes;
     }
 
     @Override
-    public ArrayList<Player> getPlayers()
+    public List<Player> getPlayers()
     {
         return players;
     }
 
     @Override
-    public void setPlayers(ArrayList<Player> players)
+    public void setPlayers(List<Player> players)
     {
         this.players = players;
     }
+    //endregion
 
     @Override
-    public ArrayList<GlobalGameSetting> getGlobalGameSettings()
-    {
-        return globalGameSettings;
-    }
-
-    @Override
-    public void setGlobalGameSettings(ArrayList<GlobalGameSetting> globalGameSettings)
-    {
-        this.globalGameSettings = globalGameSettings;
+    public String toString() {
+        return "Root{" +
+                "locals=" + locals +
+                ", routes=" + routes +
+                ", players=" + players +
+                '}';
     }
 }

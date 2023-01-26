@@ -1,10 +1,18 @@
 package api.interfaces;
 
+import java.io.IOException;
+
 /**
  * Interface da rota
  */
 public interface IRoute
 {
+
+    /**
+     * Importar rotas e portals/connectors associados de um ficheiro JSON
+     */
+    void importRoutesFromJSONFile() throws IOException;
+
     /**
      * Retorna o identificador unico do portal/connector de partida da rota
      * @return o identificador unico do portal/connector de partida da rota

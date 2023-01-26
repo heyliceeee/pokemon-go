@@ -5,33 +5,33 @@ import api.interfaces.IConnector;
 import java.util.ArrayList;
 
 public class Connector extends Local implements IConnector {
+
+   /**
+     * intervalo de fornecimento de energia a um jogador apos uma interacao do conector
+     */
+    private int cooldown;
+
     @Override
-    public int getEnergy() {
-        return 0;
+    public String toString() {
+        return "Connector{" +
+                "cooldown=" + cooldown +
+                ", " + super.toString() +
+                '}';
+    }
+
+    //region getters and setters
+
+   @Override
+    public int getCooldown()
+    {
+        return cooldown;
     }
 
     @Override
-    public void setEnergy(int energy) {
-
+    public void setCooldown(int cooldown)
+    {
+        this.cooldown = cooldown;
     }
 
-    @Override
-    public int getCooldown() {
-        return 0;
-    }
-
-    @Override
-    public void setCooldown(int cooldown) {
-
-    }
-
-    @Override
-    public void setInteraction(ArrayList<Interaction> interaction) {
-
-    }
-
-    @Override
-    public ArrayList<Interaction> getInteraction() {
-        return null;
-    }
+    //endregion
 }
