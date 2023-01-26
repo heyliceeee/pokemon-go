@@ -25,6 +25,15 @@ public class Portal extends Local implements IPortal {
      */
     private Ownership ownership;
 
+
+    public Portal(int id, String type, String name, int energy, int energyMax, Ownership ownership, Coordinate coordinate, List<Interaction> interactions)
+    {
+        super(id, type, energy, coordinate, interactions);
+        this.name = name;
+        this.energyMax = energyMax;
+        this.ownership = ownership;
+    }
+
     @Override
     public String toString() {
         return "Portal{" +

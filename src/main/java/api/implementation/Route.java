@@ -1,5 +1,7 @@
 package api.implementation;
 
+import api.interfaces.IConnector;
+import api.interfaces.IPortal;
 import api.interfaces.IRoute;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,8 +52,15 @@ public class Route implements IRoute
             {
                 if(route.getFrom() == portal.getId() || route.getTo() == portal.getId())
                 {
-                    routePortals.add(portal);
-                    break;
+                    try
+                    {
+                        IPortal portal1 = new Portal(portal.getId(), portal.getType(), portal.getName(), portal.getEnergy(), portal.getEnergyMax(), portal.getOwnership(), portal.getCoordinates(), portal.getInteraction());
+                        root.addLocal(portal1);
+                    }catch (IllegalArgumentException e)
+                    {
+                        System.out.println("ERROR Portal ID nº"+portal.getId()+": "+e.getMessage());
+                    }
+
                 }
             }
         }
@@ -76,8 +85,15 @@ public class Route implements IRoute
             {
                 if(route.getFrom() == connector.getId() || route.getTo() == connector.getId())
                 {
-                    routeConnectors.add(connector);
-                    break;
+                    try
+                    {
+                        IConnector connector1 = new Connector(connector.getId(), connector.getType(), connector.getEnergy(), connector.getCooldown(), connector.getCoordinates(), connector.getInteraction());
+                        root.addLocal(connector1);
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        System.out.println("ERROR Connector ID nº"+connector.getId()+": "+e.getMessage());
+                    }
                 }
             }
         }

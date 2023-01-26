@@ -50,6 +50,15 @@ public class Local implements ILocal
      */
     private List<Interaction> interaction;
 
+
+    public Local(int id, String type, int energy, Coordinate coordinates, List<Interaction> interaction) {
+        this.id = id;
+        this.type = type;
+        this.energy = energy;
+        this.coordinates = coordinates;
+        this.interaction = interaction;
+    }
+
     @Override
     public String toString() {
         return "id=" + id +
