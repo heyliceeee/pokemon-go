@@ -3,7 +3,7 @@ package api.implementation;
 import api.interfaces.ILocal;
 import api.interfaces.IRoot;
 import collections.implementation.RouteNetwork;
-import collections.interfaces.PathNetworkADT;
+import collections.interfaces.RouteNetworkADT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class Root implements IRoot
     /**
      * grafo de rede que contém informações sobre os locals e rotas entre eles
      */
-    public PathNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
+    public RouteNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
 
 
     @Override
