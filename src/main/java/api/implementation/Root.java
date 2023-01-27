@@ -2,6 +2,7 @@ package api.implementation;
 
 import api.interfaces.ILocal;
 import api.interfaces.IRoot;
+import collections.implementation.RouteNetwork;
 import collections.interfaces.PathNetworkADT;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Root implements IRoot
     /**
      * grafo de rede que contém informações sobre os locals e rotas entre eles
      */
-    public PathNetworkADT<ILocal> pathNetwork = new PathNetwork<>();
+    public PathNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
 
 
     @Override
@@ -41,7 +42,7 @@ public class Root implements IRoot
             throw new IllegalArgumentException("Local cannot be null");
         }
 
-        return this.pathNetwork.addVertex(local);
+        return this.routeNetwork.addVertex(local);
     }
 
 
