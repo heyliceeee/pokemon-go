@@ -15,7 +15,23 @@ import java.util.List;
  */
 public class PathNetwork<T> extends Network<T> implements PathNetworkADT<T>
 {
-    //CONTINUAR AQUI
+    /**
+     * Construtor do pathNetwork
+     */
+    public PathNetwork()
+    {
+        super();
+    }
+
+    /**
+     * Enumeração para identificar que tipo de local
+     */
+    private enum SEARCH_TYPE
+    {
+        PORTAL_ANY, //indica uma pesquisa para qualquer portal mais próximo
+        CONNECTOR_ANY, //indica uma pesquisa para qualquer conector mais próximo
+        CONNECTOR_COOLDOWN_ANY, //indica uma pesquisa para qualquer conector, que já tenha terminado o periodo de cooldown para o jogador, mais próximo
+    }
 
     @Override
     public int getNumberOfPortals()
@@ -97,6 +113,7 @@ public class PathNetwork<T> extends Network<T> implements PathNetworkADT<T>
         return resultList.iterator();
     }
 
+
     /**
      * Conta o número de instâncias que existem desse tipo
      * @param type objeto para ser comparado
@@ -119,19 +136,52 @@ public class PathNetwork<T> extends Network<T> implements PathNetworkADT<T>
     }
 
 
+    /**
+     * Caminho mais curto do ponto de partida para outro local
+     * @param searchType tipo de local a ser pesquisado
+     * @param previous
+     * @param distance
+     * @param visited
+     * @param source ponto de partida
+     * @return iterador com a rota
+     * @throws NotLocalInstanceException
+     */
     private Iterator<ILocal> shortestRouteTo(SEARCH_TYPE searchType, int[] previous, double[] distance, boolean[] visited, T source) throws NotLocalInstanceException
     {
+        if(!(source instanceof ILocal)) //se o ponto de partida não for um tipo local (portal ou conector)
+        {
+            throw new NotLocalInstanceException("vertex need to be ILocal instance");
+        }
 
+        int minIndexPortal = -1;
+        double minDistanceToPortal = Integer.MAX_VALUE;
+        int minIndexConnector = -1;
+        double minDistanceToConnector = Integer.MAX_VALUE;
+
+        //verifica a distância mínima e atualiza o último indice do anterior
+        for(int i=0; i < distance.length; i++)
+        {
+            if() //se foi visitado,
+            {}
+        }
+
+
+        return resultList.iterator();
     }
 
-
     @Override
-    public Iterator<ILocal> shortestRoute(T source, T destination) throws NotLocalInstanceException {
+    public Iterator<ILocal> shortestRouteToPortal(T source) throws NotLocalInstanceException
+    {
         return null;
     }
 
     @Override
-    public Iterator<ILocal> shortestRoutePassingConnector(T source, T destination) throws NotLocalInstanceException {
+    public Iterator<ILocal> shortestRouteToConnector(T source) throws NotLocalInstanceException {
+        return null;
+    }
+
+    @Override
+    public Iterator<ILocal> shortestRouteToConnectorWithoutCooldown(T source) throws NotLocalInstanceException {
         return null;
     }
 }
