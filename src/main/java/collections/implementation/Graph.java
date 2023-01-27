@@ -10,6 +10,10 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @param <T>
+ */
 public class Graph<T> implements GraphADT<T>
 {
     /**
