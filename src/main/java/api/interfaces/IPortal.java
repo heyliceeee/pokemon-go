@@ -1,5 +1,10 @@
 package api.interfaces;
 
+import api.implementation.Ownership;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public interface IPortal extends ILocal {
 
     /**
@@ -12,31 +17,19 @@ public interface IPortal extends ILocal {
      * Define o nome do portal
      * @param name
      */
-    public void setName(String name);
+    void setName(String name);
 
     /**
      * Retorna o dono do portal
      * @return o dono do portal
      */
-    public ArrayList<Ownership> getOwnership();
+    Ownership getOwnership();
 
     /**
      * Define o dono do portal
      * @param ownership
      */
-    public void setOwnership(ArrayList<Ownership> ownership);
-
-    /**
-     * Retorna a energia do portal/connector
-     * @return a energia do portal/connector
-     */
-    int getEnergy();
-
-    /**
-     * Define a energia do portal/connector
-     * @param energy
-     */
-    void setEnergy(int energy);
+    void setOwnership(Ownership ownership);
 
     /**
      * Retorna a energia maxima do portal
@@ -49,5 +42,4 @@ public interface IPortal extends ILocal {
      * @param energyMax
      */
     void setEnergyMax(int energyMax);
-
 }

@@ -1,99 +1,82 @@
 package collections.interfaces;
 
-import collections.exceptions.EmptyCollectionException;
-
 import java.util.Iterator;
 
 /**
- * GraphADT defines the interface to a graph data structure.
+ * Define a interface para o grafo
+ * @param <T>
  */
-public interface GraphADT<T> {
+public interface GraphADT<T>
+{
     /**
-     * Adds a vertex to this graph, associating object with vertex.
-     *
-     * @param vertex the vertex to be added to this graph
-     * @return true if the vertex was inserted, false otherwise.
+     * Adiciona um vértice a este grafo, associando o objeto ao vértice
+     * @param vertex o vértice que vai ser adicionado a este grafo
      */
-    public boolean addVertex(T vertex);
+    public String addVertex(T vertex);
 
     /**
-     * Removes a single vertex with the given value from this graph.
-     *
-     * @param vertex the vertex to be removed from this graph
+     * Remove um único vértice com o valor dado deste grafo
+     * @param vertex o vértice que vai ser removido deste grafo
      */
-    public void removeVertex(T vertex);
+    public String removeVertex(T vertex);
 
     /**
-     * Inserts an edge between two vertices of this graph.
-     *
-     * @param vertex1 the first vertex
-     * @param vertex2 the second vertex
+     * Insere uma aresta entre os dois vértices deste grafo
+     * @param vertex1 o primeiro vértice
+     * @param vertex2 o segundo vértice
      */
     public void addEdge(T vertex1, T vertex2);
 
     /**
-     * Removes an edge between two vertices of this graph.
-     *
-     * @param vertex1 the first vertex
-     * @param vertex2 the second vertex
+     * Remove uma aresta entre os dois vértice deste grafo
+     * @param vertex1 o primeiro vértice
+     * @param vertex2 o segundo vértice
      */
     public void removeEdge(T vertex1, T vertex2);
 
     /**
-     * Returns a breadth first iterator starting with the given vertex.
-     *
-     * @param startVertex the starting vertex
-     * @return a breadth first iterator beginning at
-     * the given vertex
+     * Retorna um primeiro iterador de largura começando com o vértice fornecido
+     * @param startVertex o vértice inicial
+     * @return um primeiro iterador de largura começando com o vértice fornecido
      */
     public Iterator<T> iteratorBFS(T startVertex);
 
     /**
-     * Returns a depth first iterator starting with the given vertex.
-     *
-     * @param startVertex the starting vertex
-     * @return a depth first iterator starting at the
-     * given vertex
+     * Retorna um primeiro iterador de profundidade começando com o vértice fornecido
+     * @param startVertex o vértice inicial
+     * @return um primeiro iterador de profundidade começando com o vértice fornecido
      */
     public Iterator<T> iteratorDFS(T startVertex);
 
     /**
-     * Returns an iterator that contains the shortest path between
-     * the two vertices.
-     *
-     * @param startVertex  the starting vertex
-     * @param targetVertex the ending vertex
-     * @return an iterator that contains the shortest
-     * path between the two vertices
+     * Retorna um iterador que contém o caminho mais curto entre os dois vértices
+     * @param startVertex o vértice inicial
+     * @param targetVertex o vértice final
+     * @return um iterador que contém o caminho mais curto entre os dois vértices
      */
-    public Iterator iteratorShortestPath(T startVertex, T targetVertex);
+    public Iterator<T> iteratorShortestPath(T startVertex, T targetVertex);
 
     /**
-     * Returns true if this graph is empty, false otherwise.
-     *
-     * @return true if this graph is empty
+     * Retorna true se este grafo estiver vazio, false caso contrário
+     * @return true se este grafo estiver vazio
      */
     public boolean isEmpty();
 
     /**
-     * Returns true if this graph is connected, false otherwise.
-     *
-     * @return true if this graph is connected
-     * @throws EmptyCollectionException if graph is empty
+     * Retorna true se este grafo estiver conectado, false caso contrário
+     * @return true se este grafo estiver conectado
      */
-    public boolean isConnected() throws EmptyCollectionException;
+    public boolean isConnected();
 
     /**
-     * Returns the number of vertices in this graph.
-     *
-     * @return the integer number of vertices in this graph
+     * Retorna o número de vértices deste grafo
+     * @return o número de vértices deste grafo
      */
     public int size();
 
     /**
-     * Returns a string representation of the adjacency matrix.
-     *
-     * @return a string representation of the adjacency matrix
+     * Retorna uma string com a matriz adjacência
+     * @return uma string com a matriz adjacência
      */
     public String toString();
 }

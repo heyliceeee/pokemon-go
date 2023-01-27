@@ -1,24 +1,30 @@
 package collections.interfaces;
 
+import collections.exceptions.EmptyCollectionException;
+import collections.exceptions.UnknownPathException;
+
 /**
- * NetworkADT defines the interface to a network.
+ * Define a interface da rede
+ * @param <T>
  */
-public interface NetworkADT<T> extends GraphADT<T> {
+public interface NetworkADT<T> extends GraphADT<T>
+{
     /**
-     * Inserts an edge between two vertices of this graph.
-     *
-     * @param vertex1 the first vertex
-     * @param vertex2 the second vertex
-     * @param weight  the weight
+     * Insere uma aresta entre dois vértices deste grafo
+     * @param vertex1 o primeiro vértice
+     * @param vertex2 o segundo vértice
+     * @param weight o peso
+     * @throws EmptyCollectionException
      */
-    public void addEdge(T vertex1, T vertex2, double weight);
+    public void addEdge (T vertex1, T vertex2, double weight) throws EmptyCollectionException;
 
     /**
-     * Returns the weight of the shortest path in this network.
-     *
-     * @param vertex1 the first vertex
-     * @param vertex2 the second vertex
-     * @return the weight of the shortest path in this network
+     * Retorna o peso do caminho mais curto desta rede
+     * @param vertex1 o primeiro vértice
+     * @param vertex2 o segundo vértice
+     * @return o peso do caminho mais curto desta rede
+     * @throws EmptyCollectionException
+     * @throws UnknownPathException
      */
-    public double shortestPathWeight(T vertex1, T vertex2);
+    public ArrayUnorderedList<T> shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException, UnknownPathException;
 }

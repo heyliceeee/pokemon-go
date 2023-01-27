@@ -1,21 +1,23 @@
 package collections.exceptions;
 
+import api.interfaces.ILocal;
+
 /**
- * Throws exception when element in question must be instanced of {@link ILocal place} but isn't.
+ * Lança exceção quando o elemento em questão deveria ser instânciado {@link ILocal local} mas não é
  */
-public class NotLocalnstanceException extends Exception {
+public class NotLocalInstanceException extends Exception {
 
     /**
-     * Constructor without message.
+     * construtor sem mensagem.
      */
     public NotLocalInstanceException() {
         super();
     }
 
     /**
-     * Constructor without message.
+     * construtor com mensagem.
      *
-     * @param s message.
+     * @param s mensagem.
      */
     public NotLocalInstanceException(String s) {
         super(s);

@@ -1,13 +1,28 @@
 package api.implementation;
 
 import api.interfaces.ILocal;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representacao da classe de um portal/connector
  */
-public abstract class Local implements ILocal
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+) //indica o tipo de classe que sera definido com base no valor da propriedade type
+
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Portal.class, name = "Portal"),
+        @JsonSubTypes.Type(value = Connector.class, name = "Connector")
+}) //indica quais são as subclasses possiveis (portal e connector) e como elas são identificadas na propriedade type do JSON
+public class Local implements ILocal
 {
     /**
      * identificador unico do portal/connector
@@ -17,28 +32,43 @@ public abstract class Local implements ILocal
     /**
      * tipo de local (portal/connector)
      */
+    @JsonProperty(required = true)
     private String type;
 
     /**
-     * nome do portal
+     * energia atual do portal/conector
      */
-    private String name;
-
-    /**
-     * dono do portal
-     */
-    private ArrayList<Ownership> ownership;
-
-    /**
-     * definicoes de jogo do portal/connector
-     */
-    private ArrayList<GameSetting> gameSettings;
+    private int energy;
 
     /**
      * coordenadas do portal/connector
      */
-    private ArrayList<Coordinate> coordinates;
+    private Coordinate coordinates;
 
+    /**
+     * registo de interacoes do portal/connector
+     */
+    private List<Interaction> interaction;
+
+
+    public Local(int id, String type, int energy, Coordinate coordinates, List<Interaction> interaction) {
+        this.id = id;
+        this.type = type;
+        this.energy = energy;
+        this.coordinates = coordinates;
+        this.interaction = interaction;
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", type='" + type + '\'' +
+                ", energy=" + energy +
+                ", coordinates=" + coordinates +
+                ", interaction=" + interaction;
+    }
+
+    //region getters and setters
 
     @Override
     public int getId()
@@ -65,50 +95,40 @@ public abstract class Local implements ILocal
     }
 
     @Override
-    public String getName()
+    public int getEnergy()
     {
-        return name;
+        return energy;
     }
 
     @Override
-    public void setName(String name)
+    public void setEnergy(int energy)
     {
-        this.name = name;
+        this.energy = energy;
     }
 
     @Override
-    public ArrayList<Ownership> getOwnership()
-    {
-        return ownership;
-    }
-
-    @Override
-    public void setOwnership(ArrayList<Ownership> ownership)
-    {
-        this.ownership = ownership;
-    }
-
-    @Override
-    public ArrayList<GameSetting> getGameSettings()
-    {
-        return gameSettings;
-    }
-
-    @Override
-    public void setGameSettings(ArrayList<GameSetting> gameSettings)
-    {
-        this.gameSettings = gameSettings;
-    }
-
-    @Override
-    public ArrayList<Coordinate> getcoordinates()
+    public Coordinate getCoordinates()
     {
         return coordinates;
     }
 
     @Override
-    public void setcoordinates(ArrayList<Coordinate> coordinates)
+    public void setCoordinates(Coordinate coordinates)
     {
         this.coordinates = coordinates;
     }
+
+    @Override
+    public List<Interaction> getInteraction()
+    {
+        return interaction;
+    }
+
+    @Override
+    public void setInteraction(List<Interaction> interaction)
+    {
+        this.interaction = interaction;
+    }
+
+    //endregion
 }

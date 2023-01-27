@@ -1,54 +1,50 @@
 package api.implementation;
 
 import api.interfaces.IPortal;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Portal extends Local implements IPortal {
 
     /**
-     * The name of the place
+     * nome do portal
      */
     private String name;
 
     /**
-     * Constructor of the Portal class
-     *
-     * @param name name of the portal
-     */
-    public Portal(String name) {
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("Name cannot be empty or null!");
-        }
-        this.name = name;
-    }
-    /**
-     * Represents the max energy of the portal.
+     * energia maxima do portal
      */
     private int energyMax;
-    /**
-     * Represents the actual energy of the portal
-     */
-    private int energy;
 
     /**
-     * Constructor of Portal
-     * @param energy actual energy of the portal
-     * @param energyMax max energy of the portal
+     * dono do portal
      */
-    public Portal( int energy, int energyMax) {
+    private Ownership ownership;
 
-        if (energyMax < 1) {
-            throw new IllegalArgumentException("EnergyMax must be equal to or greater than one!");
-        } else if (energy < 0) {
-            throw new IllegalArgumentException("Energy must be equal to or greater than zero!");
-        } else if (energy > energyMax) {
-            throw new IllegalArgumentException("Energy cannot be greater than the capacity!");
-        }
-        this.energy = energy;
+
+    public Portal(int id, String type, String name, int energy, int energyMax, Ownership ownership, Coordinate coordinate, List<Interaction> interactions)
+    {
+        super(id, type, energy, coordinate, interactions);
+        this.name = name;
         this.energyMax = energyMax;
+        this.ownership = ownership;
     }
+
+    @Override
+    public String toString() {
+        return "Portal{" +
+                "name='" + name + '\'' +
+                ", energyMax=" + energyMax +
+                ", ownership=" + ownership +
+                ", " + super.toString() +
+                '}';
+    }
+
+    //region getters and setters
 
     @Override
     public String getName() {
@@ -64,8 +60,9 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
-    public void setOwnership(ArrayList<Ownership> ownership) {
-
+    public Ownership getOwnership()
+    {
+        return ownership;
     }
 
     @Override
@@ -74,91 +71,72 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
-    public void setEnergyMax(int energyMax) {
-
+    public void setEnergyMax(int energyMax)
+    {
+        this.energyMax = energyMax;
     }
 
-    @Override
-    public void setCapacity(int energyMax) {
+    /*public void setCapacity(int energyMax) {
         if (energyMax < 1) {
             throw new IllegalArgumentException("Max energy must be equal to or greater than one!");
         } else if (energyMax < this.energy) {
             throw new IllegalArgumentException("The new max energy cannot be less than the atual energy!");
         }
         this.energyMax = energyMax;
-    }
+    }*/
 
     @Override
-    public int getEnergy() {
-        return energy;
+    public void setOwnership(Ownership ownership) {
+        this.ownership = ownership;
     }
 
-    @Override
-    public void setEnergy(int energy) {
-        if (energy < 0) {
-            throw new IllegalArgumentException("Energy must be equal to or greater than zero!");
-        } else if (energy > this.energyMax) {
-            throw new IllegalArgumentException("The new energy cannot be greater than the max energy!");
-        }
-        this.energy = energy;
-
-        @Override
-        public JSONObject portalToJSONObject() {
-            JSONObject root = new JSONObject();
-            root.put("Name", getName());
-            root.put("EnergyMax", this.energyMax);
-            root.put("Energy", this.energy);
-            return root;
-        }
-
-        @Override
-        public void exportPortalToJson() throws IOException {
-            ExporterJson.exportJSON(portalToJSONObject().toJSONString(), "Portal" + getName());
-        }
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            IPortal that = (IPortal) o;
-            return getName().equals(that.getName());
-        }
-
-        @Override
-        public String toString() {
-            return "Portal{" +
-                    "Name=" + getName() +
-                    ", EnergyMax=" + energyMax +
-                    ", Energy=" + energy +
-                    '}';
-        }
-    @Override
-    public ArrayList<Interaction> getInteraction() {
-        return null;
-    }
-
-    @Override
-    public void setInteraction(ArrayList<Interaction> interaction) {
-
-    }
-
-    @Override
-    public void setOwnership(ArrayList<Ownership> ownership) {
-
-    }
-
-
+    //endregion
+    
+    // /*public Portal(int energy, int energyMax) {
+    //        if (energyMax < 1) {
+    //            throw new IllegalArgumentException("EnergyMax must be equal to or greater than one!");
+    //
+    //        } else if (energy < 0) {
+    //            throw new IllegalArgumentException("Energy must be equal to or greater than zero!");
+    //
+    //        } else if (energy > energyMax) {
+    //            throw new IllegalArgumentException("Energy cannot be greater than the capacity!");
+    //        }
+    //        this.energy = energy;
+    //        this.energyMax = energyMax;
+    //    }*/
+    //
+    //    /*public Portal(String name) {
+    //        if (name == null || name.equals("")) {
+    //            throw new IllegalArgumentException("Name cannot be empty or null!");
+    //        }
+    //        this.name = name;
+    //    }*/
+    //
+    //    /*public JSONObject portalToJSONObject() {
+    //        JSONObject root = new JSONObject();
+    //        root.put("Name", getName());
+    //        root.put("EnergyMax", this.energyMax);
+    //        return root;
+    //    }*/
+    //
+    //    /*public void exportPortalToJson() throws IOException
+    //    {
+    //        ExporterJson.exportJSON(portalToJSONObject().toJSONString(), "Portal " + getName());
+    //    }*/
+    //
+    //    /*@Override
+    //    public boolean equals(Object o) {
+    //        if (this == o) {
+    //            return true;
+    //        }
+    //
+    //        if (o == null || getClass() != o.getClass()) {
+    //            return false;
+    //        }
+    //
+    //        IPortal that = (IPortal) o;
+    //
+    //        return getName().equals(that.getName());
+    //    }*/
 }
-
-    @Override
-    public ArrayList<Interaction> getInteraction() {
-        return null;
-    }
-
-    @Override
-    public void setInteraction(ArrayList<Interaction> interaction) {
-
-    }
