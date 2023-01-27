@@ -28,7 +28,7 @@ public class PriorityQueueNode<T> implements Comparable<PriorityQueueNode>
      * @param priority prioridade do novo node da queue
      * @param element o elemento do novo node da queue de prioridade
      */
-    public PriorityQueueNode(int priority, T element)
+    public PriorityQueueNode(T element, int priority)
     {
         this.element = element;
         this.priority = priority;

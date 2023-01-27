@@ -1,6 +1,7 @@
 package collections.implementation;
 
 import collections.exceptions.EmptyCollectionException;
+import collections.exceptions.NotComparableInstanceException;
 import collections.exceptions.UnknownPathException;
 import collections.interfaces.NetworkADT;
 import collections.interfaces.UnorderedListADT;
@@ -73,8 +74,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T>
     }
 
     @Override
-    public ArrayUnorderedList<T> shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException, UnknownPathException
-    {
+    public ArrayUnorderedList<T> shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException, UnknownPathException, NotComparableInstanceException {
         PriorityQueue<Pair<T>> priorityQueue = new PriorityQueue<>();
         UnorderedListADT<T> verticesFromPossiblePath = new ArrayUnorderedList<>();
         ArrayUnorderedList<T> result = new ArrayUnorderedList<>();
