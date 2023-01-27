@@ -24,8 +24,19 @@ public class Route implements IRoute
     private int to;
 
 
+    /**
+     * constructor
+     * @param from ID do portal/conector de partida
+     * @param to ID do portal/conector de chegada
+     */
+    public Route(int from, int to)
+    {
+        this.from = from;
+        this.to = to;
+    }
+
     @Override
-    public void importRoutesFromJSONFile() throws IOException
+    public String importRoutesFromJSONFile() throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
         Root root = mapper.readValue(new File("docs/import/import.json"), Root.class);
@@ -45,7 +56,6 @@ public class Route implements IRoute
         }
 
         //todos os portais que estejam associados ás rotas existentes
-        List<Portal> routePortals = new ArrayList<>();
         for (Portal portal : portals)
         {
             for (Route route : root.getRoutes())
@@ -56,6 +66,8 @@ public class Route implements IRoute
                     {
                         IPortal portal1 = new Portal(portal.getId(), portal.getType(), portal.getName(), portal.getEnergy(), portal.getEnergyMax(), portal.getOwnership(), portal.getCoordinates(), portal.getInteraction());
                         root.addLocal(portal1);
+
+                        return "Successful";
                     }catch (IllegalArgumentException e)
                     {
                         System.out.println("ERROR Portal ID nº"+portal.getId()+": "+e.getMessage());
@@ -78,7 +90,6 @@ public class Route implements IRoute
         }
 
         //todos os connectors que estejam associados ás rotas existentes
-        List<Connector> routeConnectors = new ArrayList<>();
         for (Connector connector : connectors)
         {
             for (Route route : root.getRoutes())
@@ -89,6 +100,7 @@ public class Route implements IRoute
                     {
                         IConnector connector1 = new Connector(connector.getId(), connector.getType(), connector.getEnergy(), connector.getCooldown(), connector.getCoordinates(), connector.getInteraction());
                         root.addLocal(connector1);
+                        return "Successful";
                     }
                     catch (IllegalArgumentException e)
                     {
@@ -104,15 +116,7 @@ public class Route implements IRoute
             System.out.println(route);
         }
 
-        for(Portal portal : routePortals)
-        {
-            System.out.println(portal);
-        }
-
-        for(Connector connector : routeConnectors)
-        {
-            System.out.println(connector);
-        }
+        return "Successful";
     }
 
     @Override

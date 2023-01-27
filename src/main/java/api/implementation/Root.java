@@ -1,6 +1,8 @@
 package api.implementation;
 
+import api.interfaces.ILocal;
 import api.interfaces.IRoot;
+import collections.interfaces.PathNetworkADT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,33 @@ public class Root implements IRoot
      */
     private List<Player> players;
 
+    /**
+     * grafo de rede que contém informações sobre os locals e rotas entre eles
+     */
+    public PathNetworkADT<ILocal> pathNetwork = new PathNetwork<>();
+
+
+    @Override
+    public boolean addLocal(ILocal local)
+    {
+        if(local == null)
+        {
+            throw new IllegalArgumentException("Local cannot be null");
+        }
+
+        return this.pathNetwork.addVertex(local);
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Root{" +
+                "locals=" + locals +
+                ", routes=" + routes +
+                ", players=" + players +
+                '}';
+    }
 
     //region getters and setters
     @Override
@@ -63,13 +92,4 @@ public class Root implements IRoot
         this.players = players;
     }
     //endregion
-
-    @Override
-    public String toString() {
-        return "Root{" +
-                "locals=" + locals +
-                ", routes=" + routes +
-                ", players=" + players +
-                '}';
-    }
 }
