@@ -20,18 +20,6 @@ public interface IIteraction
     void setType(String type);
 
     /**
-     * Retorna os pontos de experiencia que o jogador ganhou apos uma interacao com o portal/connector
-     * @return os pontos de experiencia que o jogador ganhou apos uma interacao com o portal/connector
-     */
-    int getXp();
-
-    /**
-     * Define os os pontos de experiencia que o jogador ganha apos uma interacao com o portal/connector
-     * @param xp
-     */
-    void setXp(int xp);
-
-    /**
      * Retornar o nome do jogador que teve interacao com o portal/connector
      * @return o nome do jogador que teve interacao com o portal/connector
      */

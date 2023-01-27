@@ -15,11 +15,6 @@ public class Interaction implements IIteraction
     private String type;
 
     /**
-     * pontos de experiencia que o jogador ganha apos uma interacao com o portal/connector
-     */
-    private int xp;
-
-    /**
      * nome do jogador que teve interacao com o portal/connector
      */
     private String player;
@@ -41,6 +36,18 @@ public class Interaction implements IIteraction
 
 
     @Override
+    public String toString() {
+        return "Interaction{" +
+                "type='" + type + '\'' +
+                ", player='" + player + '\'' +
+                ", date=" + date +
+                ", points=" + points +
+                ", speedXP=" + speedXP +
+                '}';
+    }
+
+    //region getters and setters
+    @Override
     public String getType()
     {
         return type;
@@ -50,18 +57,6 @@ public class Interaction implements IIteraction
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    @Override
-    public int getXp()
-    {
-        return xp;
-    }
-
-    @Override
-    public void setXp(int xp)
-    {
-        this.xp = xp;
     }
 
     @Override
@@ -111,4 +106,6 @@ public class Interaction implements IIteraction
     {
         this.speedXP = speedXP;
     }
+
+    //endregion
 }

@@ -1,0 +1,144 @@
+{
+  "locals": [
+    {
+      "id": 1414,
+      "type": "Portal",
+      "name": "San Bento Monastery",
+      "energy": 180,
+      "energyMax": 200,
+      "ownership": {
+        "state": "Sparks",
+        "player": "LoboMau"
+      },
+      "coordinates": {
+        "longitude": 41.144142067059875,
+        "latitude": -8.615698087960482
+      },
+      "interaction": [
+        {
+          "type": "Conquista portal",
+          "player": "LoboMau",
+          "date": "2023-01-24T22:30:32.043Z",
+          "points": 1000,
+          "speedXP": 2
+        }
+      ]
+    },
+    {
+      "id": 5212,
+      "type": "Connector",
+      "energy": "200",
+      "cooldown": "5",
+      "coordinates": {
+        "longitude": 40.7697989,
+        "latitude": -73.9723702
+      },
+      "interaction": [
+        {
+          "type": "Reforço de energia de connector",
+          "player": "LoboMau",
+          "date": "2023-01-24T22:30:32.043Z",
+          "points": 500,
+          "speedXP": 2
+        }
+      ]
+    },
+    {
+      "id": 2601,
+      "type": "Portal",
+      "name": "Statue of San Rosendo",
+      "energy": 50,
+      "energyMax": 50,
+      "ownership": {
+        "state": "Giants",
+        "player": "CapuzinhoVermelho"
+      },
+      "coordinates": {
+        "longitude": 41.34155,
+        "latitude": -8.472964
+      },
+      "interaction": [
+        {
+          "type": "Conquista portal",
+          "player": "CapuzinhoVermelho",
+          "date": "2023-01-24T22:30:32.043Z",
+          "points": 500,
+          "speedXP": 2
+        }
+      ]
+    },
+    {
+      "id": 1303,
+      "type": "Connector",
+      "energy": "400",
+      "cooldown": "5",
+      "coordinates": {
+        "longitude": 41.341155,
+        "latitude": -8.473272
+      },
+      "interaction": [
+        {
+          "type": "Reforço de energia de connector",
+          "player": "CapuzinhoVermelho",
+          "date": "2023-01-24T22:30:32.043Z",
+          "points": 1000,
+          "speedXP": 2
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "from": 1414,
+      "to": 2601
+    },
+    {
+      "from": 1414,
+      "to": 1303
+    },
+    {
+      "from": 1414,
+      "to": 5212
+    },
+    {
+      "from": 2601,
+      "to": 1303
+    },
+    {
+      "from": 2601,
+      "to": 5212
+    },
+    {
+      "from": 1303,
+      "to": 5212
+    }
+  ],
+  "players": [
+    {
+      "name": "LoboMau",
+      "team": "Sparks",
+      "level": 64,
+      "xp": 467892,
+      "energy": 126,
+      "energyMax": 500,
+      "conqueredPortals": 142,
+      "coordinates": {
+        "longitude": 40.7656918,
+        "latitude": -73.9737489
+      }
+    },
+    {
+      "name": "CapuzinhoVermelho",
+      "team": "Giants",
+      "level": 13,
+      "xp": 9892,
+      "energy": 26,
+      "energyMax": 50,
+      "conqueredPortals": 28,
+      "coordinates": {
+        "longitude": 41.34155,
+        "latitude": -8.472964
+      }
+    }
+  ]
+}

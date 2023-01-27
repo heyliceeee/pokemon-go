@@ -1,10 +1,10 @@
 package api.interfaces;
 
-import api.implementation.Coordenate;
-import api.implementation.GameSetting;
-import api.implementation.Ownership;
+import api.implementation.*;
+import api.implementation.Coordinate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface do portal/connector
@@ -36,50 +36,38 @@ public interface ILocal
     void setType(String type);
 
     /**
-     * Retorna o nome do portal
-     * @return o nome do portal
+     * Retorna a energia atual do portal/connector
+     * @return a energia atual do portal/connector
      */
-    String getName();
+    int getEnergy();
 
     /**
-     * Define o nome do portal
-     * @param name
+     * Define a energia atual do portal/connector
+     * @param energy
      */
-    public void setName(String name);
-
-    /**
-     * Retorna o dono do portal
-     * @return o dono do portal
-     */
-    public ArrayList<Ownership> getOwnership();
-
-    /**
-     * Define o dono do portal
-     * @param ownership
-     */
-    public void setOwnership(ArrayList<Ownership> ownership);
-
-    /**
-     * Retorna as definicoes do jogo do portal/connector
-     * @return as definicoes do jogo do portal/connector
-     */
-    public ArrayList<GameSetting> getGameSettings();
-
-    /**
-     * Define as definicoes do jogo do portal/connector
-     * @param gameSettings
-     */
-    public void setGameSettings(ArrayList<GameSetting> gameSettings);
+    void setEnergy(int energy);
 
     /**
      * Retorna as coordenadas do portal/connector
      * @return as coordenadas do portal/connector
      */
-    public ArrayList<Coordenate> getCoordenates();
+    public Coordinate getCoordinates();
 
     /**
      * Define as coordenadas do portal/connector
-     * @param coordenates
+     * @param coordinates
      */
-    public void setCoordenates(ArrayList<Coordenate> coordenates);
+    public void setCoordinates(Coordinate coordinates);
+
+    /**
+     * Retorna o registo de interacoes do portal/connector
+     * @return o registo de interacoes do portal/connector
+     */
+    List<Interaction> getInteraction();
+
+    /**
+     * Define o registo de interacoes do portal/connector
+     * @param interaction
+     */
+    void setInteraction(List<Interaction> interaction);
 }

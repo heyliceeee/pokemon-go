@@ -17,7 +17,15 @@ public class Ownership implements IOwnership
      */
     private String player;
 
+    @Override
+    public String toString() {
+        return "Ownership{" +
+                "state='" + state + '\'' +
+                ", player='" + player + '\'' +
+                '}';
+    }
 
+    //region getters and setters
     @Override
     public String getState()
     {
@@ -41,4 +49,6 @@ public class Ownership implements IOwnership
     {
         this.player = player;
     }
+
+    //endregion
 }
