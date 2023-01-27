@@ -14,6 +14,9 @@ import java.util.Iterator;
  */
 public class Player implements IPlayer
 {
+
+    private int id;
+
     /**
      * nome do jogador
      */

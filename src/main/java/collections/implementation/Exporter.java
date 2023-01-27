@@ -5,8 +5,8 @@ import collections.exceptions.EmptyCollectionException;
 import collections.interfaces.GraphADT;
 import collections.interfaces.IExporter;
 import collections.interfaces.QueueADT;
-import api.implementation.Place;
-import api.interfaces.IPlace;
+import api.implementation.Local;
+import api.interfaces.ILocal;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -113,15 +113,15 @@ public class Exporter implements IExporter {
         if (!graph.isConnected()) { //If graph is not connected will write all vertex first
             for (int i = 0; i < actualGraph.numVertices - 1; i++) {
                 if (graph instanceof PathNetwork) {
-                    Place place = (Place) actualGraph.vertices[i];
-                    content += "\"" + place.getName() + "\"" + ",";
+                    Local local = (Local) actualGraph.vertices[i];
+                    content += "\"" + local.getName() + "\"" + ",";
                 } else {
                     content += "\"" + actualGraph.vertices[i] + "\"" + ",";
                 }
             }
             if (graph instanceof PathNetwork) {
-                Place place = (Place) actualGraph.vertices[actualGraph.numVertices - 1];
-                content += "\"" + place.getName() + "\"\n";
+                Local local = (Local) actualGraph.vertices[actualGraph.numVertices - 1];
+                content += "\"" + local.getName() + "\"\n";
             } else {
                 content += "\"" + actualGraph.vertices[actualGraph.numVertices - 1] + "\"\n";
             }
@@ -131,9 +131,9 @@ public class Exporter implements IExporter {
             for (int j = i; j < actualGraph.numVertices; j++) {
                 if (actualGraph.adjMatrix[i][j] != 0) {
                     if (graph instanceof PathNetwork) {
-                        Place placeOne = (Place) actualGraph.vertices[i];
-                        Place placeTwo = (Place) actualGraph.vertices[j];
-                        content += "\"" + placeOne.getName() + "\"->" + "\"" + placeTwo.getName() + "\"" +
+                        Local localOne = (Local) actualGraph.vertices[i];
+                        Local localTwo = (Local) actualGraph.vertices[j];
+                        content += "\"" + localOne.getName() + "\"->" + "\"" + localTwo.getName() + "\"" +
                                 "[arrowhead=none][label=" + actualGraph.adjMatrix[i][j] + "]\n";
                     } else if (actualGraph instanceof Network) {
                         content += "\"" + actualGraph.vertices[i].toString() + "\"->" + "\"" + actualGraph.vertices[j].toString() + "\"" +
@@ -166,13 +166,13 @@ public class Exporter implements IExporter {
         //After we have the graph done we will make the path edges
         T first = null;
         T second = null;
-        PathNetwork<IPlace> tmpGraph;
+        PathNetwork<ILocal> tmpGraph;
         while (pathIterator.hasNext()) {
             if (first == null) { //If it's the first entry on loop.
                 first = pathIterator.next();
                 if (graph instanceof PathNetwork) {
-                    Place placeOne = (Place) first;
-                    content += "\"" + placeOne.getName() + "\"[fillcolor=red, style=\"rounded,filled\"]\n";
+                    Local localOne = (Local) first;
+                    content += "\"" + localOne.getName() + "\"[fillcolor=red, style=\"rounded,filled\"]\n";
                 } else {
                     content += "\"" + first.toString() + "\"[fillcolor=red, style=\"rounded,filled\"]\n";
                 }
@@ -181,23 +181,23 @@ public class Exporter implements IExporter {
             }
             if (pathIterator.hasNext()) {
                 second = pathIterator.next();
-                Place placeOne;
-                Place placeTwo;
+                Local localOne;
+                Local localTwo;
                 if (graph instanceof PathNetwork) {
-                    tmpGraph = (PathNetwork<IPlace>) graph;
+                    tmpGraph = (PathNetwork<ILocal>) graph;
                     /*
                     Because of .dot specifications, it's different the edge A->B and B->A, so it's necessary to check
                     what is the correct order of edge written before, and the order it's the small index in the left and the
                     bigger on the right.
                      */
-                    if (tmpGraph.getIndex((IPlace) first) <= tmpGraph.getIndex((IPlace) second)) {
-                        placeOne = (Place) first;
-                        placeTwo = (Place) second;
+                    if (tmpGraph.getIndex((ILocal) first) <= tmpGraph.getIndex((ILocal) second)) {
+                        localOne = (Local) first;
+                        localTwo = (Local) second;
                     } else {
-                        placeOne = (Place) second;
-                        placeTwo = (Place) first;
+                        localOne = (Local) second;
+                        localTwo = (Local) first;
                     }
-                    content += "\"" + placeOne.getName() + "\"->" + "\"" + placeTwo.getName() + "\"" +
+                    content += "\"" + localOne.getName() + "\"->" + "\"" + localTwo.getName() + "\"" +
                             "[arrowhead=none][color=red][penwidth = 3]\n";
                 } else {
                     content += "\"" + first.toString() + "\"->" + "\"" + second.toString() + "\"" +
@@ -232,8 +232,8 @@ public class Exporter implements IExporter {
             if (pathIterator.hasNext()) {
                 count++;
                 second = pathIterator.next();
-                if (first instanceof IPlace) {
-                    content += "\"" + ((IPlace) first).getName() + "\"->" + "\"" + ((IPlace) second).getName() + "\"" +
+                if (first instanceof ILocal) {
+                    content += "\"" + ((ILocal) first).getName() + "\"->" + "\"" + ((ILocal) second).getName() + "\"" +
                             "[label=" + count + "]\n";
                 } else {
                     content += "\"" + first.toString() + "\"->" + "\"" + second.toString() + "\"" +

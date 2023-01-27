@@ -64,8 +64,18 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
+    public void setOwnership(ArrayList<Ownership> ownership) {
+
+    }
+
+    @Override
     public int getEnergyMax() {
         return energyMax;
+    }
+
+    @Override
+    public void setEnergyMax(int energyMax) {
+
     }
 
     @Override
@@ -142,3 +152,13 @@ public class Portal extends Local implements IPortal {
 
 
 }
+
+    @Override
+    public ArrayList<Interaction> getInteraction() {
+        return null;
+    }
+
+    @Override
+    public void setInteraction(ArrayList<Interaction> interaction) {
+
+    }

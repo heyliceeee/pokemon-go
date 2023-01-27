@@ -12,6 +12,10 @@ import java.util.Iterator;
  */
 public interface IPlayer
 {
+
+    int getId();
+
+    void setId(int id);
     /**
      * Retorna o nome do jogador
      * @return o nome do jogador
