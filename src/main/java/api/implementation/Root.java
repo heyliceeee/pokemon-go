@@ -35,7 +35,7 @@ public class Root implements IRoot
 
 
     @Override
-    public boolean addLocal(ILocal local)
+    public String addLocal(ILocal local)
     {
         if(local == null)
         {

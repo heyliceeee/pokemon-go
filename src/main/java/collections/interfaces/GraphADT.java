@@ -12,13 +12,13 @@ public interface GraphADT<T>
      * Adiciona um vértice a este grafo, associando o objeto ao vértice
      * @param vertex o vértice que vai ser adicionado a este grafo
      */
-    public void addVertex(T vertex);
+    public String addVertex(T vertex);
 
     /**
      * Remove um único vértice com o valor dado deste grafo
      * @param vertex o vértice que vai ser removido deste grafo
      */
-    public void removeVertex(T vertex);
+    public String removeVertex(T vertex);
 
     /**
      * Insere uma aresta entre os dois vértices deste grafo
