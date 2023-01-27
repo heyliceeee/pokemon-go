@@ -11,11 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @param <T>
  */
-public class Graph<T> implements GraphADT<T>
-{
+public class Graph<T> implements GraphADT<T> {
     /**
      * capacidade inicial default
      */
@@ -38,30 +36,25 @@ public class Graph<T> implements GraphADT<T>
 
 
     @SuppressWarnings("unchecked")
-    public Graph()
-    {
+    public Graph() {
         this.numVertices = 0;
         this.adjMatrix = new boolean[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
-        this.vertices = (T[])(new Object[DEFAULT_CAPACITY]);
+        this.vertices = (T[]) (new Object[DEFAULT_CAPACITY]);
     }
 
 
     @Override
-    public String addVertex(T vertex)
-    {
-        if (vertex == null)
-        {
+    public String addVertex(T vertex) {
+        if (vertex == null) {
             throw new IllegalArgumentException("Null vertex");
         }
 
-        if (numVertices == vertices.length)
-        {
+        if (numVertices == vertices.length) {
             expandCapacity();
         }
 
         vertices[numVertices] = vertex;
-        for (int i = 0; i <= numVertices; i++)
-        {
+        for (int i = 0; i <= numVertices; i++) {
             adjMatrix[numVertices][i] = false;
             adjMatrix[i][numVertices] = false;
         }
@@ -74,15 +67,12 @@ public class Graph<T> implements GraphADT<T>
      * Expande a capacidade o dobro do tamanho da matriz de adjacência e do array de vértices
      */
     @SuppressWarnings("unchecked")
-    private void expandCapacity()
-    {
-        T[] largerVertices = (T[])(new Object[vertices.length * 2]);
+    private void expandCapacity() {
+        T[] largerVertices = (T[]) (new Object[vertices.length * 2]);
         boolean[][] largerAdjMatrix = new boolean[vertices.length * 2][vertices.length * 2];
 
-        for (int i = 0; i < numVertices; i++)
-        {
-            for (int j = 0; j < numVertices; j++)
-            {
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
                 largerAdjMatrix[i][j] = adjMatrix[i][j];
             }
             largerVertices[i] = vertices[i];
@@ -93,17 +83,13 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public String removeVertex(T vertex)
-    {
-        if (vertex == null)
-        {
+    public String removeVertex(T vertex) {
+        if (vertex == null) {
             throw new IllegalArgumentException("Null vertex");
         }
 
-        for (int i = 0; i < numVertices; i++)
-        {
-            if (vertex.equals(vertices[i]))
-            {
+        for (int i = 0; i < numVertices; i++) {
+            if (vertex.equals(vertices[i])) {
                 removeVertex(i);
                 return "Successful";
             }
@@ -114,31 +100,25 @@ public class Graph<T> implements GraphADT<T>
 
     /**
      * Remove um único vértice com o valor dado do grafo
+     *
      * @param index
      */
-    public void removeVertex(int index)
-    {
-        if (indexIsValid(index))
-        {
+    public void removeVertex(int index) {
+        if (indexIsValid(index)) {
             numVertices--;
 
-            for (int i = index; i < numVertices; i++)
-            {
+            for (int i = index; i < numVertices; i++) {
                 vertices[i] = vertices[i + 1];
             }
 
-            for (int i = index; i < numVertices; i++)
-            {
-                for (int j = 0; j < numVertices; j++)
-                {
+            for (int i = index; i < numVertices; i++) {
+                for (int j = 0; j < numVertices; j++) {
                     adjMatrix[i][j] = adjMatrix[i + 1][j];
                 }
             }
 
-            for (int i = index; i < numVertices; i++)
-            {
-                for (int j = 0; j < numVertices; j++)
-                {
+            for (int i = index; i < numVertices; i++) {
+                for (int j = 0; j < numVertices; j++) {
                     adjMatrix[i][j] = adjMatrix[i][j + 1];
                 }
             }
@@ -147,31 +127,28 @@ public class Graph<T> implements GraphADT<T>
 
     /**
      * Retorna true se verificar que o indice é valido, false caso contrário
+     *
      * @param index a ser verificado
      * @return true se verificar que o indice é valido, false caso contrário
      */
-    private boolean indexIsValid(int index)
-    {
+    private boolean indexIsValid(int index) {
         return ((index < numVertices) && index >= 0);
     }
 
     @Override
-    public void addEdge(T vertex1, T vertex2)
-    {
+    public void addEdge(T vertex1, T vertex2) {
         addEdge(getIndex(vertex1), getIndex(vertex2));
     }
 
     /**
      * Retorna o indice do vértice
+     *
      * @param vertex a ser procurado
      * @return o indice do vértice
      */
-    private int getIndex(T vertex)
-    {
-        for (int i = 0; i < numVertices; i++)
-        {
-            if (vertices[i].equals(vertex))
-            {
+    public int getIndex(T vertex) {
+        for (int i = 0; i < numVertices; i++) {
+            if (vertices[i].equals(vertex)) {
                 return i;
             }
         }
@@ -180,24 +157,21 @@ public class Graph<T> implements GraphADT<T>
 
     /**
      * Retorna "Successful" se conseguir adicionar uma aresta entre os dois vértices deste grafo
+     *
      * @param index1 o indice do primeiro vértice
      * @param index2 o indice do segundo vértice
      * @return "Successful" se conseguir adicionar uma aresta entre os dois vértices deste grafo
      */
-    private String addEdge(int index1, int index2)
-    {
-        if (!indexIsValid(index1))
-        {
+    private String addEdge(int index1, int index2) {
+        if (!indexIsValid(index1)) {
             throw new IllegalArgumentException("First vertex isn't valid");
         }
 
-        if (!indexIsValid(index2))
-        {
+        if (!indexIsValid(index2)) {
             throw new IllegalArgumentException("Second vertex isn't valid");
         }
 
-        if (indexIsValid(index1) && indexIsValid(index2))
-        {
+        if (indexIsValid(index1) && indexIsValid(index2)) {
             adjMatrix[index1][index2] = true;
             adjMatrix[index2][index1] = true;
 
@@ -208,26 +182,21 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public void removeEdge(T vertex1, T vertex2)
-    {
+    public void removeEdge(T vertex1, T vertex2) {
         removeEdge(getIndex(vertex1), getIndex(vertex2));
     }
 
-    public String removeEdge(int index1, int index2)
-    {
-        if (!indexIsValid(index1))
-        {
+    public String removeEdge(int index1, int index2) {
+        if (!indexIsValid(index1)) {
             throw new IllegalArgumentException("First vertex isn't valid");
         }
 
-        if (!indexIsValid(index2))
-        {
+        if (!indexIsValid(index2)) {
             throw new IllegalArgumentException("Second vertex isn't valid");
         }
 
 
-        if (indexIsValid(index1) && indexIsValid(index2))
-        {
+        if (indexIsValid(index1) && indexIsValid(index2)) {
             adjMatrix[index1][index2] = false;
             adjMatrix[index2][index1] = false;
 
@@ -238,55 +207,47 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public Iterator<T> iteratorBFS(T startVertex)
-    {
+    public Iterator<T> iteratorBFS(T startVertex) {
         return iteratorBFS(getIndex(startVertex));
     }
 
     /**
      * Retorna um iterador que executa uma travessia de pesquisa em largura começando no índice fornecido
+     *
      * @param startIndex o índice a partir do qual iniciar a pesquisa
      * @return um iterador que executa uma primeira travessia em largura
      */
-    public Iterator<T> iteratorBFS(int startIndex)
-    {
+    public Iterator<T> iteratorBFS(int startIndex) {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
 
-        if (!indexIsValid(startIndex))
-        {
+        if (!indexIsValid(startIndex)) {
             return resultList.iterator();
         }
 
         boolean[] visited = new boolean[numVertices];
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             visited[i] = false;
         }
 
         traversalQueue.enqueue(startIndex);
         visited[startIndex] = true;
 
-        while (!traversalQueue.isEmpty())
-        {
-            try
-            {
+        while (!traversalQueue.isEmpty()) {
+            try {
                 x = traversalQueue.dequeue();
                 resultList.addToRear(vertices[x]);
 
                 //encontre todos os vértices adjacentes a x que não foram visitados e coloque-os na fila
-                for (int i = 0; i < numVertices; i++)
-                {
-                    if (adjMatrix[x][i] && !visited[i])
-                    {
+                for (int i = 0; i < numVertices; i++) {
+                    if (adjMatrix[x][i] && !visited[i]) {
                         traversalQueue.enqueue(i);
                         visited[i] = true;
                     }
                 }
-            } catch (EmptyCollectionException ex)
-            {
+            } catch (EmptyCollectionException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -295,18 +256,17 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public Iterator<T> iteratorDFS(T startVertex)
-    {
+    public Iterator<T> iteratorDFS(T startVertex) {
         return iteratorDFS(getIndex(startVertex));
     }
 
     /**
      * Retorna um iterador que executa uma travessid de pesquisa em profundidade começando no indice fornecido
+     *
      * @param startIndex o índice a partir do qual iniciar a pesquisa
      * @return um iterador que executa uma travessid de pesquisa em profundidade começando no indice fornecido
      */
-    private Iterator<T> iteratorDFS(int startIndex)
-    {
+    private Iterator<T> iteratorDFS(int startIndex) {
         Integer x;
         boolean found;
         LinkedStack<Integer> traversalStack = new LinkedStack<>();
@@ -314,13 +274,11 @@ public class Graph<T> implements GraphADT<T>
 
         boolean[] visited = new boolean[numVertices];
 
-        if (!indexIsValid(startIndex))
-        {
+        if (!indexIsValid(startIndex)) {
             return resultList.iterator();
         }
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             visited[i] = false;
         }
 
@@ -328,31 +286,21 @@ public class Graph<T> implements GraphADT<T>
         resultList.addToRear(vertices[startIndex]);
         visited[startIndex] = true;
 
-        while (!traversalStack.isEmpty())
-        {
-            try
-            {
-                x = traversalStack.peek();
-                found = false;
+        while (!traversalStack.isEmpty()) {
+            x = traversalStack.peek();
+            found = false;
 
-                //encontre um vértice adjacente a x que não foi visitado e coloque-o na pilha
-                for (int i = 0; (i < numVertices) && !found; i++)
-                {
-                    if (adjMatrix[x][i] && !visited[i])
-                    {
-                        traversalStack.push(i);
-                        resultList.addToRear(vertices[i]);
-                        visited[i] = true;
-                        found = true;
-                    }
+            //encontre um vértice adjacente a x que não foi visitado e coloque-o na pilha
+            for (int i = 0; (i < numVertices) && !found; i++) {
+                if (adjMatrix[x][i] && !visited[i]) {
+                    traversalStack.push(i);
+                    resultList.addToRear(vertices[i]);
+                    visited[i] = true;
+                    found = true;
                 }
-                if (!found && !traversalStack.isEmpty())
-                {
-                    traversalStack.pop();
-                }
-            } catch (NullException ex)
-            {
-                Logger.getLogger(MatrixGraph.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (!found && !traversalStack.isEmpty()) {
+                traversalStack.pop();
             }
         }
 
@@ -360,39 +308,34 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public Iterator<T> iteratorShortestPath(T startVertex, T targetVertex)
-    {
+    public Iterator<T> iteratorShortestPath(T startVertex, T targetVertex) {
         return iteratorShortestPath(getIndex(startVertex), getIndex(targetVertex));
     }
 
     /**
      * Retorna um iterador que contém o caminho mais curto entre os dois vértices
-     * @param startIndex o indice do vértice inicial
+     *
+     * @param startIndex  o indice do vértice inicial
      * @param targetIndex o indice do vértice final
      * @return um iterador que contém o caminho mais curto entre os dois vértices
      */
-    private Iterator<T> iteratorShortestPath(int startIndex, int targetIndex)
-    {
+    private Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) {
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
 
-        if (!indexIsValid(startIndex) || !indexIsValid(targetIndex))
-        {
+        if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)) {
             return resultList.iterator();
         }
 
         Iterator<Integer> it;
 
-        try
-        {
+        try {
             it = iteratorShortestPathIndices(startIndex, targetIndex);
 
-            while (it.hasNext())
-            {
+            while (it.hasNext()) {
                 resultList.addToRear(vertices[it.next()]);
             }
 
-        } catch (EmptyCollectionException | NullException e)
-        {
+        } catch (EmptyCollectionException | NullException e) {
             e.printStackTrace();
         }
 
@@ -402,29 +345,27 @@ public class Graph<T> implements GraphADT<T>
 
     /**
      * Retorna um iterador que contém os índices do caminho mais curto entre dois vértices
-     * @param startIndex o indice do vértice inicial
+     *
+     * @param startIndex  o indice do vértice inicial
      * @param targetIndex o indice do vértice final
      * @return um iterador que contém os índices do caminho mais curto entre dois vértices
      * @throws EmptyCollectionException
      * @throws NullException
      */
-    private Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) throws EmptyCollectionException, NullException
-    {
+    private Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) throws EmptyCollectionException, NullException {
         int index = startIndex;
         int[] pathLength = new int[numVertices];
         int[] predecessor = new int[numVertices];
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<Integer> resultList = new ArrayUnorderedList<>();
 
-        if (!indexIsValid(startIndex) || !indexIsValid(targetIndex) || (startIndex == targetIndex))
-        {
+        if (!indexIsValid(startIndex) || !indexIsValid(targetIndex) || (startIndex == targetIndex)) {
             return resultList.iterator();
         }
 
         boolean[] visited = new boolean[numVertices];
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             visited[i] = false;
         }
 
@@ -433,15 +374,12 @@ public class Graph<T> implements GraphADT<T>
         pathLength[startIndex] = 0;
         predecessor[startIndex] = -1;
 
-        while (!traversalQueue.isEmpty() && (index != targetIndex))
-        {
+        while (!traversalQueue.isEmpty() && (index != targetIndex)) {
             index = (traversalQueue.dequeue());
 
             //Atualiza o pathLength para cada vértice não visitado adjacente ao vértice no índice atual
-            for (int i = 0; i < numVertices; i++)
-            {
-                if (adjMatrix[index][i] && !visited[i])
-                {
+            for (int i = 0; i < numVertices; i++) {
+                if (adjMatrix[index][i] && !visited[i]) {
                     pathLength[i] = pathLength[index] + 1;
                     predecessor[i] = index;
                     traversalQueue.enqueue(i);
@@ -451,8 +389,7 @@ public class Graph<T> implements GraphADT<T>
         }
 
         //nenhum caminho deve ter sido encontrado
-        if (index != targetIndex)
-        {
+        if (index != targetIndex) {
             return resultList.iterator();
         }
 
@@ -460,15 +397,13 @@ public class Graph<T> implements GraphADT<T>
         index = targetIndex;
         stack.push(index);
 
-        do
-        {
+        do {
             index = predecessor[index];
             stack.push(index);
 
         } while (index != startIndex);
 
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             resultList.addToRear(stack.pop());
         }
 
@@ -477,24 +412,20 @@ public class Graph<T> implements GraphADT<T>
 
 
     @Override
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return (this.numVertices == 0);
     }
 
     @Override
-    public boolean isConnected()
-    {
-        if (isEmpty())
-        {
+    public boolean isConnected() {
+        if (isEmpty()) {
             return false;
         }
 
         Iterator<T> it = iteratorBFS(0);
         int count = 0;
 
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             it.next();
             count++;
         }
@@ -503,16 +434,13 @@ public class Graph<T> implements GraphADT<T>
     }
 
     @Override
-    public int size()
-    {
+    public int size() {
         return this.numVertices;
     }
 
     @Override
-    public String toString()
-    {
-        if (numVertices == 0)
-        {
+    public String toString() {
+        if (numVertices == 0) {
             return "Graph is empty";
         }
 
@@ -522,25 +450,20 @@ public class Graph<T> implements GraphADT<T>
         result += "\t\t-----------------------------------------\n";
         result += "\t\tindex\t";
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             result += " " + i;
         }
 
         result += "\n\n";
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             result += "" + i + "\t";
 
-            for (int j = 0; j < numVertices; j++)
-            {
-                if(adjMatrix[i][j])
-                {
+            for (int j = 0; j < numVertices; j++) {
+                if (adjMatrix[i][j]) {
                     result += "1 ";
 
-                } else
-                {
+                } else {
                     result += "0 ";
                 }
             }
@@ -552,8 +475,7 @@ public class Graph<T> implements GraphADT<T>
         result += "\n-------------\n";
         result += "index\tvalue\n\n";
 
-        for (int i = 0; i < numVertices; i++)
-        {
+        for (int i = 0; i < numVertices; i++) {
             result += "" + i + "\t";
             result += vertices[i].toString() + "\n";
         }

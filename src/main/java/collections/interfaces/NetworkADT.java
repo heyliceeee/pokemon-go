@@ -2,6 +2,7 @@ package collections.interfaces;
 
 import collections.exceptions.EmptyCollectionException;
 import collections.exceptions.UnknownPathException;
+import collections.implementation.ArrayUnorderedList;
 
 /**
  * Define a interface da rede
