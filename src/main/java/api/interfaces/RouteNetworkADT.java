@@ -1,8 +1,10 @@
-package collections.interfaces;
+package api.interfaces;
 
 import api.interfaces.IConnector;
+import api.interfaces.ILocal;
 import api.interfaces.IPortal;
 import api.interfaces.IRoute;
+import collections.interfaces.NetworkADT;
 
 import java.util.Iterator;
 
@@ -36,6 +38,9 @@ public interface RouteNetworkADT<T> extends NetworkADT<T>
      */
     Iterator<IConnector> getConnectors();
 
-
-    Iterator<IRoute>
+    /**
+     * Retorna as routes existentes no grafo
+     * @return iterador com as rotas
+     */
+    Iterator<IRoute<ILocal>> getRoutes();
 }

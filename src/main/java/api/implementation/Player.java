@@ -1,5 +1,6 @@
 package api.implementation;
 
+import api.interfaces.ICoordinate;
 import api.interfaces.IPlayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -48,15 +49,27 @@ public class Player implements IPlayer
     /**
      * coordenadas do jogador
      */
-    private Coordinate coordinates;
+    private ICoordinate coordinates;
 
     /**
      * total de portais conquistados pelo jogador
      */
     private int conqueredPortals;
 
+    public Player(String name, String team, int level, int xp, int energy, int energyMax, int conqueredPortals, ICoordinate coordinates)
+    {
+        this.name = name;
+        this.team = team;
+        this.level = level;
+        this.xp = xp;
+        this.energy = energy;
+        this.energyMax = energyMax;
+        this.conqueredPortals = conqueredPortals;
+        this.coordinates = coordinates;
+    }
 
-     /* @Override
+
+    /* @Override
     public void addConqueredPortals(String[] portals) {
         if (portals == null || portals.length == 0) {
             throw new IllegalArgumentException("List of markets cannot be null or empty!");
@@ -182,7 +195,7 @@ public class Player implements IPlayer
     @Override
     public Coordinate getCoordinates()
     {
-        return coordinates;
+        return (Coordinate) coordinates;
     }
 
     @Override

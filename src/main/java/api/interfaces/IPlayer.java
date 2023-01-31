@@ -109,6 +109,7 @@ public interface IPlayer
      */
     void setConqueredPortals(int conqueredPortals);
 
+
     /**
      * Define o numero de portais conquistados pelo jogador
      */

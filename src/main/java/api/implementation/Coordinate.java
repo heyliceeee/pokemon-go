@@ -18,6 +18,12 @@ public class Coordinate implements ICoordinate
     private double latitude;
 
 
+    public Coordinate(double longitude, double latitude)
+    {
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     @Override
     public String toString() {
         return "Coordinate{" +

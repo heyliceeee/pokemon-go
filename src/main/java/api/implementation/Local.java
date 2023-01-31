@@ -1,5 +1,7 @@
 package api.implementation;
 
+import api.interfaces.ICoordinate;
+import api.interfaces.IIteraction;
 import api.interfaces.ILocal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -43,7 +45,7 @@ public class Local implements ILocal
     /**
      * coordenadas do portal/connector
      */
-    private Coordinate coordinates;
+    private ICoordinate coordinates;
 
     /**
      * registo de interacoes do portal/connector
@@ -51,12 +53,19 @@ public class Local implements ILocal
     private List<Interaction> interaction;
 
 
-    public Local(int id, String type, int energy, Coordinate coordinates, List<Interaction> interaction) {
+    public Local(int id, String type, int energy, ICoordinate coordinates, List<Interaction> interaction)
+    {
         this.id = id;
         this.type = type;
         this.energy = energy;
         this.coordinates = coordinates;
         this.interaction = interaction;
+    }
+
+    @Override
+    public String addIteraction(IIteraction iteraction)
+    {
+        return null;
     }
 
     @Override
@@ -109,7 +118,7 @@ public class Local implements ILocal
     @Override
     public Coordinate getCoordinates()
     {
-        return coordinates;
+        return (Coordinate) coordinates;
     }
 
     @Override

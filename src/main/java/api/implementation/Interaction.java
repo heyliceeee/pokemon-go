@@ -35,6 +35,15 @@ public class Interaction implements IIteraction
     public int speedXP;
 
 
+    public Interaction(String type, String player, Date date, int points, int speedXP)
+    {
+        this.type = type;
+        this.player = player;
+        this.date = date;
+        this.points = points;
+        this.speedXP = speedXP;
+    }
+
     @Override
     public String toString() {
         return "Interaction{" +

@@ -70,4 +70,11 @@ public interface ILocal
      * @param interaction
      */
     void setInteraction(List<Interaction> interaction);
+
+    /**
+     * Retorna "Successful" se conseguir adicionar a interação ao local
+     * @param iteraction
+     * @return "Successful" se conseguir adicionar a interação
+     */
+    String addIteraction(IIteraction iteraction);
 }

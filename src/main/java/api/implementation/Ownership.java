@@ -17,6 +17,13 @@ public class Ownership implements IOwnership
      */
     private String player;
 
+
+    public Ownership(String state, String player)
+    {
+        this.state = state;
+        this.player = player;
+    }
+
     @Override
     public String toString() {
         return "Ownership{" +

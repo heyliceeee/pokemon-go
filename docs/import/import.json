@@ -27,8 +27,8 @@
     {
       "id": 5212,
       "type": "Connector",
-      "energy": "200",
-      "cooldown": "5",
+      "energy": 200,
+      "cooldown": 5,
       "coordinates": {
         "longitude": 40.7697989,
         "latitude": -73.9723702
@@ -70,8 +70,8 @@
     {
       "id": 1303,
       "type": "Connector",
-      "energy": "400",
-      "cooldown": "5",
+      "energy": 400,
+      "cooldown": 5,
       "coordinates": {
         "longitude": 41.341155,
         "latitude": -8.473272
@@ -90,7 +90,8 @@
   "routes": [
     {
       "from": 2601,
-      "to": 1303
+      "to": 1303,
+      "distance": 0
     }
   ],
   "players": [

@@ -1,5 +1,8 @@
 package api.implementation;
 
+import api.interfaces.ICoordinate;
+import api.interfaces.IIteraction;
+import api.interfaces.IOwnership;
 import api.interfaces.IPortal;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.json.simple.JSONObject;
@@ -23,15 +26,24 @@ public class Portal extends Local implements IPortal {
     /**
      * dono do portal
      */
-    private Ownership ownership;
+    private IOwnership ownership;
+
+    private ICoordinate coordinates;
 
 
-    public Portal(int id, String type, String name, int energy, int energyMax, Ownership ownership, Coordinate coordinate, List<Interaction> interactions)
+    public Portal(int id, String type, int energy, String name, int energyMax, Ownership ownership, ICoordinate coordinates)
     {
-        super(id, type, energy, coordinate, interactions);
+        super(id, type, energy, ownership, coordinates, iteractions);
         this.name = name;
         this.energyMax = energyMax;
         this.ownership = ownership;
+        this.coordinates = coordinates;
+    }
+
+    @Override
+    public String addIteraction(IIteraction iteraction)
+    {
+        return null;
     }
 
     @Override
@@ -62,7 +74,7 @@ public class Portal extends Local implements IPortal {
     @Override
     public Ownership getOwnership()
     {
-        return ownership;
+        return (Ownership) ownership;
     }
 
     @Override

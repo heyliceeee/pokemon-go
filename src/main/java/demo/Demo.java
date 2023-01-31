@@ -1,19 +1,26 @@
 package demo;
 
+import api.implementation.ImporterExporterJson;
+import api.implementation.Local;
+import api.implementation.Root;
 import api.implementation.Route;
+import api.interfaces.ILocal;
+import api.interfaces.IRoot;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Demo {
     static String value = "Hello World!";
-    static Route route = new Route();
+    static ImporterExporterJson iEJson = new ImporterExporterJson();
+    static IRoot root = new Root();
 
 
     /**
      * Mostra o menu inicial
      */
-    public static void showMainMenu() throws IOException {
+    public static void showMainMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -24,7 +31,7 @@ public class Demo {
             System.out.println("|                 MENU                 |");
             System.out.println("+--------------------------------------+");
             System.out.println(
-                    "| 01. Game                             |\n" +
+                            "| 01. Game                             |\n" +
                             "| 02. API                              |\n" +
                             "| 99. Exit                             |"
             );
@@ -57,13 +64,133 @@ public class Demo {
         }
     }
 
-    private static void showGameMenu() {
+    private static void showGameMenu() throws IOException, ParseException {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        int option=0;
+        String name = "";
+
+        while (!exit)
+        {
+            System.out.println("\n");
+            System.out.println("+--------------------------------------+");
+            System.out.println("|                 GAME                 |");
+            System.out.println("+--------------------------------------+");
+            System.out.println(
+                            "| 01. Start the game                   |\n" +
+                            "| 99. Back to previous menu            |"
+            );
+            System.out.println("+--------------------------------------+\n\n");
+
+            System.out.println("select an option: ");
+            option = scanner.nextInt();
+
+            switch (option)
+            {
+                case 1:
+                    System.out.println("\n");
+                    System.out.println("+--------------------------------------+");
+                    System.out.println("|                 GAME                 |");
+                    System.out.println("+--------------------------------------+");
+                    System.out.println(
+                                    "| Enter your name:                     |"
+                    );
+                    System.out.println("+--------------------------------------+\n\n");
+
+                    scanner.nextLine();
+                    name = scanner.nextLine();
+
+                    iEJson.importFromJSONFile(root, "docs/import/import.json");//importar ficheiro JSON os jogadores
+
+                    //verificar se escreveu um nome ou pretende sair do jogo
+                    if(root.getPlayerByName(name) != null) //se existe o jogador
+                    {
+                        runGameFirst(name); //corre o jogo como se fosse a 1ªvez
+                    }
+                    else
+                    {
+                        System.out.println("this player doesn´t exists.");
+
+                        exit = true;
+                        break;
+                    }
+                break;
+
+                case 99:
+                    exit = true;
+                    break;
+
+                default:
+                    System.out.println("invalid option, selected option 1 or 99 to exit.");
+                    break;
+            }
+        }
+    }
+
+    private static void runGameFirst(String name)
+    {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        int option = 0;
+
+        System.out.println("\n");
+        System.out.println("+--------------------------------------+");
+        System.out.println("| \tWELCOME BACK"+name+ "\t |");
+        System.out.println("+--------------------------------------+");
+        System.out.println(
+                        "| 01. Portal                           |\n" +
+                        "| 02. Connector                        |\n" +
+                        "| 99. Back to previous menu            |"
+        );
+        System.out.println("+--------------------------------------+\n\n");
+
+        System.out.println("select a location type where you want to start: ");
+        option = scanner.nextInt();
+
+        /**
+         * Depois de selecionar a opcao do menu, faz o que pretende
+         */
+        switch (option) {
+            case 1:
+                //retorna um portal(ponto A) random
+
+                //mostrar interações do portal
+
+                //após determinado comportamento, pergunta onde quer ir (runGameSecond)
+                //portal -> portal(ponto B) (mais proximo)
+                //portal -> connector(ponto B) (mais proximo)
+                //portal -> connector sem cooldown (mais proximo) -> portal(ponto B) (mais proximo) (portal mas com necessidade de passar um local para recarregar)
+                //portal -> connector sem cooldown (mais proximo) -> connector(ponto B) (mais proximo) (connector mas com necessidade de passar um local para recarregar)
+                //portal -> portal (mais proximo) -> portal(ponto B) (mais proximo) (passa apenas por portals)
+                break;
+
+            case 2:
+                //retorna um connector(ponto A) random
+
+                //mostrar interações do connector
+
+                //após determinado comportamento, pergunta onde quer ir (runGameSecond)
+                //connector -> connector(ponto B) (mais proximo)
+                //connector -> portal(ponto B) (mais proximo)
+                //connector -> connector sem cooldown (mais proximo) -> connector(ponto B) (mais proximo) (connector mas com necessidade de passar um local para recarregar)
+                //connector -> connector sem cooldown (mais proximo) -> portal(ponto B) (mais proximo) (portal mas com necessidade de passar um local para recarregar)
+                //connector -> connector (mais proximo) -> connector(ponto B) (mais proximo) (passa apenas por connectors)
+                break;
+
+            case 99:
+                exit = true;
+                break;
+
+            default:
+                System.out.println("invalid option, selected option between 1 and 2 or 99 to exit.");
+                break;
+        }
     }
 
     /**
      * Mostra o menu acerca da API
      */
-    public static void showAPIMenu() throws IOException {
+    public static void showAPIMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -74,13 +201,11 @@ public class Demo {
             System.out.println("|               API MENU               |");
             System.out.println("+--------------------------------------+");
             System.out.println(
-                    "| 01. Import JSON file                 |\n" +
-                            "| 02. Portals management               |\n" +
-                            "| 03. Connectors management            |\n" +
-                            "| 04. Routes management                |\n" +
-                            "| 05. Players management               |\n" +
-                            "| 06. Game management                  |\n" +
-                            "| 07. Export JSON file                 |\n" +
+                            "| 01. Portals management               |\n" +
+                            "| 02. Connectors management            |\n" +
+                            "| 03. Routes management                |\n" +
+                            "| 04. Players management               |\n" +
+                            "| 05. Game management                  |\n" +
                             "| 99. Back to previous menu            |"
             );
             System.out.println("+--------------------------------------+\n\n");
@@ -93,31 +218,23 @@ public class Demo {
              */
             switch (option) {
                 case 1:
-                    System.out.println("selected option 1");
-                    break;
-
-                case 2:
                     showPortalsManagementMenu();
                     break;
 
-                case 3:
+                case 2:
                     showConnectorsManagementMenu();
                     break;
 
-                case 4:
+                case 3:
                     showRoutesManagementMenu();
                     break;
 
-                case 5:
+                case 4:
                     showPlayersManagementMenu();
                     break;
 
-                case 6:
+                case 5:
                     showGameManagementMenu();
-                    break;
-
-                case 7:
-                    System.out.println("selected option 7");
                     break;
 
                 case 99:
@@ -125,7 +242,7 @@ public class Demo {
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option between 1 and 7 or 99 to exit.");
+                    System.out.println("invalid option, selected option between 1 and 5 or 99 to exit.");
                     break;
             }
         }
@@ -257,7 +374,7 @@ public class Demo {
     /**
      * Mostra o menu acerca da gestao das rotas
      */
-    private static void showRoutesManagementMenu() throws IOException {
+    private static void showRoutesManagementMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -290,7 +407,7 @@ public class Demo {
                     break;
 
                 case 3:
-                    route.importRoutesFromJSONFile();
+                    iEJson.importFromJSONFile(root, "docs/import/import.json");
                     break;
 
                 case 4:
@@ -440,7 +557,7 @@ public class Demo {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         showMainMenu();
     }
 
