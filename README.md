@@ -1,0 +1,4 @@
+# TRABALHO PRÁTICO - ESTRUTURA DE DADOS
+- ELEMENTOS:
+  - Maria Dias nº 8200118 (LEI)
+  - Vânia Oliveira nº 8200829 (LSIRC)
