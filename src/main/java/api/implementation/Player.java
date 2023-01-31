@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 
 /**
@@ -50,12 +51,53 @@ public class Player implements IPlayer
     /**
      * coordenadas do jogador
      */
-    private ArrayList<Coordinate> coordinates;
+    private Coordinate coordinates;
 
     /**
      * total de portais conquistados pelo jogador
      */
+    private int conqueredPortals;
 
+
+     /* @Override
+    public void addConqueredPortals(String[] portals) {
+        if (portals == null || portals.length == 0) {
+            throw new IllegalArgumentException("List of markets cannot be null or empty!");
+        }
+        for (String portal : portals) {
+            try {
+                this.addPortal(portal);
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
+            }
+        }
+    }*/
+
+     /*@Override
+    public void addPortal(String portalName) {
+        if (portalName == null || portalName.equals(""))
+        {
+            throw new IllegalArgumentException("Name of market cannot be null or empty!");
+        }
+
+        this.conqueredPortals.addToRear(portalName);
+    }*/
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name=" + name +
+                ", team=" + team +
+                ", level=" + level +
+                ", xp=" + xp +
+                ", energy=" + energy +
+                ", energyMax=" + energyMax +
+                ", coordinates=" + coordinates +
+                ", conqueredPortals=" + conqueredPortals +
+                '}';
+    }
+
+    //region getters and setters
     @Override
     public String getName()
     {
@@ -70,7 +112,6 @@ public class Player implements IPlayer
         }
         this.name = name;
     }
-
 
     @Override
     public String getTeam()
@@ -142,105 +183,27 @@ public class Player implements IPlayer
     }
 
     @Override
-    public ArrayList<Coordinate> getcoordinates() {
+    public Coordinate getCoordinates()
+    {
         return coordinates;
     }
 
     @Override
-    public void setcoordinates(ArrayList<Coordinate> coordinates) {
+    public void setCoordinates(Coordinate coordinates)
+    {
         this.coordinates = coordinates;
     }
 
     @Override
-    public Iterator<String> getConqueredPortals() {
-        return conqueredPortals.iterator();
+    public int getConqueredPortals() {
+        return conqueredPortals = conqueredPortals;
     }
 
     @Override
-    public void addConqueredPortals(String[] portals) {
-        if (portals == null || portals.length == 0) {
-            throw new IllegalArgumentException("List of markets cannot be null or empty!");
-        }
-        for (String portal : portals) {
-            try {
-                this.addPortal(portal);
-            } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
-            }
-        }
+    public void setConqueredPortals(int conqueredPortals)
+    {
+        this.conqueredPortals = conqueredPortals;
     }
 
-    @Override
-    public void addPortal(String portalName) {
-        if (portalName == null || portalName.equals("")) {
-            throw new IllegalArgumentException("Name of market cannot be null or empty!");
-        }
-        this.conqueredPortals.addToRear(portalName);
-    }
-
-    @Override
-    public void clearPortalList() {
-
-    }
-
-    @Override
-    public int numberOfPortals() {
-        return 0;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public JSONObject playerToJsonObject() {
-        JSONObject root = new JSONObject();
-        root.put("Name", this.name);
-        root.put("Team", this.team);
-        root.put("Level", this.level);
-        root.put("Xp", this.xp);
-        root.put("Energy", this.energy);
-        root.put("EnergyMax", this.energyMax);
-        root.put("Coordinates", this.coordinates);
-        if (this.conqueredPortals.isEmpty()) {
-            root.put("ConqueredPortals", "0");
-        } else {
-            JSONArray team = new JSONArray();
-            Iterator<String> iterator = this.geConqueredPortals();
-            while (iterator.hasNext()) {
-                team.add(iterator.next());
-            }
-            root.put("ConqueredPortals", conqueredPortals);
-        }
-        return root;
-    }
-
-    @Override
-    public void exportPlayerToJson() throws IOException {
-        ExporterJson.exportJSON(playerToJsonObject().toJSONString(), "Player_" + this.name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof IPlayer)) {
-            return false;
-        }
-        IPlayer tmp = (IPlayer) o;
-        return this.name == tmp.getName();
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name=" + name +
-                ", team=" + team +
-                ", level=" + level +
-                ", xp=" + xp +
-                ", energy=" + energy +
-                ", energyMax=" + energyMax +
-                ", coordinates=" + coordinates +
-                ", conqueredPortals=" + conqueredPortals +
-                '}';
-    }
+    //endregion
 }

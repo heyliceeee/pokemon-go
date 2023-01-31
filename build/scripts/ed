@@ -201,7 +201,7 @@ fi
 
 set -- \
         -classpath "$CLASSPATH" \
-        org.example.Main \
+        demo.Demo \
         "$@"
 
 # Stop when "xargs" is not available.

@@ -71,7 +71,7 @@ set CLASSPATH=%APP_HOME%\lib\ed-1.0-SNAPSHOT.jar
 
 
 @rem Execute ed
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ED_OPTS%  -classpath "%CLASSPATH%" org.example.Main %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ED_OPTS%  -classpath "%CLASSPATH%" demo.Demo %*
 
 :end
 @rem End local scope for the variables with windows NT shell

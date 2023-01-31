@@ -1,8 +1,10 @@
 package api.interfaces;
 
+import api.implementation.*;
 import api.implementation.Coordinate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface do portal/connector
@@ -33,28 +35,39 @@ public interface ILocal
      */
     void setType(String type);
 
+    /**
+     * Retorna a energia atual do portal/connector
+     * @return a energia atual do portal/connector
+     */
+    int getEnergy();
+
+    /**
+     * Define a energia atual do portal/connector
+     * @param energy
+     */
+    void setEnergy(int energy);
 
     /**
      * Retorna as coordenadas do portal/connector
      * @return as coordenadas do portal/connector
      */
-    public ArrayList<Coordinate> getcoordinates();
+    public Coordinate getCoordinates();
 
     /**
      * Define as coordenadas do portal/connector
      * @param coordinates
      */
-    public void setcoordinates(ArrayList<Coordinate> coordinates);
+    public void setCoordinates(Coordinate coordinates);
 
     /**
      * Retorna o registo de interacoes do portal/connector
      * @return o registo de interacoes do portal/connector
      */
-    ArrayList<Interaction> getInteraction();
+    List<Interaction> getInteraction();
 
     /**
      * Define o registo de interacoes do portal/connector
      * @param interaction
      */
-    void setInteraction(ArrayList<Interaction> interaction);
+    void setInteraction(List<Interaction> interaction);
 }
