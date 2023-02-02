@@ -20,7 +20,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T>
     /**
      * matriz adjacência
      */
-    private double[][] adjMatrix;
+    protected double[][] adjMatrix;
 
 
     /**
@@ -115,5 +115,28 @@ public class Network<T> extends Graph<T> implements NetworkADT<T>
         }
 
         throw new UnknownPathException("Path doesn't exist");
+    }
+
+    /**
+     * Retorna o indice do node com uma distancia pequena
+     * @param shortestDistances lista atual de distancias do ponto de partida
+     * @param visited lista que tem a informação sobre um node se foi visitado ou não
+     * @return indice do node com distancia pequena
+     */
+    protected int getSmallDistanceNode(double[] shortestDistances, boolean[] visited)
+    {
+        int index = -1;
+        double shortestDistance = Double.MAX_VALUE;
+
+        for(int vertexIndex = 0; vertexIndex < super.numVertices; vertexIndex++)
+        {
+            if(!visited[vertexIndex] && shortestDistances[vertexIndex] < shortestDistance) //pega o node próximo
+            {
+                index = vertexIndex;
+                shortestDistance = shortestDistances[vertexIndex];
+            }
+        }
+
+        return index;
     }
 }

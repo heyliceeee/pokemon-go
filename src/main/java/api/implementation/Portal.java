@@ -1,14 +1,9 @@
 package api.implementation;
 
-import api.interfaces.ICoordinate;
-import api.interfaces.IIteraction;
-import api.interfaces.IOwnership;
-import api.interfaces.IPortal;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import org.json.simple.JSONObject;
+import api.interfaces.*;
+import collections.implementation.ArrayUnorderedList;
+import collections.interfaces.UnorderedListADT;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Portal extends Local implements IPortal {
@@ -30,10 +25,15 @@ public class Portal extends Local implements IPortal {
 
     private ICoordinate coordinates;
 
+    /**
+     * Lista de interactions associados ao portal
+     */
+    public UnorderedListADT<IInteraction> interactions = new ArrayUnorderedList<>();
 
-    public Portal(int id, String type, int energy, String name, int energyMax, Ownership ownership, ICoordinate coordinates)
+
+    public Portal(int id, String type, int energy, String name, int energyMax, IOwnership ownership, ICoordinate coordinates)
     {
-        super(id, type, energy, ownership, coordinates, iteractions);
+        super(id, type, energy, coordinates);
         this.name = name;
         this.energyMax = energyMax;
         this.ownership = ownership;
@@ -41,17 +41,32 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
-    public String addIteraction(IIteraction iteraction)
+    public String addInteraction(IInteraction interaction)
     {
-        return null;
+        if(interaction == null)
+        {
+            throw new IllegalArgumentException("interaction cannot be null");
+        }
+
+        String s = "Failed";
+
+        if(this.interactions.isEmpty() || !this.interactions.contains(interaction)) //se a lista de interaction estiver vazia ou não conter o interaction a ser adicionado, adiciona-o á lista
+        {
+            this.interactions.addToRear(interaction); //adiciona o interaction no fim da lista
+            s = "Successful";
+        }
+
+        return s;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Portal{" +
                 "name='" + name + '\'' +
                 ", energyMax=" + energyMax +
                 ", ownership=" + ownership +
+                ", coordinates=" + coordinates +
                 ", " + super.toString() +
                 '}';
     }
@@ -86,6 +101,32 @@ public class Portal extends Local implements IPortal {
     public void setEnergyMax(int energyMax)
     {
         this.energyMax = energyMax;
+    }
+
+    @Override
+    public void setInteractionType(int id, String type)
+    {
+
+    }
+
+    @Override
+    public void setInteractionPlayer(int id, String playerName) {
+
+    }
+
+    @Override
+    public void setInteractionDate(int id, String date) {
+
+    }
+
+    @Override
+    public void setInteractionPoints(int id, int points) {
+
+    }
+
+    @Override
+    public void setInteractionSpeedXP(int id, int speedXP) {
+
     }
 
     /*public void setCapacity(int energyMax) {

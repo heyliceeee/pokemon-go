@@ -1,12 +1,22 @@
 package api.interfaces;
 
-import java.util.Date;
-
 /**
  * Interface da Interacao
  */
-public interface IIteraction
+public interface IInteraction
 {
+    /**
+     * Retorna identificador único da interação
+     * @return identificador único da interação
+     */
+    int getID();
+
+    /**
+     * Define identificador único da interação
+     * @param id
+     */
+    void setID(int id);
+
     /**
      * Retorna o tipo de interacao do portal/connector
      * @return o tipo de interacao do portal/connector
@@ -35,13 +45,13 @@ public interface IIteraction
      * Retorna a data da interacao com o portal/connector
      * @return a data da interacao com o portal/connector
      */
-    Date getDate();
+    String getDate();
 
     /**
      * Define a data da interacao com o portal/connector
      * @param date
      */
-    void setDate(Date date);
+    void setDate(String date);
 
     /**
      * Retorna os pontos de uma interacao com o portal/connector

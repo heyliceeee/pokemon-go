@@ -1,13 +1,14 @@
 package api.implementation;
 
 import api.interfaces.ICoordinate;
-import api.interfaces.IIteraction;
+import api.interfaces.IInteraction;
 import api.interfaces.ILocal;
+import collections.implementation.ArrayUnorderedList;
+import collections.interfaces.UnorderedListADT;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,19 +54,12 @@ public class Local implements ILocal
     private List<Interaction> interaction;
 
 
-    public Local(int id, String type, int energy, ICoordinate coordinates, List<Interaction> interaction)
+    public Local(int id, String type, int energy, ICoordinate coordinates)
     {
         this.id = id;
         this.type = type;
         this.energy = energy;
         this.coordinates = coordinates;
-        this.interaction = interaction;
-    }
-
-    @Override
-    public String addIteraction(IIteraction iteraction)
-    {
-        return null;
     }
 
     @Override
@@ -125,18 +119,6 @@ public class Local implements ILocal
     public void setCoordinates(Coordinate coordinates)
     {
         this.coordinates = coordinates;
-    }
-
-    @Override
-    public List<Interaction> getInteraction()
-    {
-        return interaction;
-    }
-
-    @Override
-    public void setInteraction(List<Interaction> interaction)
-    {
-        this.interaction = interaction;
     }
 
     //endregion

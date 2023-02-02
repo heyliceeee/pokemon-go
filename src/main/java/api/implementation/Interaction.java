@@ -1,14 +1,17 @@
 package api.implementation;
 
-import api.interfaces.IIteraction;
-
-import java.util.Date;
+import api.interfaces.IInteraction;
 
 /**
  * Representacao da classe de uma interacao com um portal/connector
  */
-public class Interaction implements IIteraction
+public class Interaction implements IInteraction
 {
+    /**
+     * identificador único da interação
+     */
+    private int id;
+
     /**
      * tipo de interacao com o portal/connector
      */
@@ -22,7 +25,7 @@ public class Interaction implements IIteraction
     /**
      * data da interacao com o portal/connector
      */
-    private Date date;
+    private String date;
 
     /**
      * pontos de uma interacao com o portal/connector
@@ -35,8 +38,9 @@ public class Interaction implements IIteraction
     public int speedXP;
 
 
-    public Interaction(String type, String player, Date date, int points, int speedXP)
+    public Interaction(int id, String type, String player, String date, int points, int speedXP)
     {
+        this.id = id;
         this.type = type;
         this.player = player;
         this.date = date;
@@ -55,7 +59,21 @@ public class Interaction implements IIteraction
                 '}';
     }
 
+
     //region getters and setters
+
+    @Override
+    public int getID()
+    {
+        return id;
+    }
+
+    @Override
+    public void setID(int id)
+    {
+        this.id = id;
+    }
+
     @Override
     public String getType()
     {
@@ -81,13 +99,13 @@ public class Interaction implements IIteraction
     }
 
     @Override
-    public Date getDate()
+    public String getDate()
     {
         return date;
     }
 
     @Override
-    public void setDate(Date date)
+    public void setDate(String date)
     {
         this.date = date;
     }

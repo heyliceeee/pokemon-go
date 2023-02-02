@@ -16,9 +16,10 @@
       },
       "interaction": [
         {
+          "id": 1,
           "type": "Conquista portal",
           "player": "LoboMau",
-          "date": "2023-01-24T22:30:32.043Z",
+          "date": "2023-01-24T22:30:32",
           "points": 1000,
           "speedXP": 2
         }
@@ -35,9 +36,10 @@
       },
       "interaction": [
         {
+          "id": 2,
           "type": "Reforço de energia de connector",
           "player": "LoboMau",
-          "date": "2023-01-24T22:30:32.043Z",
+          "date": "2023-01-24T22:50:32",
           "points": 500,
           "speedXP": 2
         }
@@ -59,9 +61,10 @@
       },
       "interaction": [
         {
+          "id": 3,
           "type": "Conquista portal",
           "player": "CapuzinhoVermelho",
-          "date": "2023-01-24T22:30:32.043Z",
+          "date": "2023-01-26T12:30:32",
           "points": 500,
           "speedXP": 2
         }
@@ -78,9 +81,10 @@
       },
       "interaction": [
         {
+          "id": 4,
           "type": "Reforço de energia de connector",
           "player": "CapuzinhoVermelho",
-          "date": "2023-01-24T22:30:32.043Z",
+          "date": "2023-01-24T14:25:32",
           "points": 1000,
           "speedXP": 2
         }
@@ -89,9 +93,34 @@
   ],
   "routes": [
     {
+      "from": 1414,
+      "to": 2601,
+      "distance": 10
+    },
+    {
+      "from": 1414,
+      "to": 1303,
+      "distance": 2
+    },
+    {
+      "from": 1414,
+      "to": 5212,
+      "distance": 8
+    },
+    {
       "from": 2601,
       "to": 1303,
-      "distance": 0
+      "distance": 1
+    },
+    {
+      "from": 2601,
+      "to": 5212,
+      "distance": 6
+    },
+    {
+      "from": 1303,
+      "to": 5212,
+      "distance": 5
     }
   ],
   "players": [

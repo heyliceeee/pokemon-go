@@ -10,7 +10,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Date;
 
 public class ImporterExporterJson
 {
@@ -22,7 +21,7 @@ public class ImporterExporterJson
      * @throws IOException
      * @throws ParseException
      */
-    public String importFromJSONFile(IRoot root, String fileName) throws IOException, ParseException
+    public String importFromJSONFile(IRoot root, ILocal local2, String fileName) throws IOException, ParseException
     {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(fileName);
@@ -45,30 +44,6 @@ public class ImporterExporterJson
 
                 ICoordinate coordinates1 = new Coordinate(longitudeCoordinate, latitudeCoordinate);
 
-                JSONArray interactionsArray = (JSONArray) local.get("interaction");
-                try
-                {
-                    for(int j=0; j < interactionsArray.size(); j++)
-                    {
-                        JSONObject interaction = (JSONObject) interactionsArray.get(j);
-
-                        String typeInteraction = (String) interaction.get("type");
-                        String playerInteraction = (String) interaction.get("player");
-                        Date dateInteraction = (Date) interaction.get("date");
-                        long pointsInteraction = (long) interaction.get("points");
-                        long speedXPInteraction = (long) interaction.get("speedXP");
-
-                        IIteraction iteraction = new Interaction(typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction, (int)speedXPInteraction);
-
-                        //adicionar a interação ao local
-                        
-                    }
-
-                } catch (Exception e)
-                {
-                    System.out.println("ERROR: "+e.getMessage());
-                }
-
                 if(type.equals("Portal"))
                 {
                     String name = (String) local.get("name");
@@ -80,12 +55,66 @@ public class ImporterExporterJson
 
                     IOwnership ownership1 = new Ownership(stateOwnership, playerOwnership);
 
-                    IPortal portal = new Portal((int)id, type, name, (int)energy, (int)energyMax, ownership1, );
+                    IPortal portal = new Portal((int)id, type, (int)energy, name, (int)energyMax, ownership1, coordinates1);
+
+                    JSONArray interactionsArray = (JSONArray) local.get("interaction");
+                    try
+                    {
+                        for(int j=0; j < interactionsArray.size(); j++)
+                        {
+                            JSONObject interaction = (JSONObject) interactionsArray.get(j);
+
+                            long idInteraction = (long) interaction.get("id");
+                            String typeInteraction = (String) interaction.get("type");
+                            String playerInteraction = (String) interaction.get("player");
+                            String dateInteraction = (String) interaction.get("date");
+                            long pointsInteraction = (long) interaction.get("points");
+                            long speedXPInteraction = (long) interaction.get("speedXP");
+
+                            IInteraction iteraction = new Interaction((int)id, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction, (int)speedXPInteraction);
+
+                            //adicionar a interação ao local
+                            portal.addInteraction(iteraction);
+                        }
+
+                    } catch (Exception e)
+                    {
+                        System.out.println("ERROR: "+e.getMessage());
+                    }
+
                     root.addLocal(portal);
                 }
                 else if(type.equals("Connector"))
                 {
                     long cooldown = (long) local.get("cooldown");
+
+                    IConnector connector = new Connector((int)id, type, (int)energy, (int)cooldown, coordinates1);
+
+                    JSONArray interactionsArray = (JSONArray) local.get("interaction");
+                    try
+                    {
+                        for(int j=0; j < interactionsArray.size(); j++)
+                        {
+                            JSONObject interaction = (JSONObject) interactionsArray.get(j);
+
+                            long idInteraction = (long) interaction.get("id");
+                            String typeInteraction = (String) interaction.get("type");
+                            String playerInteraction = (String) interaction.get("player");
+                            String dateInteraction = (String) interaction.get("date");
+                            long pointsInteraction = (long) interaction.get("points");
+                            long speedXPInteraction = (long) interaction.get("speedXP");
+
+                            IInteraction iteraction = new Interaction((int)id, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction, (int)speedXPInteraction);
+
+                            //adicionar a interação ao local
+                            connector.addInteraction(iteraction);
+                        }
+
+                    } catch (Exception e)
+                    {
+                        System.out.println("ERROR: "+e.getMessage());
+                    }
+
                     root.addLocal(connector);
                 }
             }

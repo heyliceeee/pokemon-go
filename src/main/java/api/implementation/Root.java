@@ -40,11 +40,6 @@ public class Root implements IRoot
     @Override
     public String addLocal(ILocal local)
     {
-        if(local == null)
-        {
-            throw new IllegalArgumentException("Local cannot be null");
-        }
-
         return this.routeNetwork.addVertex(local);
     }
 
@@ -90,18 +85,73 @@ public class Root implements IRoot
     @Override
     public String getPlayersListing()
     {
-        return null;
+        String s = "Players: {\n";
+
+        if(!this.players.isEmpty())
+        {
+            Iterator<IPlayer> iterator = players.iterator();
+
+            while (iterator.hasNext())
+            {
+                s += iterator.next().toString() + "\n";
+            }
+        }
+        else
+        {
+            s += "There is no players to list!\n";
+        }
+
+        s += "}";
+
+        return s;
     }
 
     @Override
     public String getPortalsListing()
     {
-        return null;
+        String s = "Portals: {\n";
+
+        if (this.routeNetwork.getNumberOfPortals() != 0)
+        {
+            Iterator<IPortal> iteratorPortal = this.routeNetwork.getPortals();
+
+            while (iteratorPortal.hasNext())
+            {
+                s += iteratorPortal.next().toString() + "\n";
+            }
+        }
+        else
+        {
+            s += "There is no portals to list!\n";
+        }
+
+        s += "}";
+
+        return s;
     }
 
     @Override
-    public String getConnectorsListing() {
-        return null;
+    public String getConnectorsListing()
+    {
+        String s = "Connectors: {\n";
+
+        if (this.routeNetwork.getNumberOfConnectors() != 0)
+        {
+            Iterator<IConnector> iteratorConnector = this.routeNetwork.getConnectors();
+
+            while (iteratorConnector.hasNext())
+            {
+                s += iteratorConnector.next().toString() + "\n";
+            }
+        }
+        else
+        {
+            s += "There is no connectors to list!\n";
+        }
+
+        s += "}";
+
+        return s;
     }
 
     @Override
@@ -312,7 +362,7 @@ public class Root implements IRoot
         {
             player = iterator.next();
 
-            if(player.getName() == name)
+            if(player.getName().equals(name))
             {
                 return player;
             }

@@ -3,7 +3,6 @@ package api.interfaces;
 import api.implementation.*;
 import api.implementation.Coordinate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,23 +57,4 @@ public interface ILocal
      * @param coordinates
      */
     public void setCoordinates(Coordinate coordinates);
-
-    /**
-     * Retorna o registo de interacoes do portal/connector
-     * @return o registo de interacoes do portal/connector
-     */
-    List<Interaction> getInteraction();
-
-    /**
-     * Define o registo de interacoes do portal/connector
-     * @param interaction
-     */
-    void setInteraction(List<Interaction> interaction);
-
-    /**
-     * Retorna "Successful" se conseguir adicionar a interação ao local
-     * @param iteraction
-     * @return "Successful" se conseguir adicionar a interação
-     */
-    String addIteraction(IIteraction iteraction);
 }

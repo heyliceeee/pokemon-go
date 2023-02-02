@@ -15,6 +15,8 @@ public class Demo {
     static String value = "Hello World!";
     static ImporterExporterJson iEJson = new ImporterExporterJson();
     static IRoot root = new Root();
+    static ILocal local = new Local(0, "", 0, null);
+    public static String playerName = "";
 
 
     /**
@@ -30,6 +32,8 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|                 MENU                 |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option:                       ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                             "| 01. Game                             |\n" +
                             "| 02. API                              |\n" +
@@ -37,7 +41,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -76,13 +79,14 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|                 GAME                 |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option:                       ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                             "| 01. Start the game                   |\n" +
                             "| 99. Back to previous menu            |"
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             switch (option)
@@ -98,14 +102,14 @@ public class Demo {
                     System.out.println("+--------------------------------------+\n\n");
 
                     scanner.nextLine();
-                    name = scanner.nextLine();
+                    playerName = scanner.nextLine();
 
-                    iEJson.importFromJSONFile(root, "docs/import/import.json");//importar ficheiro JSON os jogadores
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");//importar ficheiro JSON os jogadores
 
                     //verificar se escreveu um nome ou pretende sair do jogo
-                    if(root.getPlayerByName(name) != null) //se existe o jogador
+                    if(root.getPlayerByName(playerName) != null) //se existe o jogador
                     {
-                        runGameFirst(name); //corre o jogo como se fosse a 1ªvez
+                        runGameFirst(playerName); //corre o jogo como se fosse a 1ªvez
                     }
                     else
                     {
@@ -134,17 +138,18 @@ public class Demo {
         int option = 0;
 
         System.out.println("\n");
-        System.out.println("+--------------------------------------+");
-        System.out.println("| \tWELCOME BACK"+name+ "\t |");
-        System.out.println("+--------------------------------------+");
-        System.out.println(
-                        "| 01. Portal                           |\n" +
-                        "| 02. Connector                        |\n" +
-                        "| 99. Back to previous menu            |"
-        );
-        System.out.println("+--------------------------------------+\n\n");
-
+        System.out.println("+----------------------------------------------+");
+        System.out.println("| \tWELCOME BACK "+playerName+ "\t                   |");
+        System.out.println("+----------------------------------------------+");
         System.out.println("select a location type where you want to start: ");
+        System.out.println("+----------------------------------------------+");
+        System.out.println(
+                           "| 01. Portal                                   |\n" +
+                           "| 02. Connector                                |\n" +
+                           "| 99. Back to previous menu                    |"
+        );
+        System.out.println("+----------------------------------------------+\n\n");
+
         option = scanner.nextInt();
 
         /**
@@ -200,6 +205,8 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|               API MENU               |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                             "| 01. Portals management               |\n" +
                             "| 02. Connectors management            |\n" +
@@ -210,7 +217,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -262,6 +268,8 @@ public class Demo {
             System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println("|                              GAME MANAGEMENT MENU                              |");
             System.out.println("+--------------------------------------------------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println(
                                "| 01. Calculate the shortest path between 2 points                               |\n" +
                                "| 02. Calculate the shortest path if going through places to recharge            |\n" +
@@ -273,7 +281,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------------------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -322,6 +329,8 @@ public class Demo {
             System.out.println("+--------------------------------------------------------+");
             System.out.println("|                 PLAYERS MANAGEMENT MENU                |");
             System.out.println("+--------------------------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------------------------+");
             System.out.println(
                                "| 01. Add                                                |\n" +
                                "| 02. Update                                             |\n" +
@@ -335,7 +344,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -384,6 +392,8 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|        ROUTES MANAGEMENT MENU        |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                     "| 01. Create                           |\n" +
                             "| 02. Delete                           |\n" +
@@ -393,7 +403,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -407,7 +416,7 @@ public class Demo {
                     break;
 
                 case 3:
-                    iEJson.importFromJSONFile(root, "docs/import/import.json");
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");
                     break;
 
                 case 4:
@@ -437,6 +446,8 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|        PORTALS MANAGEMENT MENU       |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                     "| 01. Add                              |\n" +
                             "| 02. Edit                             |\n" +
@@ -448,7 +459,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
@@ -501,6 +511,8 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println("|      CONNECTORS MANAGEMENT MENU      |");
             System.out.println("+--------------------------------------+");
+            System.out.println("select an option: ");
+            System.out.println("+--------------------------------------+");
             System.out.println(
                     "| 01. Add                              |\n" +
                             "| 02. Edit                             |\n" +
@@ -514,7 +526,6 @@ public class Demo {
             );
             System.out.println("+--------------------------------------+\n\n");
 
-            System.out.println("select an option: ");
             option = scanner.nextInt();
 
             /**
