@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.util.List;
+import java.util.Iterator;
 
 /**
  * Representacao da classe de um portal/connector
@@ -51,7 +51,7 @@ public class Local implements ILocal
     /**
      * registo de interacoes do portal/connector
      */
-    private List<Interaction> interaction;
+    public UnorderedListADT<IInteraction> interactions = new ArrayUnorderedList<>();
 
 
     public Local(int id, String type, int energy, ICoordinate coordinates)
@@ -62,13 +62,59 @@ public class Local implements ILocal
         this.coordinates = coordinates;
     }
 
+
+    @Override
+    public String addInteraction(IInteraction interaction)
+    {
+        if(interaction == null)
+        {
+            throw new IllegalArgumentException("interaction cannot be null");
+        }
+
+        String s = "Failed";
+
+        if(this.interactions.isEmpty() || !this.interactions.contains(interaction)) //se a lista de interaction estiver vazia ou não conter o interaction a ser adicionado, adiciona-o á lista
+        {
+            this.interactions.addToRear(interaction); //adiciona o interaction no fim da lista
+            s = "Successful";
+        }
+
+        return s;
+    }
+
+    @Override
+    public String getInteractionsListing()
+    {
+        String s = "Interactions: {\n";
+
+        if(!this.interactions.isEmpty())
+        {
+            Iterator<IInteraction> iterator = interactions.iterator();
+
+            while (iterator.hasNext())
+            {
+                s += iterator.next().toString() + "\n";
+            }
+        }
+        else
+        {
+            s += "There is no interactions to list!\n";
+        }
+
+        s += "}";
+
+        return s;
+    }
+
     @Override
     public String toString() {
-        return "id=" + id +
+        return "Local{" +
+                "id=" + id +
                 ", type='" + type + '\'' +
                 ", energy=" + energy +
                 ", coordinates=" + coordinates +
-                ", interaction=" + interaction;
+                ", interactions=" + interactions +
+                '}';
     }
 
     //region getters and setters
@@ -119,6 +165,46 @@ public class Local implements ILocal
     public void setCoordinates(Coordinate coordinates)
     {
         this.coordinates = coordinates;
+    }
+
+    @Override
+    public IInteraction getInteractionByID(int id)
+    {
+        Iterator<IInteraction> iterator = this.interactions.iterator();
+        IInteraction interaction;
+
+        while (iterator.hasNext())
+        {
+            interaction = iterator.next();
+
+            if(interaction.getID() == id)
+            {
+                return interaction;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void setInteractionType(int id, String type)
+    {
+
+    }
+
+    @Override
+    public void setInteractionPlayer(int id, String playerName) {
+
+    }
+
+    @Override
+    public void setInteractionDate(int id, String date) {
+
+    }
+
+    @Override
+    public void setInteractionPoints(int id, int points) {
+
     }
 
     //endregion

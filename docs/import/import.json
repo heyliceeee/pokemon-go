@@ -20,8 +20,7 @@
           "type": "Conquista portal",
           "player": "LoboMau",
           "date": "2023-01-24T22:30:32",
-          "points": 1000,
-          "speedXP": 2
+          "points": 1000
         }
       ]
     },
@@ -40,8 +39,7 @@
           "type": "Reforço de energia de connector",
           "player": "LoboMau",
           "date": "2023-01-24T22:50:32",
-          "points": 500,
-          "speedXP": 2
+          "points": 500
         }
       ]
     },
@@ -65,8 +63,7 @@
           "type": "Conquista portal",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-26T12:30:32",
-          "points": 500,
-          "speedXP": 2
+          "points": 1000
         }
       ]
     },
@@ -85,8 +82,7 @@
           "type": "Reforço de energia de connector",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-24T14:25:32",
-          "points": 1000,
-          "speedXP": 2
+          "points": 500
         }
       ]
     }
@@ -150,5 +146,20 @@
         "latitude": -8.472964
       }
     }
+  ],
+  "gameSettings": [
+    {
+      "id": 1,
+      "type": "Reforço de energia de connector",
+      "points": 500,
+      "speedXp": 2
+    },
+    {
+      "id": 2,
+      "type": "Conquista portal",
+      "points": 1000,
+      "speedXp": 2
+    }
   ]
+
 }

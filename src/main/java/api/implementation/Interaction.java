@@ -32,20 +32,14 @@ public class Interaction implements IInteraction
      */
     private int points;
 
-    /**
-     * velocidade que vai ganhar pontos de experiencia apos uma interacao com o portal/connector
-     */
-    public int speedXP;
 
-
-    public Interaction(int id, String type, String player, String date, int points, int speedXP)
+    public Interaction(int id, String type, String player, String date, int points)
     {
         this.id = id;
         this.type = type;
         this.player = player;
         this.date = date;
         this.points = points;
-        this.speedXP = speedXP;
     }
 
     @Override
@@ -55,7 +49,6 @@ public class Interaction implements IInteraction
                 ", player='" + player + '\'' +
                 ", date=" + date +
                 ", points=" + points +
-                ", speedXP=" + speedXP +
                 '}';
     }
 
@@ -120,18 +113,6 @@ public class Interaction implements IInteraction
     public void setPoints(int points)
     {
         this.points = points;
-    }
-
-    @Override
-    public int getSpeedXP()
-    {
-        return speedXP;
-    }
-
-    @Override
-    public void setSpeedXP(int speedXP)
-    {
-        this.speedXP = speedXP;
     }
 
     //endregion

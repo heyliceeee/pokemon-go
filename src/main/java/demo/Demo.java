@@ -114,7 +114,6 @@ public class Demo {
                     else
                     {
                         System.out.println("this player doesn´t exists.");
-
                         exit = true;
                         break;
                     }

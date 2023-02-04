@@ -7,14 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IPortal extends ILocal {
-
-    /**
-     * Retorna "Successful" se foi adicionado uma interação á lista de interações
-     * @param interaction a ser adicionado
-     * @return "Successful" se foi adicionado uma interação á lista de interações
-     */
-    String addInteraction(IInteraction interaction);
-
     /**
      * Retorna o nome do portal
      * @return o nome do portal
@@ -78,11 +70,4 @@ public interface IPortal extends ILocal {
      * @param points os pontos de interação
      */
     void setInteractionPoints(int id, int points);
-
-    /**
-     * Atualiza velocidade que vai ganhar pontos de experiencia de interação com o portal
-     * @param id identificador único da interação
-     * @param speedXP velocidade que vai ganhar pontos de experiencia de interação
-     */
-    void setInteractionSpeedXP(int id, int speedXP);
 }

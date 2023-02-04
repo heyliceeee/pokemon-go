@@ -4,6 +4,7 @@ import api.interfaces.*;
 import collections.implementation.ArrayUnorderedList;
 import collections.interfaces.UnorderedListADT;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Portal extends Local implements IPortal {
@@ -25,11 +26,6 @@ public class Portal extends Local implements IPortal {
 
     private ICoordinate coordinates;
 
-    /**
-     * Lista de interactions associados ao portal
-     */
-    public UnorderedListADT<IInteraction> interactions = new ArrayUnorderedList<>();
-
 
     public Portal(int id, String type, int energy, String name, int energyMax, IOwnership ownership, ICoordinate coordinates)
     {
@@ -38,25 +34,6 @@ public class Portal extends Local implements IPortal {
         this.energyMax = energyMax;
         this.ownership = ownership;
         this.coordinates = coordinates;
-    }
-
-    @Override
-    public String addInteraction(IInteraction interaction)
-    {
-        if(interaction == null)
-        {
-            throw new IllegalArgumentException("interaction cannot be null");
-        }
-
-        String s = "Failed";
-
-        if(this.interactions.isEmpty() || !this.interactions.contains(interaction)) //se a lista de interaction estiver vazia ou não conter o interaction a ser adicionado, adiciona-o á lista
-        {
-            this.interactions.addToRear(interaction); //adiciona o interaction no fim da lista
-            s = "Successful";
-        }
-
-        return s;
     }
 
     @Override
@@ -103,31 +80,6 @@ public class Portal extends Local implements IPortal {
         this.energyMax = energyMax;
     }
 
-    @Override
-    public void setInteractionType(int id, String type)
-    {
-
-    }
-
-    @Override
-    public void setInteractionPlayer(int id, String playerName) {
-
-    }
-
-    @Override
-    public void setInteractionDate(int id, String date) {
-
-    }
-
-    @Override
-    public void setInteractionPoints(int id, int points) {
-
-    }
-
-    @Override
-    public void setInteractionSpeedXP(int id, int speedXP) {
-
-    }
 
     /*public void setCapacity(int energyMax) {
         if (energyMax < 1) {

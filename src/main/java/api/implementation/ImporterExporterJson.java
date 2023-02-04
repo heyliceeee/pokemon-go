@@ -69,9 +69,8 @@ public class ImporterExporterJson
                             String playerInteraction = (String) interaction.get("player");
                             String dateInteraction = (String) interaction.get("date");
                             long pointsInteraction = (long) interaction.get("points");
-                            long speedXPInteraction = (long) interaction.get("speedXP");
 
-                            IInteraction iteraction = new Interaction((int)id, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction, (int)speedXPInteraction);
+                            IInteraction iteraction = new Interaction((int)idInteraction, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction);
 
                             //adicionar a interação ao local
                             portal.addInteraction(iteraction);
@@ -102,9 +101,8 @@ public class ImporterExporterJson
                             String playerInteraction = (String) interaction.get("player");
                             String dateInteraction = (String) interaction.get("date");
                             long pointsInteraction = (long) interaction.get("points");
-                            long speedXPInteraction = (long) interaction.get("speedXP");
 
-                            IInteraction iteraction = new Interaction((int)id, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction, (int)speedXPInteraction);
+                            IInteraction iteraction = new Interaction((int)idInteraction, typeInteraction, playerInteraction, dateInteraction, (int)pointsInteraction);
 
                             //adicionar a interação ao local
                             connector.addInteraction(iteraction);

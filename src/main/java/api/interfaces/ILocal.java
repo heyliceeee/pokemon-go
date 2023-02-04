@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface ILocal
 {
+    String addInteraction(IInteraction interaction);
+
+    String getInteractionsListing();
+
     /**
      * Retorna o identificador unico do portal/connector
      * @return o identificador unico do portal/connector
@@ -57,4 +61,14 @@ public interface ILocal
      * @param coordinates
      */
     public void setCoordinates(Coordinate coordinates);
+
+    IInteraction getInteractionByID(int id);
+
+    void setInteractionType(int id, String type);
+
+    void setInteractionPlayer(int id, String playerName);
+
+    void setInteractionDate(int id, String date);
+
+    void setInteractionPoints(int id, int points);
 }

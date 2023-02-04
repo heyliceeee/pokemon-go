@@ -309,12 +309,12 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
                         }
                         else if(searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN) //se for qualquer conector mas sem cooldown
                         {
-                            for(int j=0; j < ((IConnector) super.vertices[i]).getInteraction().size(); j++) //verificar nas interações, a última vez que o jogador atual foi recarregar-se ao conector
+                            for(int j=0; j < ((IConnector) super.vertices[i]).getInteractionsListing().length(); j++) //verificar nas interações, a última vez que o jogador atual foi recarregar-se ao conector
                             {
-                                if((((IConnector) super.vertices[i]).getInteraction().get(j).getPlayer()).equals(Demo.playerName)) //se a interação foi realizada pelo jogador atual
+                                if((((IConnector) super.vertices[i]).getInteractionByID(j).getPlayer()).equals(Demo.playerName)) //se a interação foi realizada pelo jogador atual
                                 {
                                     //data da interação
-                                    String date = ((IConnector) super.vertices[i]).getInteraction().get(j).getDate();
+                                    String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                                     LocalDateTime dateInteraction = LocalDateTime.parse(date, formatter);
 

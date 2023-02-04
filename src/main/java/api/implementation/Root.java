@@ -244,6 +244,11 @@ public class Root implements IRoot
         }
     }
 
+    public IPortal getRandomPortal()
+    {
+        
+    }
+
     @Override
     public IPortal getPortalByID(int id)
     {
