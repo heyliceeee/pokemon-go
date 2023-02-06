@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Representacao da classe da raiz do JSON
@@ -244,9 +245,30 @@ public class Root implements IRoot
         }
     }
 
+    @Override
     public IPortal getRandomPortal()
     {
-        
+        Iterator<IPortal> iterator = this.routeNetwork.getPortals();
+        IPortal portal;
+
+        int size = this.routeNetwork.getNumberOfPortals(); //número de portais existentes
+        Random r = new Random();
+        int randomPortal = r.nextInt(size - 0) + 0; //random número de portal
+
+        int count=0;
+        while (iterator.hasNext())
+        {
+            portal = iterator.next();
+
+            if(count == randomPortal)
+            {
+                return portal;
+            }
+
+            count++;
+        }
+
+        return null;
     }
 
     @Override
@@ -306,6 +328,32 @@ public class Root implements IRoot
     @Override
     public void setPortalInteraction(int id, List<Interaction> interaction) throws ElementNotFoundException {
 
+    }
+
+    @Override
+    public IConnector getRandomConnector()
+    {
+        Iterator<IConnector> iterator = this.routeNetwork.getConnectors();
+        IConnector connector;
+
+        int size = this.routeNetwork.getNumberOfConnectors(); //número de conectores existentes
+        Random r = new Random();
+        int randomConnector = r.nextInt(size - 0) + 0; //random número de conector
+
+        int count=0;
+        while (iterator.hasNext())
+        {
+            connector = iterator.next();
+
+            if(count == randomConnector)
+            {
+                return connector;
+            }
+
+            count++;
+        }
+
+        return null;
     }
 
     @Override

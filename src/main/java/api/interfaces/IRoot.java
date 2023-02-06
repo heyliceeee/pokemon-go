@@ -108,6 +108,8 @@ public interface IRoot
      */
     ILocal getLocalByID(int id);
 
+    IPortal getRandomPortal();
+
     /**
      * Retorna o portal com o id dado
      * @param id que vai ser procurado
@@ -179,6 +181,8 @@ public interface IRoot
      * @throws ElementNotFoundException se o ID enviado por parametro não corresponde a nenhum portal
      */
     void setPortalInteraction(int id, List<Interaction> interaction) throws ElementNotFoundException;
+
+    IConnector getRandomConnector();
 
     /**
      * Retorna o conector com o id dado

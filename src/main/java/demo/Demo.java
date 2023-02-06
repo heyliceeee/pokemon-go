@@ -5,6 +5,7 @@ import api.implementation.Local;
 import api.implementation.Root;
 import api.implementation.Route;
 import api.interfaces.ILocal;
+import api.interfaces.IPortal;
 import api.interfaces.IRoot;
 import org.json.simple.parser.ParseException;
 
@@ -109,7 +110,7 @@ public class Demo {
                     //verificar se escreveu um nome ou pretende sair do jogo
                     if(root.getPlayerByName(playerName) != null) //se existe o jogador
                     {
-                        runGameFirst(playerName); //corre o jogo como se fosse a 1ªvez
+                        runGameFirst(); //corre o jogo como se fosse a 1ªvez
                     }
                     else
                     {
@@ -130,7 +131,7 @@ public class Demo {
         }
     }
 
-    private static void runGameFirst(String name)
+    private static void runGameFirst()
     {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
@@ -156,9 +157,26 @@ public class Demo {
          */
         switch (option) {
             case 1:
-                //retorna um portal(ponto A) random
+                System.out.println("PORTAL A: "+ root.getRandomPortal()); //retorna um portal(ponto A) random
 
-                //mostrar interações do portal
+                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+
+                //verificar se o portal é da "sua equipa", "equipa adversária" ou "sem equipa"
+                if(root.getRandomPortal().getOwnership().getState().equals(teamPlayer)) //se a equipa que conquistou o portal é a mesma equipa do jogador
+                {
+                    //mostrar interações do portal
+                    showPortalYourTeamInteractionsMenu(root.getRandomPortal());
+                }
+                else if(root.getRandomPortal().getOwnership().getState().equals("No team")) //se nenhuma equipa conquistou o portal
+                {
+                    //mostrar interações do portal
+                    showPortalTeamOpponentInteractionsMenu(root.getRandomPortal());
+                }
+                else //se a equipa que conquistou o portal é a equipa adversária do jogador
+                {
+                    //mostrar interações do portal
+                    showPortalNoTeamInteractionsMenu(root.getRandomPortal());
+                }
 
                 //após determinado comportamento, pergunta onde quer ir (runGameSecond)
                 //portal -> portal(ponto B) (mais proximo)
@@ -169,7 +187,7 @@ public class Demo {
                 break;
 
             case 2:
-                //retorna um connector(ponto A) random
+                System.out.println("CONNECTOR A: "+ root.getRandomConnector());//retorna um connector(ponto A) random
 
                 //mostrar interações do connector
 
@@ -189,6 +207,48 @@ public class Demo {
                 System.out.println("invalid option, selected option between 1 and 2 or 99 to exit.");
                 break;
         }
+    }
+
+    /**
+     * Mostra o menu acerca das interações do portal da equipa adversária
+     * @param randomPortal portal em questão
+     */
+    private static void showPortalTeamOpponentInteractionsMenu(IPortal randomPortal)
+    {
+    }
+
+    /**
+     * Mostra o menu acerca das interações do portal da sua equipa
+     * @param randomPortal portal em questão
+     */
+    private static void showPortalYourTeamInteractionsMenu(IPortal randomPortal)
+    {
+    }
+
+    /**
+     * Mostra o menu acerca das interações do portal sem equipa
+     * @param randomPortal portal em questão
+     */
+    private static void showPortalNoTeamInteractionsMenu(IPortal randomPortal)
+    {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        int option = 0;
+
+        System.out.println("\n");
+        System.out.println("+----------------------------------------------+");
+        System.out.println("|             PORTAL INTERACTIONS              |");
+        System.out.println("+----------------------------------------------+");
+        System.out.println("select an option: ");
+        System.out.println("+----------------------------------------------+");
+        System.out.println(
+                "| 01. Portal                                   |\n" +
+                        "| 02. Connector                                |\n" +
+                        "| 99. Back to previous menu                    |"
+        );
+        System.out.println("+----------------------------------------------+\n\n");
+
+        option = scanner.nextInt();
     }
 
     /**
