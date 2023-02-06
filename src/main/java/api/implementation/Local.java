@@ -152,7 +152,7 @@ public class Local implements ILocal
     @Override
     public void setEnergy(int energy)
     {
-        this.energy = energy;
+        this.energy += energy;
     }
 
     @Override

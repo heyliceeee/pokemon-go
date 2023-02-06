@@ -173,9 +173,6 @@ public class Player implements IPlayer
 
     @Override
     public void setEnergy(int energy) {
-        if (energy < 0) {
-            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
-        }
         this.energy = energy;
     }
 
@@ -211,7 +208,7 @@ public class Player implements IPlayer
     @Override
     public void setConqueredPortals(int conqueredPortals)
     {
-        this.conqueredPortals = conqueredPortals;
+        this.conqueredPortals += conqueredPortals;
     }
 
     //endregion
