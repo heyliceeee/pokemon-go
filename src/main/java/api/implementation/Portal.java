@@ -60,6 +60,7 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
+<<<<<<< HEAD
 //<<<<<<< HEAD
     public void setOwnership(ArrayList<Ownership> ownership) {
 
@@ -68,6 +69,11 @@ public class Portal extends Local implements IPortal {
     {
         return ownership;
 //>>>>>>> development_alice_v2
+=======
+    public Ownership getOwnership()
+    {
+        return ownership;
+>>>>>>> 1827a764c995d9b60cbe30876dd7fe5553cdc96c
     }
 
     @Override
@@ -76,6 +82,7 @@ public class Portal extends Local implements IPortal {
     }
 
     @Override
+<<<<<<< HEAD
 //<<<<<<< HEAD
     public void setEnergyMax(int energyMax) {
 
@@ -84,13 +91,18 @@ public class Portal extends Local implements IPortal {
     @Override
     public void setCapacity(int energyMax) {
 //=======
+=======
+>>>>>>> 1827a764c995d9b60cbe30876dd7fe5553cdc96c
     public void setEnergyMax(int energyMax)
     {
         this.energyMax = energyMax;
     }
 
     /*public void setCapacity(int energyMax) {
+<<<<<<< HEAD
 >>>>>>> development_alice_v2
+=======
+>>>>>>> 1827a764c995d9b60cbe30876dd7fe5553cdc96c
         if (energyMax < 1) {
             throw new IllegalArgumentException("Max energy must be equal to or greater than one!");
         } else if (energyMax < this.energy) {
@@ -153,6 +165,7 @@ public class Portal extends Local implements IPortal {
     //
     //        return getName().equals(that.getName());
     //    }*/
+<<<<<<< HEAD
 //}
 
     @Override
@@ -164,3 +177,6 @@ public class Portal extends Local implements IPortal {
     public void setInteraction(ArrayList<Interaction> interaction) {
 
     }
+=======
+}
+>>>>>>> 1827a764c995d9b60cbe30876dd7fe5553cdc96c
