@@ -4,8 +4,10 @@ import api.exceptions.ElementAlreadyExistsException;
 import api.implementation.*;
 import collections.exceptions.ElementNotFoundException;
 import collections.exceptions.EmptyCollectionException;
+import collections.exceptions.NotLocalInstanceException;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -50,10 +52,12 @@ public interface IRoot
 
     /**
      * Retorna o iterador com o route mais curto
-     * @return
+     * @param option ponto de chegada (portal ou conector ou conector sem cooldown e portal ou conector sem cooldown e conector)
+     * @param local portal ou conector
+     * @return o iterador com o route mais curto
      * @throws EmptyCollectionException
      */
-    Iterator<ILocal> getRoute() throws EmptyCollectionException;
+    Iterator<ILocal> getRoute(int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException;
 
     /**
      * Retorna em string uma listagem dos jogadores

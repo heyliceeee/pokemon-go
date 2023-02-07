@@ -367,7 +367,7 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
             currentIndex = prev[currentIndex];
         }
 
-        resultList.addToFront((ILocal) super.vertices[super.getIndex(source)]);
+        //resultList.addToFront((ILocal) super.vertices[super.getIndex(source)]);
 
         return resultList.iterator();
     }

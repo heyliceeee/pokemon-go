@@ -4,7 +4,9 @@ import api.exceptions.ElementAlreadyExistsException;
 import api.interfaces.*;
 import collections.exceptions.ElementNotFoundException;
 import collections.exceptions.EmptyCollectionException;
+import collections.exceptions.NotLocalInstanceException;
 import collections.implementation.ArrayUnorderedList;
+import collections.implementation.DoubleLinkedUnorderedList;
 import collections.implementation.ExporterGraph;
 import collections.interfaces.IExporter;
 import api.interfaces.RouteNetworkADT;
@@ -13,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -104,8 +107,25 @@ public class Root implements IRoot
     }
 
     @Override
-    public Iterator<ILocal> getRoute() throws EmptyCollectionException
-    {
+    public Iterator<ILocal> getRoute(int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException {
+        Iterator<ILocal> localsIterator;
+
+        switch (option)
+        {
+            case 1:
+                localsIterator = this.routeNetwork.shortestRouteToPortal(local);
+                return localsIterator;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+        }
+
         return null;
     }
 

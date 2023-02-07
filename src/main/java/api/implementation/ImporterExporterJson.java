@@ -11,9 +11,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.DecimalFormat;
 
 public class ImporterExporterJson
 {
+    IRoute route = new Route(null, null, 0);
+
     /**
      * Retorna "Successful" se importou  os dados do ficheiro JSON com sucesso
      * @param root
@@ -131,12 +134,18 @@ public class ImporterExporterJson
                 JSONObject routes = (JSONObject) routesArray.get(i);
                 long from = (long) routes.get("from");
                 long to = (long) routes.get("to");
-                long distance = (long) routes.get("distance");
 
                 try
                 {
                     ILocal fromLocal = root.getLocalByID((int)from); //retorna o portal/conector correspondente do id do portal/conector
                     ILocal toLocal = root.getLocalByID((int)to); //retorna o portal/conector correspondente do id do portal/conector
+
+                    double x1 = fromLocal.getCoordinates().getLongitude();
+                    double y1 = fromLocal.getCoordinates().getLatitude();
+                    double x2 = toLocal.getCoordinates().getLongitude();
+                    double y2 = toLocal.getCoordinates().getLatitude();
+
+                    double distance = Math.round(route.calculeWeightByCoordinates(x1, y1, x2, y2) * 1000000); //arredondar
 
                     root.addRoute(fromLocal, toLocal, distance);
 

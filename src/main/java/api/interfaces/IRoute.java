@@ -29,16 +29,22 @@ public interface IRoute<T>
      */
     double getWeight();
 
+
     /**
-     * Define o peso entre os 2 pontos apartir das coordenadas dos 2 pontos
+     * Define a peso entre 2 pontos
+     * @param weight
+     */
+    void setWeight(int weight);
+
+    /**
+     * Calcula o peso entre os 2 pontos apartir das coordenadas dos 2 pontos
      * peso = raizQuadrada((x2-x1)^2 + (y2-y1)^2)
      * @param x1 coordenadas do ponto de partida
      * @param y1 coordenadas do ponto de partida
      * @param x2 coordenadas do ponto de chegada
      * @param y2 coordenadas do ponto de chegada
      */
-    void setWeight(int x1, int y1, int x2, int y2);
-
+    double calculeWeightByCoordinates(double x1, double y1, double x2, double y2);
 
     Comparator<IRoute> WEIGHT = new Comparator<>()
     {

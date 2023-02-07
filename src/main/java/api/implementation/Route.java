@@ -49,6 +49,11 @@ public class Route<T> implements IRoute<T>
     }
 
     @Override
+    public double calculeWeightByCoordinates(double x1, double y1, double x2, double y2) {
+        return (Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+    }
+
+    @Override
     public String toString()
     {
         return "Route{" +
@@ -79,10 +84,12 @@ public class Route<T> implements IRoute<T>
     }
 
     @Override
-    public void setWeight(int x1, int y1, int x2, int y2)
+    public void setWeight(int weight)
     {
-        this.weight = (Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+        this.weight = weight;
     }
+
+
 
     //endregion
 }
