@@ -59,7 +59,7 @@ public class Player implements IPlayer
     private int conqueredPortals;
 
 
-     /* @Override
+     @Override
     public void addConqueredPortals(String[] portals) {
         if (portals == null || portals.length == 0) {
             throw new IllegalArgumentException("List of markets cannot be null or empty!");
@@ -71,9 +71,9 @@ public class Player implements IPlayer
                 throw new IllegalArgumentException("None of the markets name in list can be null or empty!");
             }
         }
-    }*/
+    }
 
-     /*@Override
+     @Override
     public void addPortal(String portalName) {
         if (portalName == null || portalName.equals(""))
         {
@@ -81,7 +81,36 @@ public class Player implements IPlayer
         }
 
         this.conqueredPortals.addToRear(portalName);
-    }*/
+    }
+
+    @Override
+    public boolean addPlayer(IPlayer player) {
+        if (player == null) {
+            throw new IllegalArgumentException("Player cannot be null!");
+        }
+        boolean flag = false;
+
+        if (this.players.isEmpty() || !this.players.contains(player)) {
+            this.players.addToRear(player);
+            flag = true;
+        }
+
+        return flag;
+        @Override
+        public String getPlayersListing() {
+            String string = "Players: {\n";
+            if (!this.players.isEmpty()) {
+                Iterator<IPlayer> iterator = players.iterator();
+                while (iterator.hasNext()) {
+                    string += iterator.next().toString() + "\n";
+                }
+            } else {
+                string += "There is no players to list!\n";
+            }
+            string += "}";
+            return string;
+        }
+    }
 
     @Override
     public String toString() {
@@ -204,6 +233,4 @@ public class Player implements IPlayer
     {
         this.conqueredPortals = conqueredPortals;
     }
-
-    //endregion
 }
