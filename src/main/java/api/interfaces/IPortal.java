@@ -2,7 +2,9 @@ package api.interfaces;
 
 import api.implementation.Interaction;
 import api.implementation.Ownership;
+import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,4 +72,9 @@ public interface IPortal extends ILocal {
      * @param points os pontos de interação
      */
     void setInteractionPoints(int id, int points);
+
+
+    void exportInteractionsToJson() throws IOException;
+
+    JSONObject portalToJSONObject();
 }

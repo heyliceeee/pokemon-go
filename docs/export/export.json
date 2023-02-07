@@ -4,7 +4,7 @@
       "id": 1414,
       "type": "Portal",
       "name": "San Bento Monastery",
-      "energy": 180,
+      "energy": 50,
       "energyMax": 200,
       "ownership": {
         "state": "Sparks",
@@ -20,8 +20,7 @@
           "type": "Conquista portal",
           "player": "LoboMau",
           "date": "2023-01-24T22:30:32",
-          "points": 1000,
-          "speedXP": 2
+          "points": 1000
         }
       ]
     },
@@ -40,8 +39,7 @@
           "type": "Reforço de energia de connector",
           "player": "LoboMau",
           "date": "2023-01-24T22:50:32",
-          "points": 500,
-          "speedXP": 2
+          "points": 500
         }
       ]
     },
@@ -49,7 +47,7 @@
       "id": 2601,
       "type": "Portal",
       "name": "Statue of San Rosendo",
-      "energy": 50,
+      "energy": 12,
       "energyMax": 50,
       "ownership": {
         "state": "Giants",
@@ -65,8 +63,7 @@
           "type": "Conquista portal",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-26T12:30:32",
-          "points": 500,
-          "speedXP": 2
+          "points": 1000
         }
       ]
     },
@@ -85,10 +82,36 @@
           "type": "Reforço de energia de connector",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-24T14:25:32",
-          "points": 1000,
-          "speedXP": 2
+          "points": 500
         }
       ]
+    },
+    {
+      "id": 3107,
+      "type": "Portal",
+      "name": "Monument to the Heroes of Overseas",
+      "energy": 50,
+      "energyMax": 200,
+      "ownership": {
+        "state": "No team",
+        "player": ""
+      },
+      "coordinates": {
+        "longitude": 41.34283,
+        "latitude": -8.47415
+      },
+      "interaction": []
+    },
+    {
+      "id": 712,
+      "type": "Connector",
+      "energy": 500,
+      "cooldown": 3,
+      "coordinates": {
+        "longitude": 41.34283,
+        "latitude": -8.47445
+      },
+      "interaction": []
     }
   ],
   "routes": [
@@ -129,7 +152,7 @@
       "team": "Sparks",
       "level": 64,
       "xp": 467892,
-      "energy": 126,
+      "energy": 10,
       "energyMax": 500,
       "conqueredPortals": 142,
       "coordinates": {
@@ -150,5 +173,20 @@
         "latitude": -8.472964
       }
     }
+  ],
+  "gameSettings": [
+    {
+      "id": 1,
+      "type": "Reforço de energia de connector",
+      "points": 500,
+      "speedXp": 2
+    },
+    {
+      "id": 2,
+      "type": "Conquista portal",
+      "points": 1000,
+      "speedXp": 2
+    }
   ]
+
 }

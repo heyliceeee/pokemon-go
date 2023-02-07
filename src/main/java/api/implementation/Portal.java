@@ -1,11 +1,11 @@
 package api.implementation;
 
 import api.interfaces.*;
-import collections.implementation.ArrayUnorderedList;
-import collections.interfaces.UnorderedListADT;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 public class Portal extends Local implements IPortal {
 
@@ -26,6 +26,9 @@ public class Portal extends Local implements IPortal {
 
     private ICoordinate coordinates;
 
+    static ImporterExporterJson iEJson = new ImporterExporterJson();
+
+
 
     public Portal(int id, String type, int energy, String name, int energyMax, IOwnership ownership, ICoordinate coordinates)
     {
@@ -35,6 +38,64 @@ public class Portal extends Local implements IPortal {
         this.ownership = ownership;
         this.coordinates = coordinates;
     }
+
+    private JSONArray getInteractionsJSONArray()
+    {
+        JSONArray interactionsArray = new JSONArray();
+        Iterator<IInteraction> iteratorInteraction = this.interactions.iterator();
+
+        while (iteratorInteraction.hasNext())
+        {
+            interactionsArray.add(iteratorInteraction.next().interactionToJsonObject());
+        }
+
+        return interactionsArray;
+    }
+
+    @Override
+    public void exportInteractionsToJson() throws IOException
+    {
+        iEJson.exportToJSONFile(getInteractionsJSONArray().toJSONString(), "Interactions");
+
+    }
+
+    @Override
+    public JSONObject portalToJSONObject()
+    {
+        JSONObject root = new JSONObject();
+
+        root.put("id", getId());
+        root.put("type", getType());
+        root.put("energy", getEnergy());
+        root.put("name", this.name);
+        root.put("energyMax", this.energyMax);
+        root.put("ownership", getOwnershipJSONObject());
+        root.put("coordinates", getCoordinatesJSONObject());
+        root.put("interaction", getInteractionsJSONArray());
+
+        return root;
+    }
+
+    private JSONObject getCoordinatesJSONObject()
+    {
+        JSONObject coordinates = new JSONObject();
+
+        coordinates.put("longitude", this.coordinates.getLongitude());
+        coordinates.put("latitude", this.coordinates.getLatitude());
+
+        return coordinates;
+    }
+
+    private JSONObject getOwnershipJSONObject()
+    {
+        JSONObject ownership = new JSONObject();
+
+        ownership.put("state", this.ownership.getState());
+        ownership.put("player", this.ownership.getPlayer());
+
+        return ownership;
+    }
+
 
     @Override
     public String toString()
@@ -79,7 +140,6 @@ public class Portal extends Local implements IPortal {
     {
         this.energyMax = energyMax;
     }
-
 
     /*public void setCapacity(int energyMax) {
         if (energyMax < 1) {

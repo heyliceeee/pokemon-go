@@ -39,6 +39,8 @@ public interface IRoot
      */
     String addRoute(ILocal local1, ILocal local2, double weight) throws EmptyCollectionException;
 
+    String addGameSetting(IGameSetting gameSetting);
+
     /**
      * Exporta o grafo acerca das routes em .dot e em .png
      * @throws EmptyCollectionException se o grafo for vazio
@@ -290,6 +292,8 @@ public interface IRoot
      * @param conqueredPortals quantidade de portais conquistados
      */
     void setPlayerConqueredPortals(String name, int conqueredPortals);
+
+    IGameSetting getGameSettingByType(String type);
 
     /**
      * Retorna o iterador com os portais ordenados por algum parâmetro

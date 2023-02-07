@@ -1,15 +1,14 @@
 package demo;
 
-import api.implementation.ImporterExporterJson;
-import api.implementation.Local;
-import api.implementation.Root;
-import api.implementation.Route;
-import api.interfaces.ILocal;
-import api.interfaces.IPortal;
-import api.interfaces.IRoot;
+import api.implementation.*;
+import api.interfaces.*;
+import collections.implementation.DoubleLinkedUnorderedList;
+import collections.interfaces.UnorderedListADT;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Demo {
@@ -18,6 +17,11 @@ public class Demo {
     static IRoot root = new Root();
     static ILocal local = new Local(0, "", 0, null);
     public static String playerName = "";
+
+    /**
+     * grafo que tem informação acerca dos locais e das rotas entre eles
+     */
+    public RouteNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
 
 
     /**
@@ -131,8 +135,7 @@ public class Demo {
         }
     }
 
-    private static void runGameFirst()
-    {
+    private static void runGameFirst() throws IOException {
         Scanner scanner = new Scanner(System.in);
         int option = 0;
 
@@ -199,11 +202,12 @@ public class Demo {
      * Mostra o menu acerca das interações do portal da equipa adversária
      * @param randomPortal portal em questão
      */
-    private static void showPortalTeamOpponentInteractionsMenu(IPortal randomPortal)
+    private static void showPortalTeamOpponentInteractionsMenu(IPortal randomPortal) throws IOException
     {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
+        IInteraction interaction = null;
 
         while (!exit)
         {
@@ -217,7 +221,7 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println(
                             "| 01. Attack the portal                |\n" +
-                            "| 99. Back to previous menu            |"
+                            "| 99. Go another location              |"
             );
             System.out.println("+--------------------------------------+");
 
@@ -226,7 +230,75 @@ public class Demo {
             switch (option)
             {
                 case 1:
+                    boolean exit2 = false;
 
+                    int energyCurrent = randomPortal.getEnergy();//energia atual do portal
+
+                    int energyCurrentPlayer = root.getPlayerByName(playerName).getEnergy(); //energia atual do jogador
+
+                    System.out.println("\nyour energy: "+energyCurrentPlayer);
+                    System.out.println("energy portal: "+energyCurrent+"\n");
+
+                    System.out.println("discharging (attacking) the portal...");
+
+                    if(energyCurrent > energyCurrentPlayer)
+                    {
+                        //energia atual do portal
+                        randomPortal.setEnergy((-energyCurrentPlayer)); // x + (- energy)
+
+                        //remover a energia do jogador gasta no portal, na energia atual do jogador
+                        root.getPlayerByName(playerName).setEnergy(0);
+
+                        System.out.println("attacked the portal not complete");
+
+                        System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+                        System.out.println("energy portal current: "+randomPortal.getEnergy());
+
+                        //adicionar interação ao JSON
+                        LocalDateTime now = LocalDateTime.now(); //data agora
+
+                        int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                        int points = root.getGameSettingByType("Não completa o ataque ao portal").getPoints(); //pontos do tipo de interação
+                        int speedXP = root.getGameSettingByType("Não completa o ataque ao portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                        int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                        interaction = new Interaction(0, "Não completa o ataque ao portal", playerName, now.toString(), pointsInteraction);
+                        randomPortal.addInteraction(interaction); //adicionar interação ao portal
+                    }
+                    else
+                    {
+                        //energia atual do portal
+                        randomPortal.setEnergy(-energyCurrent); //energy + x = 0
+
+                        //remover a energia do jogador gasta no portal, na energia atual do jogador
+                        root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - energyCurrent);
+
+                        randomPortal.getOwnership().setState("No team"); //portal sem equipa
+                        randomPortal.getOwnership().setPlayer(""); //portal sem dono
+
+                        System.out.println("attacked the portal successfully");
+
+                        System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+                        System.out.println("energy portal current: "+randomPortal.getEnergy());
+
+                        //adicionar interação ao JSON
+                        LocalDateTime now = LocalDateTime.now(); //data agora
+
+                        int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                        int points = root.getGameSettingByType("Ataca portal").getPoints(); //pontos do tipo de interação
+                        int speedXP = root.getGameSettingByType("Ataca portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                        int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                        interaction = new Interaction(0, "Ataca portal", playerName, now.toString(), pointsInteraction);
+                        randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+
+                    }
+
+                    exit = true;
+                    runGameSecond(randomPortal);
                     break;
 
                 case 99:
@@ -235,7 +307,7 @@ public class Demo {
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option 1 or 99 to exit.");
+                    System.out.println("invalid option, selected option 1 or 99 to go another location.");
                     break;
             }
         }
@@ -250,6 +322,8 @@ public class Demo {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
+        IInteraction interaction = null;
+
 
         while (!exit)
         {
@@ -263,7 +337,7 @@ public class Demo {
             System.out.println("+--------------------------------------+");
             System.out.println(
                             "| 01. Recharge the portal              |\n" +
-                            "| 99. Back to previous menu            |"
+                            "| 99. Go another location              |"
             );
             System.out.println("+--------------------------------------+");
 
@@ -290,26 +364,59 @@ public class Demo {
                         System.out.println("+--------------------------------------+");
                         System.out.println("your energy: "+energyCurrentPlayer+"\n");
                         System.out.println("energy portal: "+energyCurrent+"\n");
-                        System.out.println("how much energy do you want to charge   ");
+                        System.out.println("how much energy do you want to recharge ");
                         System.out.println("the portal? ("+(min)+" - "+(max)+") ");
                         System.out.println("+--------------------------------------+");
 
                         qttEnergy = scanner.nextInt();
 
-                        
+                        if(qttEnergy >= min && qttEnergy <= max && energyCurrentPlayer >= qttEnergy) //verificar se o "qttEnergy" está entre os valores e se o jogador tem energia suficiente
+                        {
+                            exit2 = true;
+                        }
+                        else
+                        {
+                            System.out.println("\nvalue incorrect or you don't have enough energy");
+                        }
                     }
 
+                    //se o "qttEnergy" está entre os valores
+                    System.out.println("recharging the portal...");
+
+                    //adicionar "qttEnergy" á energia atual do portal
+                    randomPortal.setEnergy(qttEnergy);
+
+                    //remover a energia do jogador gasta no portal, na energia atual do jogador
+                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - qttEnergy);
+
+                    System.out.println("recharged the portal successfully");
+
+                    System.out.println("energy portal current: "+randomPortal.getEnergy());
+                    System.out.println("your energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                    //adicionar interação ao JSON
+                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                    int points = root.getGameSettingByType("Recarrega portal").getPoints(); //pontos do tipo de interação
+                    int speedXP = root.getGameSettingByType("Recarrega portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                    interaction = new Interaction(0, "Recarrega portal", playerName, now.toString(), pointsInteraction);
+                    randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
                     exit = true;
-                    runGameSecond();
+                    runGameSecond(randomPortal);
                     break;
 
                 case 99:
                     exit = true;
-                    runGameSecond();
+                    runGameSecond(randomPortal);
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option 1 or 99 to exit.");
+                    System.out.println("invalid option, selected option 1 or 99 to go another location.");
                     break;
             }
         }
@@ -319,11 +426,11 @@ public class Demo {
      * Mostra o menu acerca das interações do portal sem equipa
      * @param randomPortal portal em questão
      */
-    private static void showPortalNoTeamInteractionsMenu(IPortal randomPortal)
-    {
+    private static void showPortalNoTeamInteractionsMenu(IPortal randomPortal) throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
+        IInteraction interaction = null;
 
         while (!exit)
         {
@@ -408,27 +515,41 @@ public class Demo {
                     System.out.println("player conquered portal current: "+randomPortal.getOwnership().getPlayer());
                     System.out.println("player conquered portals: "+root.getPlayerByName(playerName).getConqueredPortals());
 
+                    //adicionar interação ao JSON
+                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                    int points = root.getGameSettingByType("Conquista portal").getPoints(); //pontos do tipo de interação
+                    int speedXP = root.getGameSettingByType("Conquista portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                    interaction = new Interaction(0, "Conquista portal", playerName, now.toString(), pointsInteraction);
+                    randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
                     exit = true;
-                    runGameSecond();
+                    runGameSecond(randomPortal);
                     break;
 
                 case 99:
                     exit = true;
-                    runGameSecond();
+                    runGameSecond(randomPortal);
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option 1 or 99 to exit.");
+                    System.out.println("invalid option, selected option 1 or 99 to go another location.");
                     break;
             }
         }
     }
 
 
-    private static void runGameSecond()
+    private static void runGameSecond(ILocal local)
     {
         Scanner scanner = new Scanner(System.in);
         int option = 0;
+        Iterator<ILocal> localsIterator;
+        UnorderedListADT<ILocal> resultList = new DoubleLinkedUnorderedList<>(); //Total lista route
 
         System.out.println("\n");
         System.out.println("+--------------------------------------------------------------------+");
@@ -451,6 +572,18 @@ public class Demo {
         switch (option)
         {
             case 1:
+
+
+               localsIterator = this.routeNetwork.shortestRouteToPortal(local);
+
+               if(localsIterator != null) //se existe um portal
+               {
+                   while (localsIterator.hasNext())
+                   {
+                       resultList.addToRear(localsIterator.next());
+                   }
+               }
+
                 break;
 
             case 2:
@@ -579,6 +712,7 @@ public class Demo {
                     break;
 
                 case 6:
+                    //root.exportGameSettingsToJson();
                     break;
 
                 case 99:

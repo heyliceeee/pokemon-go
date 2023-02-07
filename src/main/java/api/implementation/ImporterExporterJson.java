@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -179,6 +180,44 @@ public class ImporterExporterJson
             System.out.println("ERROR: "+e.getMessage());
         }
 
+        JSONArray gameSettingsArray = (JSONArray) object.get("gameSettings");
+        try
+        {
+            for(int i=0; i < gameSettingsArray.size(); i++)
+            {
+                JSONObject gameSettings = (JSONObject) gameSettingsArray.get(i);
+
+                long idGameSetting = (long) gameSettings.get("id");
+                String typeGameSetting = (String) gameSettings.get("type");
+                long pointsGameSetting = (long) gameSettings.get("points");
+                long speedXpGameSetting = (long) gameSettings.get("speedXp");
+
+                IGameSetting gameSetting = new GameSetting((int)idGameSetting, typeGameSetting, (int)pointsGameSetting, (int)speedXpGameSetting);
+                root.addGameSetting(gameSetting);
+            }
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("ERROR: "+e.getMessage());
+        }
+
         return "Successful";
+    }
+
+    public static void exportToJSONFile(String toJSONString, String name) throws IOException
+    {
+        if (toJSONString == null || toJSONString.equals("") || name == null || name.equals(""))
+        {
+            throw new IllegalArgumentException("Cannot send parameters null or empty!");
+        }
+
+        try (FileWriter file = new FileWriter("docs/export" + "/" + name + ".json"))
+        {
+            file.write(toJSONString);
+        }
+        catch (IOException exception)
+        {
+            throw new IOException("Error trying to write the file!");
+        }
     }
 }

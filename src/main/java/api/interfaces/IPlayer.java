@@ -109,6 +109,8 @@ public interface IPlayer
      */
     void setConqueredPortals(int conqueredPortals);
 
+    JSONObject playerToJsonObject();
+
 
     /**
      * Define o numero de portais conquistados pelo jogador

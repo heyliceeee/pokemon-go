@@ -33,9 +33,16 @@ public class Root implements IRoot
     public UnorderedListADT<IPlayer> players = new ArrayUnorderedList<>();
 
     /**
+     * Lista de configurações associados ao jogo
+     */
+    public UnorderedListADT<IGameSetting> gameSettings = new ArrayUnorderedList<>();
+
+    /**
      * Instância do exportar que transforma o grafo em uma imagem
      */
     private final IExporter exporter = new ExporterGraph("docs/export");
+
+    static ImporterExporterJson iEJson = new ImporterExporterJson();
 
 
     @Override
@@ -69,6 +76,25 @@ public class Root implements IRoot
         this.routeNetwork.addEdge(local1, local2, weight);
 
         return "Successful";
+    }
+
+    @Override
+    public String addGameSetting(IGameSetting gameSetting)
+    {
+        if(gameSetting == null)
+        {
+            throw new IllegalArgumentException("Game setting cannot be null");
+        }
+
+        String s = "Failed";
+
+        if(this.gameSettings.isEmpty() || !this.gameSettings.contains(gameSetting)) //se a lista de gameSetting estiver vazia ou não conter o gameSetting a ser adicionado, adiciona-o á lista
+        {
+            this.gameSettings.addToRear(gameSetting); //adiciona o gameSetting no fim da lista
+            s = "Successful";
+        }
+
+        return s;
     }
 
     @Override
@@ -156,28 +182,54 @@ public class Root implements IRoot
     }
 
     @Override
-    public void exportPlayersToJson() throws IOException {
-
+    public void exportPlayersToJson() throws IOException
+    {
+        iEJson.exportToJSONFile(getPlayersJSONArray().toJSONString(), "Players");
     }
 
     @Override
-    public void exportPortalsToJson() throws IOException {
-
+    public void exportPortalsToJson() throws IOException
+    {
+        iEJson.exportToJSONFile(getPortalsJSONArray().toJSONString(), "Portals");
     }
 
     @Override
-    public void exportConnectorsToJson() throws IOException {
-
+    public void exportConnectorsToJson() throws IOException
+    {
+        iEJson.exportToJSONFile(getConnectorsJSONArray().toJSONString(), "Connectors");
     }
 
     @Override
-    public void exportRoutesToJson() throws IOException {
-
+    public void exportRoutesToJson() throws IOException
+    {
+        iEJson.exportToJSONFile(getRoutesJSONArray().toJSONString(), "Routes");
     }
 
     @Override
     public void exportRootToJson() throws IOException {
 
+        JSONObject root = new JSONObject();
+
+        root.put("portals", getPortalsJSONArray());
+        root.put("connector", getConnectorsJSONArray());
+        root.put("routes", getRoutesJSONArray());
+        root.put("players", getPlayersJSONArray());
+        root.put("gameSettings", getGameSettingsJSONArray());
+
+        iEJson.exportToJSONFile(root.toJSONString(), "Root");
+    }
+
+    private JSONArray getGameSettingsJSONArray()
+    {
+        JSONArray gameSettingsArray = new JSONArray();
+        Iterator<IGameSetting> iteratorGameSetting = this.gameSettings.iterator();
+
+        while (iteratorGameSetting.hasNext())
+        {
+            gameSettingsArray.add(iteratorGameSetting.next().gameSettingToJsonObject());
+        }
+
+        return gameSettingsArray;
     }
 
     /**
@@ -193,7 +245,15 @@ public class Root implements IRoot
      */
     private JSONArray getPlayersJSONArray()
     {
-        return null;
+        JSONArray playersArray = new JSONArray();
+        Iterator<IPlayer> iteratorPlayer = this.players.iterator();
+
+        while (iteratorPlayer.hasNext())
+        {
+            playersArray.add(iteratorPlayer.next().playerToJsonObject());
+        }
+
+        return playersArray;
     }
 
     /**
@@ -201,14 +261,34 @@ public class Root implements IRoot
      * @return o JSONArray com todos os portais
      */
     private JSONArray getPortalsJSONArray()
-    {return null;}
+    {
+        JSONArray portalsArray = new JSONArray();
+        Iterator<IPortal> iteratorPortal = this.routeNetwork.getPortals();
+
+        while (iteratorPortal.hasNext())
+        {
+            portalsArray.add(iteratorPortal.next().portalToJSONObject());
+        }
+
+        return portalsArray;
+    }
 
     /**
      * Colocar todos os conectores associados ao jogo em uma JSONArray
      * @return o JSONArray com todos os conectores
      */
     private JSONArray getConnectorsJSONArray()
-    {return null;}
+    {
+        JSONArray connectorsArray = new JSONArray();
+        Iterator<IConnector> iteratorConnector = this.routeNetwork.getConnectors();
+
+        while (iteratorConnector.hasNext())
+        {
+            connectorsArray.add(iteratorConnector.next().connectorToJSONObject());
+        }
+
+        return connectorsArray;
+    }
 
     /**
      * Transforma a route (entre 2 locals do grafo) enviados por parametro em JSONObject
@@ -216,14 +296,33 @@ public class Root implements IRoot
      * @return o JSONObject da route
      */
     private JSONObject routeToJSONObject(IRoute<ILocal> route)
-    {return null;}
+    {
+        JSONObject routeObject = new JSONObject();
+
+        routeObject.put("from", route.getFrom().getId());
+        routeObject.put("to", route.getTo().getId());
+        routeObject.put("distance", route.getWeight());
+
+        return routeObject;
+    }
 
     /**
      * Colocar todas as routes do grafo numa JSONArray
      * @return a JSONArray com todas as routes existentes do grafo
      */
     private JSONArray getRoutesJSONArray()
-    {return null;}
+    {
+        JSONArray routesArray = new JSONArray();
+        Iterator<IRoute<ILocal>> iteratorRoute = this.routeNetwork.getRoutes();
+
+        while (iteratorRoute.hasNext())
+        {
+            IRoute<ILocal> route = iteratorRoute.next();
+            routesArray.add(routeToJSONObject(route));
+        }
+
+        return routesArray;
+    }
 
     @Override
     public ILocal getLocalByID(int id)
@@ -457,6 +556,25 @@ public class Root implements IRoot
     @Override
     public void setPlayerConqueredPortals(String name, int conqueredPortals) {
 
+    }
+
+    @Override
+    public IGameSetting getGameSettingByType(String type)
+    {
+        Iterator<IGameSetting> iterator = this.gameSettings.iterator();
+        IGameSetting gameSetting;
+
+        while (iterator.hasNext())
+        {
+            gameSetting = iterator.next();
+
+            if(gameSetting.getType().equals(type))
+            {
+                return gameSetting;
+            }
+        }
+
+        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package api.implementation;
 
 import api.interfaces.IInteraction;
+import org.json.simple.JSONObject;
 
 /**
  * Representacao da classe de uma interacao com um portal/connector
@@ -40,6 +41,20 @@ public class Interaction implements IInteraction
         this.player = player;
         this.date = date;
         this.points = points;
+    }
+
+    @Override
+    public JSONObject interactionToJsonObject()
+    {
+        JSONObject root = new JSONObject();
+
+        root.put("id", this.id);
+        root.put("type", this.type);
+        root.put("player", this.player);
+        root.put("date", this.date);
+        root.put("points", this.points);
+
+        return root;
     }
 
     @Override

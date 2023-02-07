@@ -5,6 +5,8 @@ import api.interfaces.ICoordinate;
 import api.interfaces.IInteraction;
 import collections.implementation.ArrayUnorderedList;
 import collections.interfaces.UnorderedListADT;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.Iterator;
 
@@ -20,6 +22,8 @@ public class Connector extends Local implements IConnector {
      */
     public UnorderedListADT<IInteraction> interactions = new ArrayUnorderedList<>();
 
+    private ICoordinate coordinates;
+
     public Connector(int id, String type, int energy, int cooldown, ICoordinate coordinates)
     {
         super(id, type, energy, coordinates);
@@ -32,6 +36,44 @@ public class Connector extends Local implements IConnector {
                 "cooldown=" + cooldown +
                 ", " + super.toString() +
                 '}';
+    }
+
+    @Override
+    public JSONObject connectorToJSONObject()
+    {
+        JSONObject root = new JSONObject();
+
+        root.put("id", getId());
+        root.put("type", getType());
+        root.put("energy", getEnergy());
+        root.put("cooldown", this.cooldown);
+        root.put("coordinates", getCoordinatesJSONObject());
+        root.put("interaction", getInteractionsJSONArray());
+
+        return root;
+    }
+
+    private Object getInteractionsJSONArray()
+    {
+        JSONArray interactionsArray = new JSONArray();
+        Iterator<IInteraction> iteratorInteraction = this.interactions.iterator();
+
+        while (iteratorInteraction.hasNext())
+        {
+            interactionsArray.add(iteratorInteraction.next().interactionToJsonObject());
+        }
+
+        return interactionsArray;
+    }
+
+    private Object getCoordinatesJSONObject()
+    {
+        JSONObject coordinates = new JSONObject();
+
+        coordinates.put("longitude", this.coordinates.getLongitude());
+        coordinates.put("latitude", this.coordinates.getLatitude());
+
+        return coordinates;
     }
 
     //region getters and setters

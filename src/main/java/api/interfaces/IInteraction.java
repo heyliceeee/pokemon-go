@@ -1,5 +1,7 @@
 package api.interfaces;
 
+import org.json.simple.JSONObject;
+
 /**
  * Interface da Interacao
  */
@@ -73,4 +75,6 @@ public interface IInteraction {
      * @param points
      */
     void setPoints(int points);
+
+    JSONObject interactionToJsonObject();
 }

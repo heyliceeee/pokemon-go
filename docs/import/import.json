@@ -152,7 +152,7 @@
       "team": "Sparks",
       "level": 64,
       "xp": 467892,
-      "energy": 126,
+      "energy": 10,
       "energyMax": 500,
       "conqueredPortals": 142,
       "coordinates": {
@@ -186,7 +186,24 @@
       "type": "Conquista portal",
       "points": 1000,
       "speedXp": 2
+    },
+    {
+      "id": 3,
+      "type": "Ataca portal",
+      "points": 500,
+      "speedXp": 2
+    },
+    {
+      "id": 4,
+      "type": "Recarrega portal",
+      "points": 250,
+      "speedXp": 2
+    },
+    {
+      "id": 5,
+      "type": "Não completa o ataque ao portal",
+      "points": 100,
+      "speedXp": 2
     }
   ]
-
 }

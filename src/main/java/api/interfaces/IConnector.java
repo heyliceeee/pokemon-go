@@ -2,6 +2,7 @@ package api.interfaces;
 
 import api.implementation.Interaction;
 import collections.interfaces.UnorderedListADT;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,4 +19,6 @@ public interface IConnector extends ILocal{
      * @param cooldown
      */
     void setCooldown(int cooldown);
+
+    JSONObject connectorToJSONObject();
 }

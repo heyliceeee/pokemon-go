@@ -94,6 +94,33 @@ public class Player implements IPlayer
     }*/
 
     @Override
+    public JSONObject playerToJsonObject()
+    {
+        JSONObject root = new JSONObject();
+
+        root.put("name", this.name);
+        root.put("team", this.team);
+        root.put("level", this.level);
+        root.put("xp", this.xp);
+        root.put("energy", this.energy);
+        root.put("energyMax", this.energyMax);
+        root.put("conqueredPortals", this.conqueredPortals);
+        root.put("coordinates", getCoordinatesJSONObject());
+
+        return root;
+    }
+
+    private Object getCoordinatesJSONObject()
+    {
+        JSONObject coordinates = new JSONObject();
+
+        coordinates.put("longitude", this.coordinates.getLongitude());
+        coordinates.put("latitude", this.coordinates.getLatitude());
+
+        return coordinates;
+    }
+
+    @Override
     public String toString() {
         return "Player{" +
                 "name=" + name +
@@ -161,7 +188,7 @@ public class Player implements IPlayer
         if (xp < 0) {
             throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
         }
-        this.xp = xp;
+        this.xp += xp;
     }
 
     @Override
