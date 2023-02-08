@@ -124,7 +124,7 @@ public class Player implements IPlayer
     }
 
 
-    private Object getCoordinatesJSONObject()
+    private JSONObject getCoordinatesJSONObject()
     {
         JSONObject coordinates = new JSONObject();
 

@@ -2184,12 +2184,8 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println(
-                    "| 01. Calculate the shortest path between 2 points                               |\n" +
-                            "| 02. Calculate the shortest path if going through places to recharge            |\n" +
-                            "| 03. Calculate the shortest path if passing through portals and connectors only |\n" +
-                            "| 04. Export each portal/connector involved                                      |\n" +
-                            "| 05. Import game settings                                                       |\n" +
-                            "| 06. Export game settings                                                       |\n" +
+                    "| 01. Export each portal/connector involved                                      |\n" +
+                            "| 02. Export game settings                                                       |\n" +
                             "| 99. Back to previous menu                                                      |"
             );
             System.out.println("+--------------------------------------------------------------------------------+");
@@ -2204,20 +2200,7 @@ public class Demo {
                     break;
 
                 case 2:
-                    break;
-
-                case 3:
-                    break;
-
-                case 4:
-                    break;
-
-                case 5:
                     iEJson.importFromJSONFile(root, local, "docs/import/import.json");
-                    break;
-
-                case 6:
-                    //root.exportGameSettingsToJson();
                     break;
 
                 case 99:
@@ -2225,7 +2208,7 @@ public class Demo {
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option between 1 and 8 or 99 to exit.");
+                    System.out.println("invalid option, selected option between 1 and 2 or 99 to exit.");
                     break;
             }
         }
@@ -2265,9 +2248,61 @@ public class Demo {
              */
             switch (option) {
                 case 1:
+                    String name, team;
+                    IPlayer player = null;
+
+                    System.out.println("\n");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("|             PLAYERS MANAGEMENT MENU - ADD              |");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("Name: ");
+                    scanner.nextLine();
+                    name = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("Team: ");
+                    team = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+
+                    try
+                    {
+                        player = new Player(name, team, 0, 0, 0, 100, 0, null);
+
+                        if(root.addPlayer(player).equals("Successful"))
+                        {
+                            System.out.println("player added with success!");
+                        }
+                        else
+                        {
+                            System.out.println("already exists a player with that id!");
+                        }
+                    }
+                    catch (Exception e)
+                    {}
                     break;
 
                 case 2:
+                    System.out.println("\n");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("|            PLAYERS MANAGEMENT MENU - UPDATE            |");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("insert the new name of the player: ");
+                    scanner.nextLine();
+                    name = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+
+                    try
+                    {
+                        if(root.setPlayerName())
+                        {
+                            System.out.println("player added with success!");
+                        }
+                        else
+                        {
+                            System.out.println("already exists a player with that id!");
+                        }
+                    }
+                    catch (Exception e)
+                    {}
                     break;
 
                 case 3:
