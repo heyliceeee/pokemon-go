@@ -250,7 +250,7 @@ public class Root implements IRoot
         JSONObject root = new JSONObject();
 
         root.put("portals", getPortalsJSONArray());
-        root.put("connector", getConnectorsJSONArray());
+        root.put("connectors", getConnectorsJSONArray());
         root.put("routes", getRoutesJSONArray());
         root.put("players", getPlayersJSONArray());
         root.put("gameSettings", getGameSettingsJSONArray());

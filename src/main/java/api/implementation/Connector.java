@@ -77,7 +77,7 @@ public class Connector extends Local implements IConnector {
         return null;
     }
 
-    private Object getInteractionsJSONArray() {
+    private JSONArray getInteractionsJSONArray() {
         JSONArray interactionsArray = new JSONArray();
         Iterator<IInteraction> iteratorInteraction = this.interactions.iterator();
 
@@ -88,11 +88,26 @@ public class Connector extends Local implements IConnector {
         return interactionsArray;
     }
 
-    private Object getCoordinatesJSONObject() {
+    private JSONObject getCoordinatesJSONObject() {
         JSONObject coordinates = new JSONObject();
 
-        coordinates.put("longitude", this.coordinates.getLongitude());
-        coordinates.put("latitude", this.coordinates.getLatitude());
+        try
+        {
+            coordinates.put("longitude", this.coordinates.getLongitude());
+
+        } catch (Exception e)
+        {
+            coordinates.put("longitude", 0);
+        }
+
+        try
+        {
+            coordinates.put("latitude", this.coordinates.getLatitude());
+
+        } catch (Exception e)
+        {
+            coordinates.put("latitude", 0);
+        }
 
         return coordinates;
     }

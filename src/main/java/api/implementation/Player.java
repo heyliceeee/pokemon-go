@@ -128,8 +128,23 @@ public class Player implements IPlayer
     {
         JSONObject coordinates = new JSONObject();
 
-        coordinates.put("longitude", this.coordinates.getLongitude());
-        coordinates.put("latitude", this.coordinates.getLatitude());
+        try
+        {
+            coordinates.put("longitude", this.coordinates.getLongitude());
+
+        } catch (Exception e)
+        {
+            coordinates.put("longitude", 0);
+        }
+
+        try
+        {
+            coordinates.put("latitude", this.coordinates.getLatitude());
+
+        } catch (Exception e)
+        {
+            coordinates.put("latitude", 0);
+        }
 
         return coordinates;
     }

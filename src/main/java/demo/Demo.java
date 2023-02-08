@@ -512,6 +512,7 @@ public class Demo {
                             xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
 
                             System.out.println("XP current: " + xp); //xp depois da interacao
+
                         } else {
                             //energia atual do portal
                             randomPortal.setEnergy(-energyCurrent); //energy + x = 0
@@ -1020,6 +1021,7 @@ public class Demo {
                                 xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
 
                                 System.out.println("XP current: " + xp); //xp depois da interacao
+
                                 System.out.println("\nlevel player: " + root.getPlayerByName(playerName).getLevel()); //nivel do jogador
 
                                 exit = true;
@@ -1466,6 +1468,7 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+
                                 System.out.println("\nlevel player: " + root.getPlayerByName(playerName).getLevel()); //nível do jogador
 
                                 int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
@@ -1477,6 +1480,7 @@ public class Demo {
                                 System.out.println("XP current: " + xp); //xp depois da interacao
 
                                 exit = true;
+
 
                                 //ir para o portal
                                 IPortal portalRandom = (IPortal) root.getRoute(root, 1, connectorRandom).next(); //obter o portal mais perto
@@ -1784,6 +1788,7 @@ public class Demo {
     //region IN GAME - CONNECTOR WITHOUT COOLDOWN AND GO ANY CONNECTOR
 
     private static void showConnectorCooldownGoConnectorMenu(IConnector connectorRandom, boolean firstTime) throws EmptyCollectionException, NotLocalInstanceException, java.text.ParseException, IOException {
+
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -1891,7 +1896,8 @@ public class Demo {
                                     exit = true;
 
                                     showConnectorMenu(connectorRandom2, firstTime);
-                                } else //se atingir a energia maxima
+                                }
+                                else //se atingir a energia maxima
                                 {
                                     root.getPlayerByName(playerName).setEnergy(Math.min(energyCurrentPlayer + energyConnector, energyMaxPlayer));
                                     System.out.println("charged your energy successfully");
@@ -2008,12 +2014,12 @@ public class Demo {
 
                                 exit = true;
 
-                                //ir para o connector
-                                IConnector connectorRandom2 = (IConnector) root.getRoute(root, 2, connectorRandom).next(); //obter o Connector mais perto
+                                //ir para o portal
+                                IPortal portalRandom = (IPortal) root.getRoute(root, 1, connectorRandom).next(); //obter o portal mais perto
+                                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
 
-                                exit = true;
-
-                                showConnectorMenu(connectorRandom2, firstTime);
+                                showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
 
                             } else if (energyMaxPlayer > energyConnector) {
                                 if ((energyCurrentPlayer + energyConnector) <= energyMaxPlayer) //se nao atingir a energia maxima
@@ -2039,12 +2045,12 @@ public class Demo {
 
                                     exit = true;
 
-                                    //ir para o connector
-                                    IConnector connectorRandom2 = (IConnector) root.getRoute(root, 2, connectorRandom).next(); //obter o Connector mais perto
+                                    //ir para o portal
+                                    IPortal portalRandom = (IPortal) root.getRoute(root, 1, connectorRandom).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
 
-                                    exit = true;
-
-                                    showConnectorMenu(connectorRandom2, firstTime);
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
 
                                 } else {
                                     root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + (energyMaxPlayer - energyConnector));
@@ -2068,12 +2074,12 @@ public class Demo {
 
                                     exit = true;
 
-                                    //ir para o connector
-                                    IConnector connectorRandom2 = (IConnector) root.getRoute(root, 2, connectorRandom).next(); //obter o Connector mais perto
+                                    //ir para o portal
+                                    IPortal portalRandom = (IPortal) root.getRoute(root, 1, connectorRandom).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
 
-                                    exit = true;
-
-                                    showConnectorMenu(connectorRandom2, firstTime);
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
                                 }
                             }
                         } else if (cooldown > duration)//se NÃO passou o periodo de cooldown do jogador atual
@@ -2086,12 +2092,12 @@ public class Demo {
                     case 99:
                         exit = true;
 
-                        //ir para o connector
-                        IConnector connectorRandom2 = (IConnector) root.getRoute(root, 2, connectorRandom).next(); //obter o Connector mais perto
+                        //ir para o portal
+                        IPortal portalRandom = (IPortal) root.getRoute(root, 1, connectorRandom).next(); //obter o portal mais perto
+                        String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                        String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
 
-                        exit = true;
-
-                        showConnectorMenu(connectorRandom2, firstTime);
+                        showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
                         break;
 
                     default:
@@ -2128,6 +2134,8 @@ public class Demo {
                             "| 03. Routes management                |\n" +
                             "| 04. Players management               |\n" +
                             "| 05. Game management                  |\n" +
+                            "| 06. Import all data                  |\n" +
+                            "| 07. Export all data                  |\n" +
                             "| 99. Back to previous menu            |"
             );
             System.out.println("+--------------------------------------+");
@@ -2156,6 +2164,14 @@ public class Demo {
 
                 case 5:
                     showGameManagementMenu();
+                    break;
+
+                case 6:
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");
+                    break;
+
+                case 7:
+                    root.exportRootToJson();
                     break;
 
                 case 99:
