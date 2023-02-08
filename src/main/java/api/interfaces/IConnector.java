@@ -22,5 +22,5 @@ public interface IConnector extends ILocal{
 
     JSONObject connectorToJSONObject();
 
-    IInteraction getConnectorLastInteractionByPlayerName(String playerName);
+    IInteraction getConnectorLastInteractionByPlayerName(int idConnector, String playerName);
 }

@@ -57,7 +57,7 @@ public interface IRoot
      * @return o iterador com o route mais curto
      * @throws EmptyCollectionException
      */
-    Iterator<ILocal> getRoute(int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException;
+    Iterator<ILocal> getRoute(IRoot root, int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException;
 
     /**
      * Retorna em string uma listagem dos jogadores
@@ -197,7 +197,7 @@ public interface IRoot
      */
     IConnector getConnectorByID(int id);
 
-    IConnector getConnectorInteractionsByPlayerName(int idConnector, String playerName);
+    IInteraction getConnectorInteractionsByPlayerName(int idConnector, String playerName);
 
     /**
      * Atualiza o ID do connector
@@ -329,7 +329,8 @@ public interface IRoot
      */
     Iterator<IRoute<ILocal>> getRoutesOrderBy(SortType sortType);
 
-   /* *//**
+
+    /* *//**
      * Retorna os locais (portal/connector)
      * @return os locais (portal/connector)
      *//*

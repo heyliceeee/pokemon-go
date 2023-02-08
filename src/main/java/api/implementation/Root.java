@@ -10,6 +10,7 @@ import collections.implementation.ExporterGraph;
 import collections.interfaces.IExporter;
 import api.interfaces.RouteNetworkADT;
 import collections.interfaces.UnorderedListADT;
+import demo.Demo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -27,24 +28,17 @@ public class Root implements IRoot
     /**
      * grafo de rede que contém informações sobre os locals e rotas entre eles
      */
-    public RouteNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
+    public static RouteNetworkADT<ILocal> routeNetwork = new RouteNetwork<>();
 
     /**
      * Lista de jogadores associados ao jogo
      */
-    public UnorderedListADT<IPlayer> players = new ArrayUnorderedList<>();
+    public static UnorderedListADT<IPlayer> players = new ArrayUnorderedList<>();
 
     /**
      * Lista de configurações associados ao jogo
      */
-    public UnorderedListADT<IGameSetting> gameSettings = new ArrayUnorderedList<>();
-
-    /**
-     * Instância do exportar que transforma o grafo em uma imagem
-     */
-    private final IExporter exporter = new ExporterGraph("docs/export");
-
-    static ImporterExporterJson iEJson = new ImporterExporterJson();
+    public static UnorderedListADT<IGameSetting> gameSettings = new ArrayUnorderedList<>();
 
 
     @Override
@@ -102,29 +96,29 @@ public class Root implements IRoot
     @Override
     public void exportGraph() throws EmptyCollectionException, InterruptedException
     {
-        exporter.exportGraph(this.routeNetwork, "route");
+        Demo.exporter.exportGraph(this.routeNetwork, "route");
     }
 
     @Override
-    public Iterator<ILocal> getRoute(int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException {
+    public Iterator<ILocal> getRoute(IRoot root, int option, ILocal local) throws EmptyCollectionException, NotLocalInstanceException, ParseException {
         Iterator<ILocal> localsIterator;
 
         switch (option)
         {
             case 1:
-                localsIterator = this.routeNetwork.shortestRouteToPortal(local);
+                localsIterator = routeNetwork.shortestRouteToPortal(root, local);
                 return localsIterator;
 
             case 2:
-                localsIterator = this.routeNetwork.shortestRouteToConnector(local);
+                localsIterator = routeNetwork.shortestRouteToConnector(root, local);
                 return localsIterator;
 
             case 3:
-                localsIterator = this.routeNetwork.shortestRouteGoConnectorWithoutCooldownToPortal(local);
+                localsIterator = routeNetwork.shortestRouteToConnector(root, local);
                 return localsIterator;
 
             case 4:
-                localsIterator = this.routeNetwork.shortestRouteGoConnectorWithoutCooldownToConnector(local);
+                localsIterator = routeNetwork.shortestRouteToConnector(root, local);
                 return localsIterator;
         }
 
@@ -206,25 +200,25 @@ public class Root implements IRoot
     @Override
     public void exportPlayersToJson() throws IOException
     {
-        iEJson.exportToJSONFile(getPlayersJSONArray().toJSONString(), "Players");
+        Demo.iEJson.exportToJSONFile(getPlayersJSONArray().toJSONString(), "Players");
     }
 
     @Override
     public void exportPortalsToJson() throws IOException
     {
-        iEJson.exportToJSONFile(getPortalsJSONArray().toJSONString(), "Portals");
+        Demo.iEJson.exportToJSONFile(getPortalsJSONArray().toJSONString(), "Portals");
     }
 
     @Override
     public void exportConnectorsToJson() throws IOException
     {
-        iEJson.exportToJSONFile(getConnectorsJSONArray().toJSONString(), "Connectors");
+        Demo.iEJson.exportToJSONFile(getConnectorsJSONArray().toJSONString(), "Connectors");
     }
 
     @Override
     public void exportRoutesToJson() throws IOException
     {
-        iEJson.exportToJSONFile(getRoutesJSONArray().toJSONString(), "Routes");
+        Demo.iEJson.exportToJSONFile(getRoutesJSONArray().toJSONString(), "Routes");
     }
 
     @Override
@@ -238,7 +232,7 @@ public class Root implements IRoot
         root.put("players", getPlayersJSONArray());
         root.put("gameSettings", getGameSettingsJSONArray());
 
-        iEJson.exportToJSONFile(root.toJSONString(), "Root");
+        Demo.iEJson.exportToJSONFile(root.toJSONString(), "Root");
     }
 
     private JSONArray getGameSettingsJSONArray()
@@ -454,7 +448,7 @@ public class Root implements IRoot
     @Override
     public IConnector getRandomConnector()
     {
-        Iterator<IConnector> iterator = this.routeNetwork.getConnectors();
+        Iterator<IConnector> iterator = routeNetwork.getConnectors();
         IConnector connector;
 
         int size = this.routeNetwork.getNumberOfConnectors(); //número de conectores existentes
@@ -497,7 +491,7 @@ public class Root implements IRoot
     }
 
     @Override
-    public IConnector getConnectorInteractionsByPlayerName(int idConnector, String playerName)
+    public IInteraction getConnectorInteractionsByPlayerName(int idConnector, String playerName)
     {
         Iterator<IConnector> iterator = this.routeNetwork.getConnectors();
         IConnector connector;
@@ -508,15 +502,15 @@ public class Root implements IRoot
 
             if(connector.getId() == idConnector)
             {
-                IInteraction lastConnectorInteractionByPlayerName = connector.getConnectorLastInteractionByPlayerName(playerName);
+                IInteraction lastConnectorInteractionByPlayerName = connector.getConnectorLastInteractionByPlayerName(idConnector, playerName);
 
                 if(lastConnectorInteractionByPlayerName == null) //caso não haja interações com o jogador
                 {
-                    return connector;
+                    return null;
                 }
                 else
                 {
-                    lastConnectorInteractionByPlayerName.getDate();
+                    return lastConnectorInteractionByPlayerName;
                 }
             }
         }

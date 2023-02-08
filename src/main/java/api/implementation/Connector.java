@@ -1,8 +1,6 @@
 package api.implementation;
 
-import api.interfaces.IConnector;
-import api.interfaces.ICoordinate;
-import api.interfaces.IInteraction;
+import api.interfaces.*;
 import collections.implementation.ArrayUnorderedList;
 import collections.interfaces.UnorderedListADT;
 import org.json.simple.JSONArray;
@@ -16,11 +14,6 @@ public class Connector extends Local implements IConnector {
      * intervalo de fornecimento de energia a um jogador apos uma interacao do conector
      */
     private int cooldown;
-
-    /**
-     * Lista de interactions associados ao conector
-     */
-    public UnorderedListADT<IInteraction> interactions = new ArrayUnorderedList<>();
 
     private ICoordinate coordinates;
 
@@ -52,19 +45,32 @@ public class Connector extends Local implements IConnector {
     }
 
     @Override
-    public IInteraction getConnectorLastInteractionByPlayerName(String playerName) {
+    public IInteraction getConnectorLastInteractionByPlayerName(int idConnector, String playerName) {
 
-        Iterator<IInteraction> iterator = this.interactions.iterator();
-        IInteraction interaction;
-        int idInteraction = 0;
+        Iterator<IConnector> iteratorConnector = Root.routeNetwork.getConnectors();
+        IConnector connector;
 
-        while (iterator.hasNext()) {
-            interaction = iterator.next();
+        while (iteratorConnector.hasNext())
+        {
+            connector = iteratorConnector.next();
 
-            if (interaction.getPlayer().equals(playerName) && idInteraction < interaction.getID()) //se a interação pertence ao jogador e se for mais recente do que a comparação anterior
+            if(connector.getId() == idConnector)
             {
-                idInteraction = interaction.getID();
-                return interaction;
+                Iterator<IInteraction> iteratorInteraction = interactions.iterator();
+                IInteraction interaction;
+                int idInteraction = 0;
+
+                while (iteratorInteraction.hasNext())
+                {
+                    interaction = iteratorInteraction.next();
+
+                    if (interaction.getPlayer().equals(playerName) && idInteraction <= interaction.getID()) //se a interação pertence ao jogador e se for mais recente do que a comparação anterior
+                    {
+                        idInteraction = interaction.getID();
+
+                        return interaction;
+                    }
+                }
             }
         }
 

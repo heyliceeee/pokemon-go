@@ -52,7 +52,7 @@ public interface RouteNetworkADT<T> extends NetworkADT<T>
      * @return iterador com a route
      * @throws NotLocalInstanceException se o ponto de partida não for uma instância {@link ILocal local}
      */
-    Iterator<ILocal> shortestRouteToPortal(T source) throws NotLocalInstanceException, ParseException;
+    Iterator<ILocal> shortestRouteToPortal(IRoot root, T source) throws NotLocalInstanceException, ParseException;
 
     /**
      * Rota mais curta do ponto de partida até ao conector mais proximo dos conectores do grafo
@@ -60,7 +60,7 @@ public interface RouteNetworkADT<T> extends NetworkADT<T>
      * @return iterador com o conector
      * @throws NotLocalInstanceException se o ponto de partida não for uma instância {@link ILocal local}
      */
-    Iterator<ILocal> shortestRouteToConnector(T source) throws NotLocalInstanceException, ParseException;
+    Iterator<ILocal> shortestRouteToConnector(IRoot root, T source) throws NotLocalInstanceException, ParseException;
 
     /**
      * Rota mais curta do ponto de partida passa pelo ao conector sem cooldown até ao portal mais proximo dos portais do grafo
@@ -68,7 +68,7 @@ public interface RouteNetworkADT<T> extends NetworkADT<T>
      * @return iterador
      * @throws NotLocalInstanceException se o ponto de partida não for uma instância {@link ILocal local}
      */
-    Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToPortal(T source) throws NotLocalInstanceException, ParseException;
+    Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToPortal(IRoot root, T source) throws NotLocalInstanceException, ParseException;
 
     /**
      * Rota mais curta do ponto de partida passa pelo ao conector sem cooldown até ao conector mais proximo dos conectores do grafo
@@ -76,7 +76,7 @@ public interface RouteNetworkADT<T> extends NetworkADT<T>
      * @return iterador
      * @throws NotLocalInstanceException se o ponto de partida não for uma instância {@link ILocal local}
      */
-    Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToConnector(T source) throws NotLocalInstanceException, ParseException;
+    Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToConnector(IRoot root, T source) throws NotLocalInstanceException, ParseException;
 
     /**
      * Rota mais curta passando apenas por conectores mais proximo dos conectores do grafo

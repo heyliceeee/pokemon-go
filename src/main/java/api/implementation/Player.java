@@ -185,9 +185,6 @@ public class Player implements IPlayer
     @Override
     public void setLevel(int level)
     {
-        if (level < 1) {
-            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
-        }
         this.level = level;
     }
 

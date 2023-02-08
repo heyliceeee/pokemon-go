@@ -91,10 +91,8 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
     public Iterator<IPortal> getPortals() {
         UnorderedListADT<IPortal> resultList = new ArrayUnorderedList<>();
 
-        for(int i=0; i < super.numVertices; i++)
-        {
-            if(super.vertices[i] instanceof IPortal)
-            {
+        for (int i = 0; i < super.numVertices; i++) {
+            if (super.vertices[i] instanceof IPortal) {
                 resultList.addToRear((IPortal) super.vertices[i]); //adiciona no fim da lista
             }
         }
@@ -106,10 +104,8 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
     public Iterator<IConnector> getConnectors() {
         UnorderedListADT<IConnector> resultList = new ArrayUnorderedList<>();
 
-        for(int i=0; i < super.numVertices; i++)
-        {
-            if(super.vertices[i] instanceof IConnector)
-            {
+        for (int i = 0; i < super.numVertices; i++) {
+            if (super.vertices[i] instanceof IConnector) {
                 resultList.addToRear((IConnector) super.vertices[i]); //adiciona no fim da lista
             }
         }
@@ -134,62 +130,60 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
     }
 
     @Override
-    public Iterator<ILocal> shortestRouteToPortal(T source) throws NotLocalInstanceException, ParseException {
+    public Iterator<ILocal> shortestRouteToPortal(IRoot root, T source) throws NotLocalInstanceException, ParseException {
         DijkstraSupport ds = this.shortestRouteDijkstra(source);
 
-        return this.shortestRouteTo(SEARCH_TYPE.PORTAL_ANY, ds.prev, ds.distance, ds.visited, source);
+        return this.shortestRouteTo(root, SEARCH_TYPE.PORTAL_ANY, ds.prev, ds.distance, ds.visited, source);
     }
 
     @Override
-    public Iterator<ILocal> shortestRouteToConnector(T source) throws NotLocalInstanceException, ParseException {
+    public Iterator<ILocal> shortestRouteToConnector(IRoot root, T source) throws NotLocalInstanceException, ParseException {
         DijkstraSupport ds = this.shortestRouteDijkstra(source);
 
-        return this.shortestRouteTo(SEARCH_TYPE.CONNECTOR_ANY, ds.prev, ds.distance, ds.visited, source);
+        return this.shortestRouteTo(root, SEARCH_TYPE.CONNECTOR_ANY, ds.prev, ds.distance, ds.visited, source);
     }
 
     @Override
-    public Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToPortal(T source) throws NotLocalInstanceException, ParseException {
+    public Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToPortal(IRoot root, T source) throws NotLocalInstanceException, ParseException {
         DijkstraSupport ds = this.shortestRouteDijkstra(source);
 
-        Iterator<ILocal> connectorWithoutCooldown = this.shortestRouteTo(SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN, ds.prev, ds.distance, ds.visited, source);
+        return this.shortestRouteTo(root, SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN, ds.prev, ds.distance, ds.visited, source);
+
+        /*
 
         //obter o conector
         IConnector connector = null;
-        while (connectorWithoutCooldown.hasNext())
-        {
+        while (connectorWithoutCooldown.hasNext()) {
             ILocal local = connectorWithoutCooldown.next();
 
-            if(local instanceof IConnector)
-            {
+            if (local instanceof IConnector) {
                 connector = (IConnector) local;
                 break;
             }
         }
 
 
-        return this.shortestRouteToPortal((T) connector);
+        return this.shortestRouteToPortal(root, (T) connector);*/
     }
 
     @Override
-    public Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToConnector(T source) throws NotLocalInstanceException, ParseException {
+    public Iterator<ILocal> shortestRouteGoConnectorWithoutCooldownToConnector(IRoot root, T source) throws NotLocalInstanceException, ParseException {
         DijkstraSupport ds = this.shortestRouteDijkstra(source);
 
-        Iterator<ILocal> connectorWithoutCooldown = this.shortestRouteTo(SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN, ds.prev, ds.distance, ds.visited, source);
+        Iterator<ILocal> connectorWithoutCooldown = this.shortestRouteTo(root, SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN, ds.prev, ds.distance, ds.visited, source);
 
         //obter o conector
         IConnector connector = null;
-        while (connectorWithoutCooldown.hasNext())
-        {
+        while (connectorWithoutCooldown.hasNext()) {
             ILocal local = connectorWithoutCooldown.next();
 
-            if(local instanceof IConnector)
-            {
+            if (local instanceof IConnector) {
                 connector = (IConnector) local;
                 break;
             }
         }
 
-        return this.shortestRouteToConnector((T) connector);
+        return this.shortestRouteToConnector(root, (T) connector);
     }
 
     /**
@@ -213,6 +207,7 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
 
     /**
      * Retorna toda a informação sobre o algoritmo de Dijkstra, obtem a rota mais curta do ponto de partida até ao todo resto dos nodes
+     *
      * @param source ponto de partida
      * @return toda a informação sobre o algoritmo de Dijkstra
      */
@@ -223,15 +218,13 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
 
         int startVertex = getIndex(source), currentIndex;
 
-        if(startVertex == -1)
-        {
+        if (startVertex == -1) {
             throw new IllegalArgumentException("Source doesn't exists in the graph");
         }
 
         DijkstraSupport ds = new DijkstraSupport(super.numVertices);
 
-        for(int vertexIndex=0; vertexIndex < super.numVertices; vertexIndex++)
-        {
+        for (int vertexIndex = 0; vertexIndex < super.numVertices; vertexIndex++) {
             ds.distance[vertexIndex] = Integer.MAX_VALUE;
             ds.visited[vertexIndex] = false;
         }
@@ -241,18 +234,15 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
 
         double tmpDistance, edgeDistance;
 
-        for(int i=0; i < super.numVertices; i++)
-        {
+        for (int i = 0; i < super.numVertices; i++) {
             currentIndex = super.getSmallDistanceNode(ds.distance, ds.visited); //obter o indice do node com o peso baixo
             ds.visited[currentIndex] = true;
 
-            for (int vertexIndex=0; vertexIndex < super.numVertices; vertexIndex++)
-            {
+            for (int vertexIndex = 0; vertexIndex < super.numVertices; vertexIndex++) {
                 edgeDistance = super.adjMatrix[currentIndex][vertexIndex]; //obter a distância entre o node proximo e todos os outros nodes
                 tmpDistance = ds.distance[currentIndex] + edgeDistance; //calcular a distancia
 
-                if (edgeDistance > 0 && tmpDistance < ds.distance[vertexIndex])
-                {
+                if (edgeDistance > 0 && tmpDistance < ds.distance[vertexIndex]) {
                     ds.distance[vertexIndex] = tmpDistance;
                     ds.prev[vertexIndex] = currentIndex;
                 }
@@ -264,18 +254,18 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
 
     /**
      * Rota mais curta do local de ponta de partida até a outro local
+     *
      * @param searchType tipo de local a ser procurado
      * @param prev
      * @param distance
      * @param visited
-     * @param source local de ponto de partida
+     * @param source     local de ponto de partida
      * @return iterador com a localização da rota
      */
-    private Iterator<ILocal> shortestRouteTo(SEARCH_TYPE searchType, int[] prev, double[] distance, boolean[] visited, T source) throws NotLocalInstanceException, ParseException {
-       if(!(source instanceof ILocal))
-       {
-           throw new NotLocalInstanceException("Vertex need to be ILocal instance");
-       }
+    private Iterator<ILocal> shortestRouteTo(IRoot root, SEARCH_TYPE searchType, int[] prev, double[] distance, boolean[] visited, T source) throws NotLocalInstanceException, ParseException {
+        if (!(source instanceof ILocal)) {
+            throw new NotLocalInstanceException("Vertex need to be ILocal instance");
+        }
 
         int minIndexPortal = -1;
         double minDistanceToPortal = Integer.MAX_VALUE;
@@ -284,79 +274,103 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
         double minDistanceToConnector = Integer.MAX_VALUE;
 
         //verifica a distância mínima e atualiza o último indice do anterior
-        for(int i=0; i < distance.length; i++)
-        {
-            if(visited[i] && distance[i] != 0) //se foi visitado, e não é o mesmo que source
+        for (int i = 0; i < distance.length; i++) {
+            if (visited[i] && distance[i] != 0) //se foi visitado, e não é o mesmo que source
             {
-                if(super.vertices[i] instanceof IPortal) //se for um portal
+                if (super.vertices[i] instanceof IPortal) //se for um portal
                 {
-                    if(distance[i] < minDistanceToPortal)
-                    {
-                        if(searchType == SEARCH_TYPE.PORTAL_ANY) //se for qualquer portal
+                    if (distance[i] < minDistanceToPortal) {
+                        if (searchType == SEARCH_TYPE.PORTAL_ANY) //se for qualquer portal
                         {
                             minDistanceToPortal = distance[i];
                             minIndexPortal = i;
                         }
                     }
-                }
-                else if(super.vertices[i] instanceof IConnector) //se for um conector
+                } else if (super.vertices[i] instanceof IConnector) //se for um conector
                 {
-                    if(distance[i] < minDistanceToConnector)
-                    {
-                        if(searchType == SEARCH_TYPE.CONNECTOR_ANY) //se for qualquer conector
+                    if (distance[i] < minDistanceToConnector) {
+                        if (searchType == SEARCH_TYPE.CONNECTOR_ANY) //se for qualquer conector
                         {
                             minDistanceToConnector = distance[i];
                             minIndexConnector = i;
-                        }
-                        else if(searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN) //se for qualquer conector mas sem cooldown
+                        } else if (searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN) //se for qualquer conector mas sem cooldown
                         {
-                            for(int j=0; j < ((IConnector) super.vertices[i]).getInteractionsListing().length(); j++) //verificar nas interações, a última vez que o jogador atual foi recarregar-se ao conector
+                            //se o connector atual não tem interações, então pode carregar energia ao jogador
+                            if (((IConnector) super.vertices[i]).getInteractionsListing().length() == 0) {
+                                //data da interação
+                                LocalDateTime dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+
+                                long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
+
+                                long recentMinutes = Long.MAX_VALUE;
+
+                                //saber qual foi a ultima iteração do jogador com o connector
+                                if (recentMinutes > duration) {
+                                    recentMinutes = duration;
+                                }
+
+                                if (distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                {
+                                    minDistanceToConnector = distance[i];
+                                    minIndexConnector = i;
+                                }
+                            }
+                            else if(((IConnector) super.vertices[i]).getInteractionsListing().length() > 0)
                             {
-                                if((((IConnector) super.vertices[i]).getInteractionByID(j).getPlayer()).equals(Demo.playerName)) //se a interação foi realizada pelo jogador atual
+                                int connectorID = ((IConnector) super.vertices[i]).getId(); //id do connector
+                                boolean found = true; //encontrou interações do jogador no connector
+                                IConnector connector = root.getConnectorByID(connectorID);
+                                IInteraction lastConnectorInteractionByPlayerName = null;
+
+                                try
+                                {
+                                    lastConnectorInteractionByPlayerName = connector.getConnectorLastInteractionByPlayerName(connectorID, Demo.playerName); //ultima interação do jogador com o connector
+
+                                    if(lastConnectorInteractionByPlayerName == null)
+                                    {
+                                        found = false;
+                                    }
+                                    else
+                                    {
+                                        found = true;
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    found = false;
+                                }
+
+                                if (found == false) //se não encontrou a ultima interação do jogador
                                 {
                                     //data da interação
-                                    String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-                                    LocalDateTime dateInteraction;
-
-                                    try
-                                    {
-                                        dateInteraction = LocalDateTime.parse(date, formatter);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
-                                    }
+                                    LocalDateTime dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
 
                                     long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
 
                                     long recentMinutes = Long.MAX_VALUE;
 
                                     //saber qual foi a ultima iteração do jogador com o connector
-                                    if(recentMinutes > duration)
-                                    {
+                                    if (recentMinutes > duration) {
                                         recentMinutes = duration;
                                     }
 
-                                    if(distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                    if (distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
                                     {
                                         minDistanceToConnector = distance[i];
                                         minIndexConnector = i;
                                     }
                                 }
-                                else if(((IConnector) super.vertices[i]).getInteractionsListing().length() == 0)
+                                else if (found == true) //se a interação foi realizada pelo jogador atual
                                 {
                                     //data da interação
-                                    String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
+                                    String date = lastConnectorInteractionByPlayerName.getDate();
+                                    //String date = ((IConnector) super.vertices[i]).lastConnectorInteractionByPlayerName.getDate();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                                     LocalDateTime dateInteraction;
 
-                                    try
-                                    {
+                                    try {
                                         dateInteraction = LocalDateTime.parse(date, formatter);
-                                    }
-                                    catch (Exception e)
-                                    {
+                                    } catch (Exception e) {
                                         dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
                                     }
 
@@ -365,18 +379,91 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
                                     long recentMinutes = Long.MAX_VALUE;
 
                                     //saber qual foi a ultima iteração do jogador com o connector
-                                    if(recentMinutes > duration)
-                                    {
+                                    if (recentMinutes > duration) {
                                         recentMinutes = duration;
                                     }
 
-                                    if(distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                    if (distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
                                     {
                                         minDistanceToConnector = distance[i];
                                         minIndexConnector = i;
                                     }
                                 }
                             }
+
+                            /*for (int j = 0; j < ((IConnector) super.vertices[i]).getInteractionsListing().length(); j++) //verificar nas interações, a última vez que o jogador atual foi recarregar-se ao conector
+                            {
+                                int connectorID = ((IConnector) super.vertices[i]).getId();
+                                boolean found = true;
+
+                                try
+                                {
+                                    IConnector lastConnectorInteractionByPlayerName = root.getConnectorInteractionsByPlayerName(connectorID, Demo.playerName); //ultima interação do jogador com o connector
+
+                                    if(lastConnectorInteractionByPlayerName == null)
+                                    {
+                                        found = false;
+                                    }
+                                    else
+                                    {
+                                        found = true;
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    found = false;
+                                }
+
+
+                                if (found == false) //se não encontrou a ultima interação do jogador
+                                {
+                                    //data da interação
+                                    LocalDateTime dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+
+                                    long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
+
+                                    long recentMinutes = Long.MAX_VALUE;
+
+                                    //saber qual foi a ultima iteração do jogador com o connector
+                                    if (recentMinutes > duration) {
+                                        recentMinutes = duration;
+                                    }
+
+                                    if (distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                    {
+                                        minDistanceToConnector = distance[i];
+                                        minIndexConnector = i;
+                                    }
+                                }
+                                else if (found == true) //se a interação foi realizada pelo jogador atual
+                                {
+                                    //data da interação
+                                    String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                                    LocalDateTime dateInteraction;
+
+                                    try {
+                                        dateInteraction = LocalDateTime.parse(date, formatter);
+                                    } catch (Exception e) {
+                                        dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                                    }
+
+                                    long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
+
+                                    long recentMinutes = Long.MAX_VALUE;
+
+                                    //saber qual foi a ultima iteração do jogador com o connector
+                                    if (recentMinutes > duration) {
+                                        recentMinutes = duration;
+                                    }
+
+                                    if (distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                    {
+                                        minDistanceToConnector = distance[i];
+                                        minIndexConnector = i;
+                                    }
+                                }
+                            }*/
                         }
                     }
                 }
@@ -389,22 +476,18 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
         /**
          * após encontra todas as distâncias, faremos a travessia até o grafo, partindo do local mais próximo e percorrendo o grafo até chegarmos ao ponto de partida
          */
-        if(searchType == SEARCH_TYPE.PORTAL_ANY)
-        {
+        if (searchType == SEARCH_TYPE.PORTAL_ANY) {
             currentIndex = minIndexPortal;
-        }
-        else if(searchType == SEARCH_TYPE.CONNECTOR_ANY || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN_PORTAL || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN_CONNECTOR)
-        {
+        } else if (searchType == SEARCH_TYPE.CONNECTOR_ANY || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN_PORTAL || searchType == SEARCH_TYPE.CONNECTOR_WITHOUTCOOLDOWN_CONNECTOR) {
             currentIndex = minIndexConnector;
         }
 
-        if(currentIndex == -1) //se não existe locals no grafo
+        if (currentIndex == -1) //se não existe locals no grafo
         {
             return null;
         }
 
-        while (prev[currentIndex] != -1)
-        {
+        while (prev[currentIndex] != -1) {
             resultList.addToFront((ILocal) this.vertices[currentIndex]);
             currentIndex = prev[currentIndex];
         }
