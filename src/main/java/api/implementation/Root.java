@@ -65,6 +65,24 @@ public class Root implements IRoot
     }
 
     @Override
+    public String removePlayer(IPlayer player) throws EmptyCollectionException {
+        if(player == null)
+        {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
+
+        String s = "Failed";
+
+        if(this.players.isEmpty() || this.players.contains(player)) //se a lista de jogadores estiver vazia ou não conter o jogador a ser adicionado, adiciona-o á lista
+        {
+            this.players.remove(player); //remove o player no fim da lista
+            s = "Successful";
+        }
+
+        return s;
+    }
+
+    @Override
     public String addRoute(ILocal local1, ILocal local2, double weight) throws EmptyCollectionException
     {
         this.routeNetwork.addEdge(local1, local2, weight);

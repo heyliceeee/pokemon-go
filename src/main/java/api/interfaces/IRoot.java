@@ -32,6 +32,8 @@ public interface IRoot
      */
     String addPlayer(IPlayer player);
 
+    String removePlayer(IPlayer player) throws EmptyCollectionException;
+
     /**
      * Retorna "Successful" se conseguir adicionar um route entre 2 portals e/ou connectors
      * @param local1 um portal/connector
@@ -330,6 +332,7 @@ public interface IRoot
      * @return iterador com os dados ordenados
      */
     Iterator<IRoute<ILocal>> getRoutesOrderBy(SortType sortType);
+
 
 
     /* *//**

@@ -9,6 +9,7 @@ import collections.implementation.ExporterGraph;
 import collections.interfaces.IExporter;
 import collections.interfaces.UnorderedListADT;
 import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -512,49 +513,49 @@ public class Demo {
 
                             System.out.println("XP current: " + xp); //xp depois da interacao
                         } else {
-                        //energia atual do portal
-                        randomPortal.setEnergy(-energyCurrent); //energy + x = 0
+                            //energia atual do portal
+                            randomPortal.setEnergy(-energyCurrent); //energy + x = 0
 
-                        //remover a energia do jogador gasta no portal, na energia atual do jogador
-                        root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - energyCurrent);
+                            //remover a energia do jogador gasta no portal, na energia atual do jogador
+                            root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - energyCurrent);
 
-                        randomPortal.getOwnership().setState("No team"); //portal sem equipa
-                        randomPortal.getOwnership().setPlayer(""); //portal sem dono
+                            randomPortal.getOwnership().setState("No team"); //portal sem equipa
+                            randomPortal.getOwnership().setPlayer(""); //portal sem dono
 
-                        System.out.println("attacked the portal successfully");
+                            System.out.println("attacked the portal successfully");
 
-                        System.out.println("\nyour energy current: " + root.getPlayerByName(playerName).getEnergy());
-                        System.out.println("energy portal current: " + randomPortal.getEnergy());
+                            System.out.println("\nyour energy current: " + root.getPlayerByName(playerName).getEnergy());
+                            System.out.println("energy portal current: " + randomPortal.getEnergy());
 
-                        //adicionar interação ao JSON
-                        int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
-                        LocalDateTime now = LocalDateTime.now(); //data agora
+                            //adicionar interação ao JSON
+                            int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
+                            LocalDateTime now = LocalDateTime.now(); //data agora
 
-                        int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
-                        int points = root.getGameSettingByType("Ataca portal").getPoints(); //pontos do tipo de interação
-                        int speedXP = root.getGameSettingByType("Ataca portal").getSpeedXp(); //velocidade de xp do tipo de interação
+                            int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                            int points = root.getGameSettingByType("Ataca portal").getPoints(); //pontos do tipo de interação
+                            int speedXP = root.getGameSettingByType("Ataca portal").getSpeedXp(); //velocidade de xp do tipo de interação
 
-                        int pointsInteraction = (level / points) ^ speedXP;//definir os pontos (xp) que o jogador ganhou
+                            int pointsInteraction = (level / points) ^ speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                        interaction = new Interaction(id, "Ataca portal", playerName, now.toString(), pointsInteraction);
-                        randomPortal.addInteraction(interaction); //adicionar interação ao portal
+                            interaction = new Interaction(id, "Ataca portal", playerName, now.toString(), pointsInteraction);
+                            randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
-                        player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+                            player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
-                        System.out.println("\nlevel player: " + root.getPlayerByName(playerName).getLevel()); //nível do jogador
+                            System.out.println("\nlevel player: " + root.getPlayerByName(playerName).getLevel()); //nível do jogador
 
-                        int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+                            int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
 
-                        System.out.println("XP before: " + xp); // xp antes da interacao
+                            System.out.println("XP before: " + xp); // xp antes da interacao
 
-                        xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+                            xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
 
-                        System.out.println("XP current: " + xp); //xp depois da interacao
+                            System.out.println("XP current: " + xp); //xp depois da interacao
 
-                        exit = true;
-                        runGameSecond(randomPortal);
-                    }
-                    break;
+                            exit = true;
+                            runGameSecond(randomPortal);
+                        }
+                        break;
 
                     case 99:
                         exit = true;
@@ -2184,7 +2185,7 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println(
-                            "| 01. Export game settings                                                       |\n" +
+                    "| 01. Export game settings                                                       |\n" +
                             "| 02. Import game settings                                                       |\n" +
                             "| 99. Back to previous menu                                                      |"
             );
@@ -2197,13 +2198,10 @@ public class Demo {
              */
             switch (option) {
                 case 1:
-                    try
-                    {
+                    try {
                         root.exportGameSettingsToJson();
                         System.out.println("JSON of Game Settings exported with success!");
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -2272,30 +2270,22 @@ public class Demo {
                     team = scanner.nextLine();
                     System.out.println("+--------------------------------------------------------+");
 
-                    try
-                    {
-                        if(team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
-                        {
+                    try {
+                        if (team.equals("giants") || team.equals("GIANTS") || team.equals("Giants")) {
                             team = "Giants";
-                        }
-                        else if(team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
-                        {
+                        } else if (team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks")) {
                             team = "Sparks";
                         }
 
                         player = new Player(name, team, 0, 0, 0, 100, 0, null);
 
-                        if(root.addPlayer(player).equals("Successful"))
-                        {
+                        if (root.addPlayer(player).equals("Successful")) {
                             System.out.println("player added with success!");
-                        }
-                        else
-                        {
+                        } else {
                             System.out.println("already exists a player with that id!");
                         }
+                    } catch (Exception e) {
                     }
-                    catch (Exception e)
-                    {}
                     break;
 
                 case 2:
@@ -2311,13 +2301,11 @@ public class Demo {
                     conqueredPortals = scanner.nextInt();
                     System.out.println("+--------------------------------------------------------+");
 
-                    try
-                    {
+                    try {
                         root.setPlayerConqueredPortals(name, conqueredPortals);
                         System.out.println("conquered portals of player updated with success!");
+                    } catch (Exception e) {
                     }
-                    catch (Exception e)
-                    {}
                     break;
 
                 case 3:
@@ -2330,7 +2318,11 @@ public class Demo {
                     name = scanner.nextLine();
                     System.out.println("+--------------------------------------------------------+");
 
-
+                    try {
+                        root.removePlayer(root.getPlayerByName(name));
+                        System.out.println("player removed with success!");
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case 4:
@@ -2347,22 +2339,15 @@ public class Demo {
                     team = scanner.nextLine();
                     System.out.println("+--------------------------------------------------------+");
 
-                    if(root.getPlayerByName(name).getTeam().equals("Giants") && team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
-                    {
+                    if (root.getPlayerByName(name).getTeam().equals("Giants") && team.equals("giants") || team.equals("GIANTS") || team.equals("Giants")) {
                         System.out.println("you already belong the team");
-                    }
-                    else if(root.getPlayerByName(name).getTeam().equals("Sparks") && team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
-                    {
+                    } else if (root.getPlayerByName(name).getTeam().equals("Sparks") && team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks")) {
                         System.out.println("you already belong the team");
-                    }
-                    else if(team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
-                    {
+                    } else if (team.equals("giants") || team.equals("GIANTS") || team.equals("Giants")) {
                         root.getPlayerByName(name).setTeam("Giants");
 
                         System.out.println("you now belong to team Giants");
-                    }
-                    else if(team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
-                    {
+                    } else if (team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks")) {
                         root.getPlayerByName(name).setTeam("Sparks");
                         System.out.println("you now belong to team Sparks");
                     }
@@ -2370,6 +2355,41 @@ public class Demo {
                     break;
 
                 case 5:
+                    while (!exit) {
+                        System.out.println("\n");
+                        System.out.println("+--------------------------------------------------------+");
+                        System.out.println("|             PLAYERS MANAGEMENT MENU - LIST             |");
+                        System.out.println("+--------------------------------------------------------+");
+                        System.out.println("select an option: ");
+                        System.out.println("+--------------------------------------------------------+");
+                        System.out.println(
+                                "| 01. By team                                                |\n" +
+                                        "| 02. By level                                           |\n" +
+                                        "| 03. By number of conquered portals                     |\n" +
+                                        "| 99. Back to previous menu                              |"
+                        );
+                        System.out.println("+--------------------------------------------------------+");
+                        option = scanner.nextInt();
+
+                        switch (option) {
+                            case 1:
+                                break;
+
+                            case 2:
+                                break;
+
+                            case 3:
+                                break;
+
+                            case 99:
+                                exit = true;
+                                break;
+
+                            default:
+                                System.out.println("invalid option, selected option between 1 and 7 or 99 to exit.");
+                                break;
+                        }
+                    }
                     break;
 
                 case 6:
