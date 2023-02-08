@@ -197,6 +197,8 @@ public interface IRoot
      */
     IConnector getConnectorByID(int id);
 
+    IConnector getConnectorInteractionsByPlayerName(int idConnector, String playerName);
+
     /**
      * Atualiza o ID do connector
      * @param id ID atual do connector

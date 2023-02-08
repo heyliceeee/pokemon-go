@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 public class Connector extends Local implements IConnector {
 
-   /**
+    /**
      * intervalo de fornecimento de energia a um jogador apos uma interacao do conector
      */
     private int cooldown;
@@ -24,8 +24,7 @@ public class Connector extends Local implements IConnector {
 
     private ICoordinate coordinates;
 
-    public Connector(int id, String type, int energy, int cooldown, ICoordinate coordinates)
-    {
+    public Connector(int id, String type, int energy, int cooldown, ICoordinate coordinates) {
         super(id, type, energy, coordinates);
         this.cooldown = cooldown;
     }
@@ -39,8 +38,7 @@ public class Connector extends Local implements IConnector {
     }
 
     @Override
-    public JSONObject connectorToJSONObject()
-    {
+    public JSONObject connectorToJSONObject() {
         JSONObject root = new JSONObject();
 
         root.put("id", getId());
@@ -53,21 +51,38 @@ public class Connector extends Local implements IConnector {
         return root;
     }
 
-    private Object getInteractionsJSONArray()
-    {
+    @Override
+    public IInteraction getConnectorLastInteractionByPlayerName(String playerName) {
+
+        Iterator<IInteraction> iterator = this.interactions.iterator();
+        IInteraction interaction;
+        int idInteraction = 0;
+
+        while (iterator.hasNext()) {
+            interaction = iterator.next();
+
+            if (interaction.getPlayer().equals(playerName) && idInteraction < interaction.getID()) //se a interação pertence ao jogador e se for mais recente do que a comparação anterior
+            {
+                idInteraction = interaction.getID();
+                return interaction;
+            }
+        }
+
+        return null;
+    }
+
+    private Object getInteractionsJSONArray() {
         JSONArray interactionsArray = new JSONArray();
         Iterator<IInteraction> iteratorInteraction = this.interactions.iterator();
 
-        while (iteratorInteraction.hasNext())
-        {
+        while (iteratorInteraction.hasNext()) {
             interactionsArray.add(iteratorInteraction.next().interactionToJsonObject());
         }
 
         return interactionsArray;
     }
 
-    private Object getCoordinatesJSONObject()
-    {
+    private Object getCoordinatesJSONObject() {
         JSONObject coordinates = new JSONObject();
 
         coordinates.put("longitude", this.coordinates.getLongitude());
@@ -78,15 +93,13 @@ public class Connector extends Local implements IConnector {
 
     //region getters and setters
 
-   @Override
-    public int getCooldown()
-    {
+    @Override
+    public int getCooldown() {
         return cooldown;
     }
 
     @Override
-    public void setCooldown(int cooldown)
-    {
+    public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
 

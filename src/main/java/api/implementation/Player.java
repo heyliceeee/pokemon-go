@@ -2,6 +2,7 @@ package api.implementation;
 
 import api.interfaces.ICoordinate;
 import api.interfaces.IPlayer;
+import api.interfaces.IRoot;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -110,6 +111,28 @@ public class Player implements IPlayer
         return root;
     }
 
+    @Override
+    public void defineLevelByXP(IRoot root, String playerName, int xpInteraction)
+    {
+        int xp = root.getPlayerByName(playerName).getXp();
+        root.getPlayerByName(playerName).setXp(xpInteraction);
+        xp = root.getPlayerByName(playerName).getXp();
+
+        int level = 1;
+        int pointsNeeded = 10000; //pontos necessários para o proximo nivel
+
+        while (xp >= pointsNeeded)
+        {
+            xp -= pointsNeeded;
+            root.getPlayerByName(playerName).setXp(-pointsNeeded);
+
+            level++;
+            pointsNeeded = pointsNeeded * 2;
+        }
+
+        root.getPlayerByName(playerName).setLevel(level);
+    }
+
     private Object getCoordinatesJSONObject()
     {
         JSONObject coordinates = new JSONObject();
@@ -185,9 +208,6 @@ public class Player implements IPlayer
 
     @Override
     public void setXp(int xp) {
-        if (xp < 0) {
-            throw new IllegalArgumentException("Capacity must be equal to or greater than one!");
-        }
         this.xp += xp;
     }
 

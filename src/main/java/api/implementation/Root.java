@@ -6,7 +6,6 @@ import collections.exceptions.ElementNotFoundException;
 import collections.exceptions.EmptyCollectionException;
 import collections.exceptions.NotLocalInstanceException;
 import collections.implementation.ArrayUnorderedList;
-import collections.implementation.DoubleLinkedUnorderedList;
 import collections.implementation.ExporterGraph;
 import collections.interfaces.IExporter;
 import api.interfaces.RouteNetworkADT;
@@ -117,13 +116,16 @@ public class Root implements IRoot
                 return localsIterator;
 
             case 2:
-                break;
+                localsIterator = this.routeNetwork.shortestRouteToConnector(local);
+                return localsIterator;
 
             case 3:
-                break;
+                localsIterator = this.routeNetwork.shortestRouteGoConnectorWithoutCooldownToPortal(local);
+                return localsIterator;
 
             case 4:
-                break;
+                localsIterator = this.routeNetwork.shortestRouteGoConnectorWithoutCooldownToConnector(local);
+                return localsIterator;
         }
 
         return null;
@@ -488,6 +490,34 @@ public class Root implements IRoot
             if(connector.getId() == id)
             {
                 return connector;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public IConnector getConnectorInteractionsByPlayerName(int idConnector, String playerName)
+    {
+        Iterator<IConnector> iterator = this.routeNetwork.getConnectors();
+        IConnector connector;
+
+        while (iterator.hasNext())
+        {
+            connector = iterator.next();
+
+            if(connector.getId() == idConnector)
+            {
+                IInteraction lastConnectorInteractionByPlayerName = connector.getConnectorLastInteractionByPlayerName(playerName);
+
+                if(lastConnectorInteractionByPlayerName == null) //caso não haja interações com o jogador
+                {
+                    return connector;
+                }
+                else
+                {
+                    lastConnectorInteractionByPlayerName.getDate();
+                }
             }
         }
 

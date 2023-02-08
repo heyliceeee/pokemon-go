@@ -9,7 +9,10 @@ import collections.interfaces.UnorderedListADT;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -18,6 +21,7 @@ public class Demo {
     static ImporterExporterJson iEJson = new ImporterExporterJson();
     static IRoot root = new Root();
     static ILocal local = new Local(0, "", 0, null);
+    static IPlayer player = new Player("", "", 0, 0, 0, 0, 0, null);
     public static String playerName = "";
 
     /**
@@ -184,16 +188,9 @@ public class Demo {
                 break;
 
             case 2:
-                System.out.println("CONNECTOR A: "+ root.getRandomConnector());//retorna um connector(ponto A) random
+                IConnector connectorRandom = root.getRandomConnector();
 
-                //mostrar interações do connector
-
-                //após determinado comportamento, pergunta onde quer ir (runGameSecond)
-                //connector -> connector(ponto B) (mais proximo)
-                //connector -> portal(ponto B) (mais proximo)
-                //connector -> connector sem cooldown (mais proximo) -> connector(ponto B) (mais proximo) (connector mas com necessidade de passar um local para recarregar)
-                //connector -> connector sem cooldown (mais proximo) -> portal(ponto B) (mais proximo) (portal mas com necessidade de passar um local para recarregar)
-                //connector -> connector (mais proximo) -> connector(ponto B) (mais proximo) (passa apenas por connectors)
+                showConnectorMenu(connectorRandom, firstTime);
                 break;
 
             default:
@@ -202,11 +199,73 @@ public class Demo {
         }
     }
 
-    //region PORTAL MENU
+    /**
+     * Mostra o menu após realizar o setup do jogo
+     * @param local
+     * @throws EmptyCollectionException
+     * @throws NotLocalInstanceException
+     * @throws java.text.ParseException
+     * @throws IOException
+     */
+    private static void runGameSecond(ILocal local) throws EmptyCollectionException, NotLocalInstanceException, java.text.ParseException, IOException {
+        Scanner scanner = new Scanner(System.in);
+        int option = 0;
+        boolean firstTime = false;
+
+        System.out.println("\n");
+        System.out.println("+--------------------------------------------------------------------+");
+        System.out.println("|                                MAPS                                |");
+        System.out.println("+--------------------------------------------------------------------+");
+        System.out.println("select a location type where you want to go:                          ");
+        System.out.println("+--------------------------------------------------------------------+");
+        System.out.println(
+                "| 01. Portal                                                         |\n" +
+                        "| 02. Connector                                                      |\n" +
+                        "| 03. Portal, but with the need to go through a place to recharge    |\n" +
+                        "| 04. Connector, but with the need to go through a place to recharge |\n" +
+                        "| 05. Portal, but only go through portals - SOON                     |\n" +
+                        "| 06. Connector, but only go through connectors - SOON               |"
+        );
+        System.out.println("+--------------------------------------------------------------------+");
+
+        option = scanner.nextInt();
+
+        switch (option)
+        {
+            case 1:
+                IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                break;
+
+            case 2:
+                IConnector connectorRandom = (IConnector) root.getRoute(2, local).next(); //obter o connector mais perto
+
+                showConnectorMenu(connectorRandom, firstTime);
+                break;
+
+            case 3:
+                IConnector connectorCooldownGoPortalRandom = (IConnector) root.getRoute(3, local).next(); //obter o connector sem cooldown mais perto e depois portal
+
+                showConnectorCooldownGoPortalMenu(connectorCooldownGoPortalRandom, firstTime);
+                break;
+
+            case 4:
+                IConnector connectorCooldownGoConnectorRandom = (IConnector) root.getRoute(4, local).next(); //obter o connector sem cooldown mais perto e depois connector
+
+                showConnectorCooldownGoConnectorMenu(connectorCooldownGoConnectorRandom, firstTime);
+                break;
+
+            default:
+                System.out.println("invalid option, selected option between 1 and 4.");
+                break;
+        }
+    }
 
 
-
-    //endregion
+    //region IN GAME - PORTAL MENU
 
     /**
      * Mostra, dependendo do dono do portal, o menu de interações do portal
@@ -292,6 +351,7 @@ public class Demo {
                             System.out.println("energy portal current: "+randomPortal.getEnergy());
 
                             //adicionar interação ao JSON
+                            int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                             LocalDateTime now = LocalDateTime.now(); //data agora
 
                             int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -300,8 +360,13 @@ public class Demo {
 
                             int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                            interaction = new Interaction(0, "Não completa o ataque ao portal", playerName, now.toString(), pointsInteraction);
+                            interaction = new Interaction(id, "Não completa o ataque ao portal", playerName, now.toString(), pointsInteraction);
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                            player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            exit = true;
+                            runGameSecond(randomPortal);
                         }
                         else
                         {
@@ -320,6 +385,7 @@ public class Demo {
                             System.out.println("energy portal current: "+randomPortal.getEnergy());
 
                             //adicionar interação ao JSON
+                            int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                             LocalDateTime now = LocalDateTime.now(); //data agora
 
                             int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -328,12 +394,14 @@ public class Demo {
 
                             int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                            interaction = new Interaction(0, "Ataca portal", playerName, now.toString(), pointsInteraction);
+                            interaction = new Interaction(id, "Ataca portal", playerName, now.toString(), pointsInteraction);
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
-                        }
 
-                        exit = true;
-                        runGameSecond(randomPortal);
+                            player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            exit = true;
+                            runGameSecond(randomPortal);
+                        }
                         break;
 
                     case 99:
@@ -389,6 +457,7 @@ public class Demo {
                             System.out.println("energy portal current: "+randomPortal.getEnergy());
 
                             //adicionar interação ao JSON
+                            int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                             LocalDateTime now = LocalDateTime.now(); //data agora
 
                             int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -397,8 +466,10 @@ public class Demo {
 
                             int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                            interaction = new Interaction(0, "Não completa o ataque ao portal", playerName, now.toString(), pointsInteraction);
+                            interaction = new Interaction(id, "Não completa o ataque ao portal", playerName, now.toString(), pointsInteraction);
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                            player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
                         }
                         else
                         {
@@ -417,6 +488,7 @@ public class Demo {
                             System.out.println("energy portal current: "+randomPortal.getEnergy());
 
                             //adicionar interação ao JSON
+                            int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                             LocalDateTime now = LocalDateTime.now(); //data agora
 
                             int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -425,12 +497,14 @@ public class Demo {
 
                             int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                            interaction = new Interaction(0, "Ataca portal", playerName, now.toString(), pointsInteraction);
+                            interaction = new Interaction(id, "Ataca portal", playerName, now.toString(), pointsInteraction);
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
-                        }
 
-                        exit = true;
-                        runGameSecond(randomPortal);
+                            player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            exit = true;
+                            runGameSecond(randomPortal);
+                        }
                         break;
 
                     case 99:
@@ -507,6 +581,38 @@ public class Demo {
                             if(qttEnergy >= min && qttEnergy <= max && energyCurrentPlayer >= qttEnergy) //verificar se o "qttEnergy" está entre os valores e se o jogador tem energia suficiente
                             {
                                 exit2 = true;
+
+                                //se o "qttEnergy" está entre os valores
+                                System.out.println("\nrecharging the portal...");
+
+                                //adicionar "qttEnergy" á energia atual do portal
+                                randomPortal.setEnergy(qttEnergy);
+
+                                //remover a energia do jogador gasta no portal, na energia atual do jogador
+                                root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - qttEnergy);
+
+                                System.out.println("recharged the portal successfully");
+
+                                System.out.println("\nenergy portal current: "+randomPortal.getEnergy());
+                                System.out.println("your energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Recarrega portal").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Recarrega portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Recarrega portal", playerName, now.toString(), pointsInteraction);
+                                randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+                                runGameSecond(randomPortal);
                             }
                             else
                             {
@@ -514,35 +620,6 @@ public class Demo {
                                 exit2 = true;
                             }
                         }
-
-                        //se o "qttEnergy" está entre os valores
-                        System.out.println("\nrecharging the portal...");
-
-                        //adicionar "qttEnergy" á energia atual do portal
-                        randomPortal.setEnergy(qttEnergy);
-
-                        //remover a energia do jogador gasta no portal, na energia atual do jogador
-                        root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - qttEnergy);
-
-                        System.out.println("recharged the portal successfully");
-
-                        System.out.println("\nenergy portal current: "+randomPortal.getEnergy());
-                        System.out.println("your energy current: "+root.getPlayerByName(playerName).getEnergy());
-
-                        //adicionar interação ao JSON
-                        LocalDateTime now = LocalDateTime.now(); //data agora
-
-                        int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
-                        int points = root.getGameSettingByType("Recarrega portal").getPoints(); //pontos do tipo de interação
-                        int speedXP = root.getGameSettingByType("Recarrega portal").getSpeedXp(); //velocidade de xp do tipo de interação
-
-                        int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
-
-                        interaction = new Interaction(0, "Recarrega portal", playerName, now.toString(), pointsInteraction);
-                        randomPortal.addInteraction(interaction); //adicionar interação ao portal
-
-                        exit = true;
-                        runGameSecond(randomPortal);
                         break;
 
                     case 99:
@@ -606,6 +683,38 @@ public class Demo {
                             if(qttEnergy >= min && qttEnergy <= max && energyCurrentPlayer >= qttEnergy) //verificar se o "qttEnergy" está entre os valores e se o jogador tem energia suficiente
                             {
                                 exit2 = true;
+
+                                //se o "qttEnergy" está entre os valores
+                                System.out.println("\nrecharging the portal...");
+
+                                //adicionar "qttEnergy" á energia atual do portal
+                                randomPortal.setEnergy(qttEnergy);
+
+                                //remover a energia do jogador gasta no portal, na energia atual do jogador
+                                root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - qttEnergy);
+
+                                System.out.println("recharged the portal successfully");
+
+                                System.out.println("\nenergy portal current: "+randomPortal.getEnergy());
+                                System.out.println("your energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Recarrega portal").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Recarrega portal").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Recarrega portal", playerName, now.toString(), pointsInteraction);
+                                randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+                                runGameSecond(randomPortal);
                             }
                             else
                             {
@@ -613,35 +722,6 @@ public class Demo {
                                 exit2 = true;
                             }
                         }
-
-                        //se o "qttEnergy" está entre os valores
-                        System.out.println("\nrecharging the portal...");
-
-                        //adicionar "qttEnergy" á energia atual do portal
-                        randomPortal.setEnergy(qttEnergy);
-
-                        //remover a energia do jogador gasta no portal, na energia atual do jogador
-                        root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer - qttEnergy);
-
-                        System.out.println("recharged the portal successfully");
-
-                        System.out.println("\nenergy portal current: "+randomPortal.getEnergy());
-                        System.out.println("your energy current: "+root.getPlayerByName(playerName).getEnergy());
-
-                        //adicionar interação ao JSON
-                        LocalDateTime now = LocalDateTime.now(); //data agora
-
-                        int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
-                        int points = root.getGameSettingByType("Recarrega portal").getPoints(); //pontos do tipo de interação
-                        int speedXP = root.getGameSettingByType("Recarrega portal").getSpeedXp(); //velocidade de xp do tipo de interação
-
-                        int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
-
-                        interaction = new Interaction(0, "Recarrega portal", playerName, now.toString(), pointsInteraction);
-                        randomPortal.addInteraction(interaction); //adicionar interação ao portal
-
-                        exit = true;
-                        runGameSecond(randomPortal);
                         break;
 
                     case 99:
@@ -748,6 +828,7 @@ public class Demo {
                                 System.out.println("player conquered portals: "+root.getPlayerByName(playerName).getConqueredPortals());
 
                                 //adicionar interação ao JSON
+                                int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                                 LocalDateTime now = LocalDateTime.now(); //data agora
 
                                 int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -756,8 +837,10 @@ public class Demo {
 
                                 int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                                interaction = new Interaction(0, "Conquista portal", playerName, now.toString(), pointsInteraction);
+                                interaction = new Interaction(id, "Conquista portal", playerName, now.toString(), pointsInteraction);
                                 randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
                                 exit = true;
                                 runGameSecond(randomPortal);
@@ -858,6 +941,7 @@ public class Demo {
                                 System.out.println("player conquered portals: "+root.getPlayerByName(playerName).getConqueredPortals());
 
                                 //adicionar interação ao JSON
+                                int id = randomPortal.getIDLastInteraction() + 1; //descobrir o último id de interação adicionado ao portal atual
                                 LocalDateTime now = LocalDateTime.now(); //data agora
 
                                 int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
@@ -866,8 +950,10 @@ public class Demo {
 
                                 int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
 
-                                interaction = new Interaction(0, "Conquista portal", playerName, now.toString(), pointsInteraction);
+                                interaction = new Interaction(id, "Conquista portal", playerName, now.toString(), pointsInteraction);
                                 randomPortal.addInteraction(interaction); //adicionar interação ao portal
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
                                 exit = true;
                                 runGameSecond(randomPortal);
@@ -893,57 +979,663 @@ public class Demo {
         }
     }
 
+    //endregion
 
-    private static void runGameSecond(ILocal local) throws EmptyCollectionException, NotLocalInstanceException, java.text.ParseException, IOException {
+
+    //region IN GAME - CONNECTOR MENU
+
+    /**
+     * Mostra o menu de interações do conector
+     * @param connectorRandom
+     * @param firstTime
+     * @throws EmptyCollectionException
+     * @throws NotLocalInstanceException
+     * @throws IOException
+     * @throws java.text.ParseException
+     */
+    private static void showConnectorMenu(IConnector connectorRandom, boolean firstTime) throws EmptyCollectionException, NotLocalInstanceException, IOException, java.text.ParseException {
         Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
         int option = 0;
-        boolean firstTime = false;
+        IInteraction interaction = null;
 
-        System.out.println("\n");
-        System.out.println("+--------------------------------------------------------------------+");
-        System.out.println("|                                MAPS                                |");
-        System.out.println("+--------------------------------------------------------------------+");
-        System.out.println("select a location type where you want to go:                          ");
-        System.out.println("+--------------------------------------------------------------------+");
-        System.out.println(
-                           "| 01. Portal                                                         |\n" +
-                           "| 02. Connector                                                      |\n" +
-                           "| 03. Portal, but with the need to go through a place to recharge    |\n" +
-                           "| 04. Connector, but with the need to go through a place to recharge |\n" +
-                           "| 05. Portal, but only go through portals - SOON                     |\n" +
-                           "| 06. Connector, but only go through connectors - SOON               |"
-        );
-        System.out.println("+--------------------------------------------------------------------+");
+        int energyCurrentPlayer = root.getPlayerByName(playerName).getEnergy(); //energia atual do jogador
+        int energyConnector = connectorRandom.getEnergy();//energia atual do connector
+        int energyMaxPlayer = root.getPlayerByName(playerName).getEnergyMax(); //energia máxima do jogador
 
-        option = scanner.nextInt();
-
-        switch (option)
+        if(firstTime == false)
         {
-            case 1:
-                IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
-                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
-                String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+            while (!exit)
+            {
+                System.out.println("\n");
+                System.out.println("you are on the connector nº "+connectorRandom.getId());
+                System.out.println("+--------------------------------------+");
+                System.out.println("|         CONNECTOR INTERACTIONS       |");
+                System.out.println("+--------------------------------------+");
+                System.out.println("your energy: "+energyCurrentPlayer);
+                System.out.println("your max energy: "+energyMaxPlayer);
+                System.out.println("energy connector: "+energyConnector);
+                System.out.println("+--------------------------------------+");
+                System.out.println("select an option to interact: ");
+                System.out.println("+--------------------------------------+");
+                System.out.println(
+                        "| 01. Charge my energy                 |\n" +
+                                "| 99. Go another location              |"
+                );
+                System.out.println("+--------------------------------------+");
 
-                showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
-                break;
+                option = scanner.nextInt();
 
-            case 2:
-                root.getRoute(2, local);
-                break;
+                switch (option)
+                {
+                    case 1:
+                        String date = String.valueOf(root.getConnectorInteractionsByPlayerName(connectorRandom.getId(), playerName));//data da ultima interação do jogador com connector
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateLastInteraction;
 
-            case 3:
-                root.getRoute(3, local);
-                break;
+                        try
+                        {
+                            dateLastInteraction = LocalDateTime.parse(date, formatter);
+                        }
+                        catch (Exception e)
+                        {
+                            dateLastInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                        }
 
-            case 4:
-                root.getRoute(4, local);
-                break;
+                        int cooldown = root.getConnectorByID(connectorRandom.getId()).getCooldown(); //cooldown connector
 
-            default:
-                System.out.println("invalid option, selected option between 1 and 4.");
-                break;
+                        long duration = Duration.between(dateLastInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a última interação do jogador com o connector
+
+                        if(cooldown < duration)//se já passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("charging your energy...");
+
+                            if(energyMaxPlayer <= energyConnector)
+                            {
+                                root.getPlayerByName(playerName).setEnergy(energyMaxPlayer);
+                                System.out.println("charged your energy successfully");
+                                System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+                                runGameSecond(connectorRandom);
+                            }
+                            else if(energyMaxPlayer > energyConnector)
+                            {
+                                if((energyCurrentPlayer + energyConnector) <= energyMaxPlayer) //se nao atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + energyConnector);
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+                                    runGameSecond(connectorRandom);
+                                }
+                                else //se atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(Math.min(energyCurrentPlayer + energyConnector, energyMaxPlayer));
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+                                    runGameSecond(connectorRandom);
+                                }
+                            }
+                        }
+                        else if(cooldown > duration)//se NÃO passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("\nconnector with cooldown. please wait more "+(cooldown - duration)+" minutes");
+                            exit = true;
+                        }
+                        break;
+
+                    case 99:
+                        exit = true;
+                        runGameSecond(connectorRandom);
+                        break;
+
+                    default:
+                        System.out.println("invalid option, selected option between 1 or 99 to go another location.");
+                        break;
+                }
+            }
+        }
+        else if(firstTime = true)
+        {
+            while (!exit)
+            {
+                System.out.println("\n");
+                System.out.println("you are on the connector nº "+connectorRandom.getId());
+                System.out.println("+--------------------------------------+");
+                System.out.println("|         CONNECTOR INTERACTIONS       |");
+                System.out.println("+--------------------------------------+");
+                System.out.println("your energy: "+energyCurrentPlayer);
+                System.out.println("your max energy: "+energyMaxPlayer);
+                System.out.println("energy connector: "+energyConnector);
+                System.out.println("+--------------------------------------+");
+                System.out.println("select an option to interact: ");
+                System.out.println("+--------------------------------------+");
+                System.out.println(
+                        "| 01. Charge my energy                 |\n" +
+                                "| 99. Go another location              |"
+                );
+                System.out.println("+--------------------------------------+");
+
+                option = scanner.nextInt();
+
+                switch (option)
+                {
+                    case 1:
+                        String date = String.valueOf(root.getConnectorInteractionsByPlayerName(connectorRandom.getId(), playerName));//data da ultima interação do jogador com connector
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateLastInteraction;
+
+                        try
+                        {
+                            dateLastInteraction = LocalDateTime.parse(date, formatter);
+                        }
+                        catch (Exception e)
+                        {
+                            dateLastInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                        }
+
+                        int cooldown = root.getConnectorByID(connectorRandom.getId()).getCooldown(); //cooldown connector
+
+                        long duration = Duration.between(dateLastInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a última interação do jogador com o connector
+
+                        if(cooldown < duration)//se já passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("charging your energy...");
+
+                            if(energyMaxPlayer <= energyConnector)
+                            {
+                                root.getPlayerByName(playerName).setEnergy(energyMaxPlayer);
+                                System.out.println("charged your energy successfully");
+                                System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+                                runGameSecond(connectorRandom);
+                            }
+                            else if(energyMaxPlayer > energyConnector)
+                            {
+                                if((energyCurrentPlayer + energyConnector) <= energyMaxPlayer) //se nao atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + energyConnector);
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+                                    runGameSecond(connectorRandom);
+                                }
+                                else
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + (energyMaxPlayer - energyConnector));
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+                                    runGameSecond(connectorRandom);
+                                }
+                            }
+                        }
+                        else if(cooldown > duration)//se NÃO passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("\nconnector with cooldown. please wait more "+(cooldown - duration)+" minutes");
+                            exit = true;
+                        }
+                        break;
+
+                    case 99:
+                        exit = true;
+                        runGameFirst();
+                        break;
+
+                    default:
+                        System.out.println("invalid option, selected option between 1 or 99 to go another location.");
+                        break;
+                }
+            }
         }
     }
+
+    //endregion
+
+
+    //region IN GAME - CONNECTOR WITHOUT COOLDOWN AND GO ANY PORTAL
+
+    private static void showConnectorCooldownGoPortalMenu(IConnector connectorCooldownGoPortalRandom, boolean firstTime) throws EmptyCollectionException, NotLocalInstanceException, java.text.ParseException, IOException {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        int option = 0;
+        IInteraction interaction = null;
+
+        int energyCurrentPlayer = root.getPlayerByName(playerName).getEnergy(); //energia atual do jogador
+        int energyConnector = connectorCooldownGoPortalRandom.getEnergy();//energia atual do connector
+        int energyMaxPlayer = root.getPlayerByName(playerName).getEnergyMax(); //energia máxima do jogador
+
+        if(firstTime == false)
+        {
+            while (!exit)
+            {
+                System.out.println("\n");
+                System.out.println("you are on the connector nº "+connectorCooldownGoPortalRandom.getId());
+                System.out.println("+--------------------------------------+");
+                System.out.println("|         CONNECTOR INTERACTIONS       |");
+                System.out.println("+--------------------------------------+");
+                System.out.println("your energy: "+energyCurrentPlayer);
+                System.out.println("your max energy: "+energyMaxPlayer);
+                System.out.println("energy connector: "+energyConnector);
+                System.out.println("+--------------------------------------+");
+                System.out.println("select an option to interact: ");
+                System.out.println("+--------------------------------------+");
+                System.out.println(
+                        "| 01. Charge my energy                 |\n" +
+                                "| 99. Go another location              |"
+                );
+                System.out.println("+--------------------------------------+");
+
+                option = scanner.nextInt();
+
+                switch (option)
+                {
+                    case 1:
+                        String date = String.valueOf(root.getConnectorInteractionsByPlayerName(connectorCooldownGoPortalRandom.getId(), playerName));//data da ultima interação do jogador com connector
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateLastInteraction;
+
+                        try
+                        {
+                            dateLastInteraction = LocalDateTime.parse(date, formatter);
+                        }
+                        catch (Exception e)
+                        {
+                            dateLastInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                        }
+
+                        int cooldown = root.getConnectorByID(connectorCooldownGoPortalRandom.getId()).getCooldown(); //cooldown connector
+
+                        long duration = Duration.between(dateLastInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a última interação do jogador com o connector
+
+                        if(cooldown < duration)//se já passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("charging your energy...");
+
+                            if(energyMaxPlayer <= energyConnector)
+                            {
+                                root.getPlayerByName(playerName).setEnergy(energyMaxPlayer);
+                                System.out.println("charged your energy successfully");
+                                System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+
+                                //ir para o portal mais próximo
+                                IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                            }
+                            else if(energyMaxPlayer > energyConnector)
+                            {
+                                if((energyCurrentPlayer + energyConnector) <= energyMaxPlayer) //se nao atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + energyConnector);
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+
+                                    //ir para o portal mais próximo
+                                    IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                                }
+                                else //se atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(Math.min(energyCurrentPlayer + energyConnector, energyMaxPlayer));
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+
+                                    //ir para o portal mais próximo
+                                    IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                                }
+                            }
+                        }
+                        else if(cooldown > duration)//se NÃO passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("\nconnector with cooldown. please wait more "+(cooldown - duration)+" minutes");
+                            exit = true;
+                        }
+                        break;
+
+                    case 99:
+                        exit = true;
+
+                        break;
+
+                    default:
+                        System.out.println("invalid option, selected option between 1 or 99 to go another location.");
+                        break;
+                }
+            }
+        }
+        else if(firstTime = true)
+        {
+            while (!exit)
+            {
+                System.out.println("\n");
+                System.out.println("you are on the connector nº "+connectorCooldownGoPortalRandom.getId());
+                System.out.println("+--------------------------------------+");
+                System.out.println("|         CONNECTOR INTERACTIONS       |");
+                System.out.println("+--------------------------------------+");
+                System.out.println("your energy: "+energyCurrentPlayer);
+                System.out.println("your max energy: "+energyMaxPlayer);
+                System.out.println("energy connector: "+energyConnector);
+                System.out.println("+--------------------------------------+");
+                System.out.println("select an option to interact: ");
+                System.out.println("+--------------------------------------+");
+                System.out.println(
+                        "| 01. Charge my energy                 |\n" +
+                                "| 99. Go another location              |"
+                );
+                System.out.println("+--------------------------------------+");
+
+                option = scanner.nextInt();
+
+                switch (option)
+                {
+                    case 1:
+                        String date = String.valueOf(root.getConnectorInteractionsByPlayerName(connectorCooldownGoPortalRandom.getId(), playerName));//data da ultima interação do jogador com connector
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateLastInteraction;
+
+                        try
+                        {
+                            dateLastInteraction = LocalDateTime.parse(date, formatter);
+                        }
+                        catch (Exception e)
+                        {
+                            dateLastInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                        }
+
+                        int cooldown = root.getConnectorByID(connectorCooldownGoPortalRandom.getId()).getCooldown(); //cooldown connector
+
+                        long duration = Duration.between(dateLastInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a última interação do jogador com o connector
+
+                        if(cooldown < duration)//se já passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("charging your energy...");
+
+                            if(energyMaxPlayer <= energyConnector)
+                            {
+                                root.getPlayerByName(playerName).setEnergy(energyMaxPlayer);
+                                System.out.println("charged your energy successfully");
+                                System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                //adicionar interação ao JSON
+                                int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                exit = true;
+
+                                //ir para o portal mais próximo
+                                IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                            }
+                            else if(energyMaxPlayer > energyConnector)
+                            {
+                                if((energyCurrentPlayer + energyConnector) <= energyMaxPlayer) //se nao atingir a energia maxima
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + energyConnector);
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+
+                                    //ir para o portal mais próximo
+                                    IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                                }
+                                else
+                                {
+                                    root.getPlayerByName(playerName).setEnergy(energyCurrentPlayer + (energyMaxPlayer - energyConnector));
+                                    System.out.println("charged your energy successfully");
+                                    System.out.println("\nyour energy current: "+root.getPlayerByName(playerName).getEnergy());
+
+                                    //adicionar interação ao JSON
+                                    int id = connectorCooldownGoPortalRandom.getIDLastInteraction(); //descobrir o último id de interação adicionado ao portal atual
+                                    LocalDateTime now = LocalDateTime.now(); //data agora
+
+                                    int level = root.getPlayerByName(playerName).getLevel(); //nivel do jogador
+                                    int points = root.getGameSettingByType("Reforço de energia de connector").getPoints(); //pontos do tipo de interação
+                                    int speedXP = root.getGameSettingByType("Reforço de energia de connector").getSpeedXp(); //velocidade de xp do tipo de interação
+
+                                    int pointsInteraction = (level/points)^speedXP;//definir os pontos (xp) que o jogador ganhou
+
+                                    interaction = new Interaction(id, "Reforço de energia de connector", playerName, now.toString(), pointsInteraction);
+                                    connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
+
+                                    player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    exit = true;
+
+                                    //ir para o portal mais próximo
+                                    IPortal portalRandom = (IPortal) root.getRoute(1, local).next(); //obter o portal mais perto
+                                    String teamPlayer = root.getPlayerByName(playerName).getTeam();//obter equipa do jogador atual
+                                    String ownershipPortal = portalRandom.getOwnership().getState(); //obter o dono do portal
+
+                                    showPortalMenu(portalRandom, teamPlayer, ownershipPortal, firstTime);
+                                }
+                            }
+                        }
+                        else if(cooldown > duration)//se NÃO passou o periodo de cooldown do jogador atual
+                        {
+                            System.out.println("\nconnector with cooldown. please wait more "+(cooldown - duration)+" minutes");
+                            exit = true;
+                        }
+                        break;
+
+                    case 99:
+                        exit = true;
+
+                        break;
+
+                    default:
+                        System.out.println("invalid option, selected option between 1 or 99 to go another location.");
+                        break;
+                }
+            }
+        }
+    }
+
+    //endregion
+
+
+    //region IN GAME - CONNECTOR WITHOUT COOLDOWN AND GO ANY CONNECTOR
+
+    private static void showConnectorCooldownGoConnectorMenu(IConnector connectorCooldownGoConnectorRandom, boolean firstTime)
+    {
+
+    }
+
+    //endregion
+
+
+    //region API MENU
 
     /**
      * Mostra o menu acerca da API
@@ -961,7 +1653,7 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------+");
             System.out.println(
-                            "| 01. Portals management               |\n" +
+                    "| 01. Portals management               |\n" +
                             "| 02. Connectors management            |\n" +
                             "| 03. Routes management                |\n" +
                             "| 04. Players management               |\n" +
@@ -1010,8 +1702,7 @@ public class Demo {
     /**
      * Mostra o menu acerca do jogo
      */
-    private static void showGameManagementMenu()
-    {
+    private static void showGameManagementMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -1024,13 +1715,13 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println(
-                               "| 01. Calculate the shortest path between 2 points                               |\n" +
-                               "| 02. Calculate the shortest path if going through places to recharge            |\n" +
-                               "| 03. Calculate the shortest path if passing through portals and connectors only |\n" +
-                               "| 04. Export each portal/connector involved                                      |\n" +
-                               "| 05. Import game settings                                                       |\n" +
-                               "| 06. Export game settings                                                       |\n" +
-                               "| 99. Back to previous menu                                                      |"
+                    "| 01. Calculate the shortest path between 2 points                               |\n" +
+                            "| 02. Calculate the shortest path if going through places to recharge            |\n" +
+                            "| 03. Calculate the shortest path if passing through portals and connectors only |\n" +
+                            "| 04. Export each portal/connector involved                                      |\n" +
+                            "| 05. Import game settings                                                       |\n" +
+                            "| 06. Export game settings                                                       |\n" +
+                            "| 99. Back to previous menu                                                      |"
             );
             System.out.println("+--------------------------------------------------------------------------------+");
 
@@ -1053,6 +1744,7 @@ public class Demo {
                     break;
 
                 case 5:
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");
                     break;
 
                 case 6:
@@ -1086,15 +1778,14 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------------------------+");
             System.out.println(
-                               "| 01. Add                                                |\n" +
-                               "| 02. Update                                             |\n" +
-                               "| 03. Delete                                             |\n" +
-                               "| 04. Join the team                                      |\n" +
-                               "| 05. Leave the team                                     |\n" +
-                               "| 06. List (by team, level, number of conquered portals) |\n" +
-                               "| 07. Import statistics                                  |\n" +
-                               "| 08. Export statistics                                  |\n" +
-                               "| 99. Back to previous menu                              |"
+                    "| 01. Add                                                |\n" +
+                            "| 02. Update                                             |\n" +
+                            "| 03. Delete                                             |\n" +
+                            "| 04. Join the team                                      |\n" +
+                            "| 05. Leave the team                                     |\n" +
+                            "| 06. List (by team, level, number of conquered portals) |\n" +
+                            "| 07. Export statistics                                  |\n" +
+                            "| 99. Back to previous menu                              |"
             );
             System.out.println("+--------------------------------------------------------+");
 
@@ -1122,12 +1813,15 @@ public class Demo {
                 case 6:
                     break;
 
+                case 7:
+                    break;
+
                 case 99:
                     exit = true;
                     break;
 
                 default:
-                    System.out.println("invalid option, selected option between 1 and 8 or 99 to exit.");
+                    System.out.println("invalid option, selected option between 1 and 7 or 99 to exit.");
                     break;
             }
         }
@@ -1190,7 +1884,7 @@ public class Demo {
     /**
      * Mostra o menu acerca da gestao dos portais
      */
-    public static void showPortalsManagementMenu() {
+    public static void showPortalsManagementMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -1233,6 +1927,7 @@ public class Demo {
                     break;
 
                 case 5:
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");
                     break;
 
                 case 6:
@@ -1255,7 +1950,7 @@ public class Demo {
     /**
      * Mostra o menu acerca da gestao dos conectores
      */
-    private static void showConnectorsManagementMenu() {
+    private static void showConnectorsManagementMenu() throws IOException, ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
         int option = 0;
@@ -1305,6 +2000,7 @@ public class Demo {
                     break;
 
                 case 7:
+                    iEJson.importFromJSONFile(root, local, "docs/import/import.json");
                     break;
 
                 case 8:
@@ -1320,6 +2016,8 @@ public class Demo {
             }
         }
     }
+
+    //endregion
 
 
     public static void main(String[] args) throws IOException, ParseException, EmptyCollectionException, NotLocalInstanceException, java.text.ParseException {

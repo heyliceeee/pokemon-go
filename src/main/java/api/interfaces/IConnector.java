@@ -21,4 +21,6 @@ public interface IConnector extends ILocal{
     void setCooldown(int cooldown);
 
     JSONObject connectorToJSONObject();
+
+    IInteraction getConnectorLastInteractionByPlayerName(String playerName);
 }

@@ -108,6 +108,46 @@ public class Local implements ILocal
     }
 
     @Override
+    public IInteraction getInteractionByID(int id)
+    {
+        Iterator<IInteraction> iterator = this.interactions.iterator();
+        IInteraction interaction;
+
+        while (iterator.hasNext())
+        {
+            interaction = iterator.next();
+
+            if(interaction.getID() == id)
+            {
+                return interaction;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public int getIDLastInteraction()
+    {
+        int idLastInteraction=0;
+
+        Iterator<IInteraction> iterator = this.interactions.iterator();
+        IInteraction interaction;
+
+        while (iterator.hasNext())
+        {
+            interaction = iterator.next();
+
+            if(interaction.getID() > idLastInteraction)
+            {
+                return idLastInteraction;
+            }
+        }
+
+        return idLastInteraction;
+    }
+
+    @Override
     public String toString() {
         return "Local{" +
                 "id=" + id +
@@ -166,25 +206,6 @@ public class Local implements ILocal
     public void setCoordinates(Coordinate coordinates)
     {
         this.coordinates = coordinates;
-    }
-
-    @Override
-    public IInteraction getInteractionByID(int id)
-    {
-        Iterator<IInteraction> iterator = this.interactions.iterator();
-        IInteraction interaction;
-
-        while (iterator.hasNext())
-        {
-            interaction = iterator.next();
-
-            if(interaction.getID() == id)
-            {
-                return interaction;
-            }
-        }
-
-        return null;
     }
 
     @Override

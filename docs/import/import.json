@@ -16,7 +16,7 @@
       },
       "interaction": [
         {
-          "id": 1,
+          "id": 0,
           "type": "Conquista portal",
           "player": "LoboMau",
           "date": "2023-01-24T22:30:32",
@@ -35,7 +35,7 @@
       },
       "interaction": [
         {
-          "id": 2,
+          "id": 0,
           "type": "Reforço de energia de connector",
           "player": "LoboMau",
           "date": "2023-01-24T22:50:32",
@@ -59,7 +59,7 @@
       },
       "interaction": [
         {
-          "id": 3,
+          "id": 0,
           "type": "Conquista portal",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-26T12:30:32",
@@ -78,7 +78,7 @@
       },
       "interaction": [
         {
-          "id": 4,
+          "id": 0,
           "type": "Reforço de energia de connector",
           "player": "CapuzinhoVermelho",
           "date": "2023-01-24T14:25:32",
@@ -105,7 +105,7 @@
     {
       "id": 712,
       "type": "Connector",
-      "energy": 500,
+      "energy": 400,
       "cooldown": 3,
       "coordinates": {
         "longitude": 41.34158,
@@ -277,7 +277,7 @@
       "team": "Sparks",
       "level": 64,
       "xp": 467892,
-      "energy": 10,
+      "energy": 400,
       "energyMax": 500,
       "conqueredPortals": 142,
       "coordinates": {

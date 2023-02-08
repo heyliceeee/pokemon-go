@@ -71,4 +71,10 @@ public interface ILocal
     void setInteractionDate(int id, String date);
 
     void setInteractionPoints(int id, int points);
+
+    /**
+     * Retorna o identificador único da última interação inserida
+     * @return o identificador único da última interação
+     */
+    int getIDLastInteraction();
 }

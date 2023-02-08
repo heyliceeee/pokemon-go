@@ -12,6 +12,7 @@ import demo.Demo;
 import java.text.ParseException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
@@ -316,7 +317,48 @@ public class RouteNetwork<T> extends Network<T> implements RouteNetworkADT<T> {
                                     //data da interação
                                     String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-                                    LocalDateTime dateInteraction = LocalDateTime.parse(date, formatter);
+                                    LocalDateTime dateInteraction;
+
+                                    try
+                                    {
+                                        dateInteraction = LocalDateTime.parse(date, formatter);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                                    }
+
+                                    long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
+
+                                    long recentMinutes = Long.MAX_VALUE;
+
+                                    //saber qual foi a ultima iteração do jogador com o connector
+                                    if(recentMinutes > duration)
+                                    {
+                                        recentMinutes = duration;
+                                    }
+
+                                    if(distance[i] < minDistanceToConnector && recentMinutes > ((IConnector) super.vertices[i]).getCooldown()) //se passou o periodo de cooldown do jogador atual com o connector
+                                    {
+                                        minDistanceToConnector = distance[i];
+                                        minIndexConnector = i;
+                                    }
+                                }
+                                else if(((IConnector) super.vertices[i]).getInteractionsListing().length() == 0)
+                                {
+                                    //data da interação
+                                    String date = ((IConnector) super.vertices[i]).getInteractionByID(j).getDate();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                                    LocalDateTime dateInteraction;
+
+                                    try
+                                    {
+                                        dateInteraction = LocalDateTime.parse(date, formatter);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        dateInteraction = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
+                                    }
 
                                     long duration = Duration.between(dateInteraction, LocalDateTime.now()).toMinutes(); //obter em minutos, há quanto tempo foi realizado a interação
 

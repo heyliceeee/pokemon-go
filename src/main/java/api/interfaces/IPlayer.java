@@ -111,6 +111,13 @@ public interface IPlayer
 
     JSONObject playerToJsonObject();
 
+    /**
+     * Define o nivel do jogador, dependendo da quantidade de XP que possui
+     * @param playerName
+     * @param xpInteraction
+     */
+    void defineLevelByXP(IRoot root, String playerName, int xpInteraction);
+
 
     /**
      * Define o numero de portais conquistados pelo jogador
