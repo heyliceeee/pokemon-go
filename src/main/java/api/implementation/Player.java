@@ -3,13 +3,7 @@ package api.implementation;
 import api.interfaces.ICoordinate;
 import api.interfaces.IPlayer;
 import api.interfaces.IRoot;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
 
 
 /**
@@ -112,26 +106,23 @@ public class Player implements IPlayer
     }
 
     @Override
-    public void defineLevelByXP(IRoot root, String playerName, int xpInteraction)
-    {
-        int xp = root.getPlayerByName(playerName).getXp();
-        root.getPlayerByName(playerName).setXp(xpInteraction);
-        xp = root.getPlayerByName(playerName).getXp();
+    public void defineLevelByXP(IRoot root, String playerName, int xpInteraction) {
+        IPlayer player = root.getPlayerByName(playerName);
+        int xp = player.getXp();
+        player.setXp(xpInteraction);
+        xp = player.getXp();
 
-        int level = 1;
-        int pointsNeeded = 10000; //pontos necessários para o proximo nivel
+        int level = player.getLevel();
+        int pointsNeeded = 1000; //pontos necessarios para o proximo nível
 
-        while (xp >= pointsNeeded)
-        {
-            xp -= pointsNeeded;
-            root.getPlayerByName(playerName).setXp(-pointsNeeded);
+        while (xp >= pointsNeeded) {
 
-            level++;
-            pointsNeeded = pointsNeeded * 2;
+            player.setLevel(level+1);
+            pointsNeeded = (int) (pointsNeeded * 1.5);
         }
 
-        root.getPlayerByName(playerName).setLevel(level);
     }
+
 
     private Object getCoordinatesJSONObject()
     {

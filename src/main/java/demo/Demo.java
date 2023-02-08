@@ -4,8 +4,6 @@ import api.implementation.*;
 import api.interfaces.*;
 import collections.exceptions.EmptyCollectionException;
 import collections.exceptions.NotLocalInstanceException;
-import collections.implementation.DoubleLinkedUnorderedList;
-import collections.interfaces.UnorderedListADT;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -13,7 +11,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Demo {
@@ -365,6 +362,16 @@ public class Demo {
 
                             player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                            System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                            int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP before: " +xp); // xp antes da interacao
+
+                            xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP current: " +xp); //xp depois da interacao
+
                             exit = true;
                             runGameSecond(randomPortal);
                         }
@@ -398,6 +405,16 @@ public class Demo {
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
                             player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                            int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP before: " +xp); // xp antes da interacao
+
+                            xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP current: " +xp); //xp depois da interacao
 
                             exit = true;
                             runGameSecond(randomPortal);
@@ -470,6 +487,16 @@ public class Demo {
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
                             player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                            int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP before: " +xp); // xp antes da interacao
+
+                            xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP current: " +xp); //xp depois da interacao
                         }
                         else
                         {
@@ -501,6 +528,16 @@ public class Demo {
                             randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
                             player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                            System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                            int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP before: " +xp); // xp antes da interacao
+
+                            xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                            System.out.println("XP current: " +xp); //xp depois da interacao
 
                             exit = true;
                             runGameSecond(randomPortal);
@@ -611,6 +648,16 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
                                 exit = true;
                                 runGameSecond(randomPortal);
                             }
@@ -712,6 +759,16 @@ public class Demo {
                                 randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
 
                                 exit = true;
                                 runGameSecond(randomPortal);
@@ -842,6 +899,16 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
                                 exit = true;
                                 runGameSecond(randomPortal);
                             }
@@ -954,6 +1021,16 @@ public class Demo {
                                 randomPortal.addInteraction(interaction); //adicionar interação ao portal
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
 
                                 exit = true;
                                 runGameSecond(randomPortal);
@@ -1071,6 +1148,17 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
+
                                 exit = true;
                                 runGameSecond(connectorRandom);
                             }
@@ -1097,6 +1185,16 @@ public class Demo {
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
+
                                     exit = true;
                                     runGameSecond(connectorRandom);
                                 }
@@ -1120,6 +1218,16 @@ public class Demo {
                                     connectorRandom.addInteraction(interaction); //adicionar interação ao connector
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
 
                                     exit = true;
                                     runGameSecond(connectorRandom);
@@ -1212,6 +1320,16 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
                                 exit = true;
                                 runGameSecond(connectorRandom);
                             }
@@ -1238,6 +1356,16 @@ public class Demo {
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
+
                                     exit = true;
                                     runGameSecond(connectorRandom);
                                 }
@@ -1261,6 +1389,16 @@ public class Demo {
                                     connectorRandom.addInteraction(interaction); //adicionar interação ao connector
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
 
                                     exit = true;
                                     runGameSecond(connectorRandom);
@@ -1370,6 +1508,16 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
                                 exit = true;
 
                                 //ir para o portal mais próximo
@@ -1402,6 +1550,16 @@ public class Demo {
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
+
                                     exit = true;
 
                                     //ir para o portal mais próximo
@@ -1431,6 +1589,16 @@ public class Demo {
                                     connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
 
                                     exit = true;
 
@@ -1529,6 +1697,16 @@ public class Demo {
 
                                 player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                System.out.println("XP current: " +xp); //xp depois da interacao
+
                                 exit = true;
 
                                 //ir para o portal mais próximo
@@ -1561,6 +1739,16 @@ public class Demo {
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
 
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
+
                                     exit = true;
 
                                     //ir para o portal mais próximo
@@ -1590,6 +1778,16 @@ public class Demo {
                                     connectorCooldownGoPortalRandom.addInteraction(interaction); //adicionar interação ao connector
 
                                     player.defineLevelByXP(root, playerName, pointsInteraction);//define o nivel do jogador
+
+                                    System.out.println("\nlevel player: " +root.getPlayerByName(playerName).getLevel()); //nível do jogador
+
+                                    int xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP before: " +xp); // xp antes da interacao
+
+                                    xp = root.getPlayerByName(playerName).getXp(); //xp do jogador
+
+                                    System.out.println("XP current: " +xp); //xp depois da interacao
 
                                     exit = true;
 
