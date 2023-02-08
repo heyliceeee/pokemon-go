@@ -101,6 +101,8 @@ public interface IRoot
      */
     void exportRoutesToJson() throws IOException;
 
+    void exportGameSettingsToJson() throws IOException;
+
     /**
      * Exporta toda a informação associados ao jogo em JSON
      * @throws IOException se ocorrer algum erro ao tentar escrever no ficheiro JSON

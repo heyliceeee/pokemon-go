@@ -2184,8 +2184,8 @@ public class Demo {
             System.out.println("select an option: ");
             System.out.println("+--------------------------------------------------------------------------------+");
             System.out.println(
-                    "| 01. Export each portal/connector involved                                      |\n" +
-                            "| 02. Export game settings                                                       |\n" +
+                            "| 01. Export game settings                                                       |\n" +
+                            "| 02. Import game settings                                                       |\n" +
                             "| 99. Back to previous menu                                                      |"
             );
             System.out.println("+--------------------------------------------------------------------------------+");
@@ -2197,6 +2197,15 @@ public class Demo {
              */
             switch (option) {
                 case 1:
+                    try
+                    {
+                        root.exportGameSettingsToJson();
+                        System.out.println("JSON of Game Settings exported with success!");
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 2:
@@ -2233,10 +2242,9 @@ public class Demo {
                     "| 01. Add                                                |\n" +
                             "| 02. Update                                             |\n" +
                             "| 03. Delete                                             |\n" +
-                            "| 04. Join the team                                      |\n" +
-                            "| 05. Leave the team                                     |\n" +
-                            "| 06. List (by team, level, number of conquered portals) |\n" +
-                            "| 07. Export statistics                                  |\n" +
+                            "| 04. Join/Leave the team                                |\n" +
+                            "| 05. List (by team, level, number of conquered portals) |\n" +
+                            "| 06. Export statistics                                  |\n" +
                             "| 99. Back to previous menu                              |"
             );
             System.out.println("+--------------------------------------------------------+");
@@ -2249,22 +2257,32 @@ public class Demo {
             switch (option) {
                 case 1:
                     String name, team;
+                    int conqueredPortals;
                     IPlayer player = null;
 
                     System.out.println("\n");
                     System.out.println("+--------------------------------------------------------+");
                     System.out.println("|             PLAYERS MANAGEMENT MENU - ADD              |");
                     System.out.println("+--------------------------------------------------------+");
-                    System.out.println("Name: ");
+                    System.out.println("name: ");
                     scanner.nextLine();
                     name = scanner.nextLine();
                     System.out.println("+--------------------------------------------------------+");
-                    System.out.println("Team: ");
+                    System.out.println("team (giants or sparks): ");
                     team = scanner.nextLine();
                     System.out.println("+--------------------------------------------------------+");
 
                     try
                     {
+                        if(team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
+                        {
+                            team = "Giants";
+                        }
+                        else if(team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
+                        {
+                            team = "Sparks";
+                        }
+
                         player = new Player(name, team, 0, 0, 0, 100, 0, null);
 
                         if(root.addPlayer(player).equals("Successful"))
@@ -2285,39 +2303,76 @@ public class Demo {
                     System.out.println("+--------------------------------------------------------+");
                     System.out.println("|            PLAYERS MANAGEMENT MENU - UPDATE            |");
                     System.out.println("+--------------------------------------------------------+");
-                    System.out.println("insert the new name of the player: ");
+                    System.out.println("name of the player: ");
                     scanner.nextLine();
                     name = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("insert the new number of the conquered portals: ");
+                    conqueredPortals = scanner.nextInt();
                     System.out.println("+--------------------------------------------------------+");
 
                     try
                     {
-                        if(root.setPlayerName())
-                        {
-                            System.out.println("player added with success!");
-                        }
-                        else
-                        {
-                            System.out.println("already exists a player with that id!");
-                        }
+                        root.setPlayerConqueredPortals(name, conqueredPortals);
+                        System.out.println("conquered portals of player updated with success!");
                     }
                     catch (Exception e)
                     {}
                     break;
 
                 case 3:
+                    System.out.println("\n");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("|            PLAYERS MANAGEMENT MENU - DELETE            |");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("name of the player: ");
+                    scanner.nextLine();
+                    name = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+
+
                     break;
 
                 case 4:
+                    System.out.println("\n");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("|         PLAYERS MANAGEMENT MENU - JOIN THE TEAM        |");
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("name of the player: ");
+                    scanner.nextLine();
+                    name = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+                    System.out.println("name of the team do you want join (sparks/giants): ");
+                    scanner.nextLine();
+                    team = scanner.nextLine();
+                    System.out.println("+--------------------------------------------------------+");
+
+                    if(root.getPlayerByName(name).getTeam().equals("Giants") && team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
+                    {
+                        System.out.println("you already belong the team");
+                    }
+                    else if(root.getPlayerByName(name).getTeam().equals("Sparks") && team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
+                    {
+                        System.out.println("you already belong the team");
+                    }
+                    else if(team.equals("giants") || team.equals("GIANTS") || team.equals("Giants"))
+                    {
+                        root.getPlayerByName(name).setTeam("Giants");
+
+                        System.out.println("you now belong to team Giants");
+                    }
+                    else if(team.equals("sparks") || team.equals("SPARKS") || team.equals("Sparks"))
+                    {
+                        root.getPlayerByName(name).setTeam("Sparks");
+                        System.out.println("you now belong to team Sparks");
+                    }
+
                     break;
 
                 case 5:
                     break;
 
                 case 6:
-                    break;
-
-                case 7:
                     break;
 
                 case 99:

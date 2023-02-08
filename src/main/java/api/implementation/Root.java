@@ -6,8 +6,6 @@ import collections.exceptions.ElementNotFoundException;
 import collections.exceptions.EmptyCollectionException;
 import collections.exceptions.NotLocalInstanceException;
 import collections.implementation.ArrayUnorderedList;
-import collections.implementation.ExporterGraph;
-import collections.interfaces.IExporter;
 import api.interfaces.RouteNetworkADT;
 import collections.interfaces.UnorderedListADT;
 import demo.Demo;
@@ -219,6 +217,13 @@ public class Root implements IRoot
     public void exportRoutesToJson() throws IOException
     {
         Demo.iEJson.exportToJSONFile(getRoutesJSONArray().toJSONString(), "Routes");
+    }
+
+
+    @Override
+    public void exportGameSettingsToJson() throws IOException
+    {
+        Demo.iEJson.exportToJSONFile(getGameSettingsJSONArray().toJSONString(), "GameSettings");
     }
 
     @Override
